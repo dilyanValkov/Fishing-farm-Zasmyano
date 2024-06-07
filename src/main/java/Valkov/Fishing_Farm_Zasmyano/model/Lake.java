@@ -3,10 +3,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
-
-@Entity
 @Getter
 @Setter
+@Entity
 public class Lake extends BaseEntity{
 
     private String name;

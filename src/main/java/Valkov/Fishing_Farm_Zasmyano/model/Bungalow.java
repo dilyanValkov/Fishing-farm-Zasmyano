@@ -1,23 +1,22 @@
 package Valkov.Fishing_Farm_Zasmyano.model;
-import Valkov.Fishing_Farm_Zasmyano.model.enums.FishingPrice;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Set;
 
+import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "fishing_spots")
-public class FishingSpot extends BaseEntity{
+@Table(name = "bungalows")
+public class Bungalow extends BaseEntity{
 
-    private int capacity;
+    private Integer capacity;
 
-    private FishingPrice fishingPrice;
+    private Integer price;
 
     @OneToMany
     private Set<Picture> pictures;
-
 }
