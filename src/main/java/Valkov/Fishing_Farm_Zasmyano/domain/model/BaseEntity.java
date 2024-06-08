@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.model;
+package Valkov.Fishing_Farm_Zasmyano.domain.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

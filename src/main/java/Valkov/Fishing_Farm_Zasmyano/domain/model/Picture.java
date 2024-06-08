@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.model;
+package Valkov.Fishing_Farm_Zasmyano.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,5 +21,15 @@ public class Picture extends BaseEntity{
 
     @ManyToOne
     private User author;
+
+    @ManyToOne
+    private FishingSpot fishingSpot;
+
+    @ManyToOne
+    private Bungalow bungalow;
+
+    @ManyToOne
+    private Review review;
+
 
 }

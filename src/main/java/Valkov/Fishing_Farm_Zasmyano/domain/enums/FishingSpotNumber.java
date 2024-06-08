@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.model.enums;
+package Valkov.Fishing_Farm_Zasmyano.domain.enums;
 import lombok.Getter;
 
 @Getter

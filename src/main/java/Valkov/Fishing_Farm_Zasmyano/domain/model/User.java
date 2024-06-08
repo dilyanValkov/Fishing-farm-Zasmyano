@@ -1,10 +1,12 @@
-package Valkov.Fishing_Farm_Zasmyano.model;
+package Valkov.Fishing_Farm_Zasmyano.domain.model;
 
-import Valkov.Fishing_Farm_Zasmyano.model.enums.Attitude;
-import Valkov.Fishing_Farm_Zasmyano.model.enums.Role;
+import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
+import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +35,7 @@ public class User extends BaseEntity{
     @Enumerated(EnumType.ORDINAL)
     private Attitude attitude;
 
-    //TODO List reservations
+    @OneToMany(targetEntity = Reservation.class, mappedBy = "user")
+    private List<Reservation> reservations;
 
 }

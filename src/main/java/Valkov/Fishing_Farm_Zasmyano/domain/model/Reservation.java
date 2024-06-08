@@ -1,10 +1,10 @@
-package Valkov.Fishing_Farm_Zasmyano.model;
+package Valkov.Fishing_Farm_Zasmyano.domain.model;
 
-import Valkov.Fishing_Farm_Zasmyano.model.enums.FishingPeriod;
-import Valkov.Fishing_Farm_Zasmyano.model.enums.Status;
+import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingPeriod;
+import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -13,13 +13,14 @@ import java.util.Set;
 public class Reservation extends BaseEntity{
 
     @Column(name = "reservation_date", nullable = false)
-    private LocalDate reservationDate;
+    private LocalDateTime reservationDate;
 
     @Column(name = "reservation_start_date", nullable = false)
     private LocalDate reservationStartDate;
 
     @Column(name = "reservation_end_date", nullable = false)
     private LocalDate reservationEndDate;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "fishing_period")
     private FishingPeriod fishingPeriod;
@@ -35,12 +36,15 @@ public class Reservation extends BaseEntity{
 
     private Status status;
 
-    private Status comment;
-    @OneToMany
+    @Column(name = "comments")
+    private String comment;
+
+    @OneToMany(targetEntity = FishingSpot.class, mappedBy = "reservation")
     private Set<FishingSpot> fishingSpot;
 
-    @OneToMany()
+    @OneToMany(targetEntity = Bungalow.class, mappedBy = "reservation")
     private Set<Bungalow>bungalows;
+
     @ManyToOne
     private User user;
 
