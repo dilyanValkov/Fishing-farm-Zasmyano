@@ -11,13 +11,18 @@ import java.util.Set;
 @Entity
 public class Lake extends BaseEntity{
 
+    @Column(length = 20, nullable = false)
     private String name;
 
+    @Column(length = 20, nullable = false)
     private String phoneNumber;
 
+    @Column(length = 150)
     private String facebookUrl;
 
-    private String gpsCoordinates;
+    private double latitude;
+
+    private double longitude;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -27,4 +32,7 @@ public class Lake extends BaseEntity{
 
     @OneToMany(targetEntity = FishingSpot.class, mappedBy = "lake")
     private Set<FishingSpot> fishingSpots;
+
+    @OneToMany(targetEntity = Review.class, mappedBy = "lake")
+    private Set<Review> reviews;
 }

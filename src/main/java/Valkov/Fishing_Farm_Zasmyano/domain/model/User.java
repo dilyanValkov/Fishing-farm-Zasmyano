@@ -9,10 +9,12 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Setter
 public class User extends BaseEntity{
+
+    @Column(name = "user_name", nullable = false, unique = true)
+    private String userName;
 
     @Column(nullable = false,name = "first_name")
     private String firstName;
@@ -20,7 +22,7 @@ public class User extends BaseEntity{
     @Column(nullable = false,name = "last_name")
     private String lastName;
 
-    @Column(nullable = false,unique = true)
+    @Column(unique = true)
     private String email;
 
     @Column(nullable = false,name = "phone_number")
@@ -35,7 +37,7 @@ public class User extends BaseEntity{
     @Enumerated(EnumType.ORDINAL)
     private Attitude attitude;
 
-    @OneToMany(targetEntity = Reservation.class, mappedBy = "user")
-    private List<Reservation> reservations;
+    @OneToMany(targetEntity = BungalowReservation.class, mappedBy = "user")
+    private List<BungalowReservation> reservations;
 
 }

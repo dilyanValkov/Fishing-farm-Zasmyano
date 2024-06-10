@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "reviews")
 public class Review extends BaseEntity{
 
     @Enumerated(EnumType.ORDINAL)
@@ -20,4 +19,7 @@ public class Review extends BaseEntity{
 
     @ManyToOne
     private User author;
+
+    @ManyToOne
+    private Lake lake;
 }
