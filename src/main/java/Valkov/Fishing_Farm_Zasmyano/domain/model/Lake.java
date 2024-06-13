@@ -2,6 +2,7 @@ package Valkov.Fishing_Farm_Zasmyano.domain.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "lakes")
 public class Lake extends BaseEntity{
 
     @Column(length = 20, nullable = false)

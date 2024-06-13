@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "bungalow_reservations")
 public class BungalowReservation extends BaseEntity{
 
     @Column(name = "start_date", nullable = false)

@@ -11,24 +11,25 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Table(name = "users")
 public class User extends BaseEntity{
 
-    @Column(name = "user_name", nullable = false, unique = true)
+    @Column(name = "user_name", nullable = false, unique = true,length = 50)
     private String userName;
 
-    @Column(nullable = false,name = "first_name")
+    @Column(nullable = false,name = "first_name",length = 50)
     private String firstName;
 
-    @Column(nullable = false,name = "last_name")
+    @Column(nullable = false,name = "last_name",length = 50)
     private String lastName;
 
-    @Column(unique = true)
+    @Column(unique = true,length = 50)
     private String email;
 
     @Column(nullable = false,name = "phone_number")
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 20)
     private String password;
 
     @Enumerated(EnumType.ORDINAL)

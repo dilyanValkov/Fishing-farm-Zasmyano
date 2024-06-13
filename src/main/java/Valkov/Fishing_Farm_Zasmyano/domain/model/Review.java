@@ -2,9 +2,14 @@ package Valkov.Fishing_Farm_Zasmyano.domain.model;
 
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Rating;
 import jakarta.persistence.*;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Set;
+@Getter
+@Setter
 @Entity
+@Table(name = "reviews")
 public class Review extends BaseEntity{
 
     @Enumerated(EnumType.ORDINAL)
