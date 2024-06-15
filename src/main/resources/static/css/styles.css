@@ -1,0 +1,55 @@
+.hero {
+  background: url('https://example.com/your-lake-image.jpg') no-repeat center center;
+  background-size: cover;
+  height: 500px;
+  color: #c5dac6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 4rem;
+  font-weight: bold;
+}
+/* Background Image Styles */
+.hero {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('static/images/homeBackground.jpg') no-repeat center center;
+  background-size: cover;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: #c5dac6;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.hero .btn-primary {
+  font-size: 1.25rem;
+}
+
+

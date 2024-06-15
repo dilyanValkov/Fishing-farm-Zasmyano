@@ -5,7 +5,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,8 +33,8 @@ public class Lake extends BaseEntity{
     private String fishingRules;
 
     @OneToMany(targetEntity = FishingSpot.class, mappedBy = "lake")
-    private Set<FishingSpot> fishingSpots;
+    private List<FishingSpot> fishingSpots;
 
     @OneToMany(targetEntity = Review.class, mappedBy = "lake")
-    private Set<Review> reviews;
+    private List<Review> reviews;
 }
