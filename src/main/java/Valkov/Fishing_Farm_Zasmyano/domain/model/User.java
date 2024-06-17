@@ -14,8 +14,6 @@ import java.util.List;
 @Table(name = "users")
 public class User extends BaseEntity{
 
-    @Column(name = "user_name", nullable = false, unique = true,length = 50)
-    private String userName;
 
     @Column(nullable = false,name = "first_name",length = 50)
     private String firstName;
@@ -29,7 +27,7 @@ public class User extends BaseEntity{
     @Column(nullable = false,name = "phone_number")
     private String phoneNumber;
 
-    @Column(nullable = false,length = 20)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
