@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common::head}"></head>
+<body>
+<!-- Navigation Bar -->
+<nav th:replace="~{fragments/common::nav}"></nav>
+
+<!-- Login Section -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-6">
+        <h2 class="text-center mb-4">Моля, въведете вашите данни.</h2>
+        <form
+                th:action="@{/login}"
+                th:method="POST"
+                th:object="${loginData}"
+                class="needs-validation"
+                novalidate>
+            <!-- Email Field -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Имейл</label>
+                <input type="email"
+                       class="form-control"
+                       id="email"
+                       name="email"
+                       th:field="*{email}"
+                       th:errorclass="'is-invalid alert-danger'"
+                       required>
+                <!-- Validation Feedback -->
+                <div class="invalid-feedback text-danger">Моля, въведете валиден имейл адрес.</div>
+            </div>
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Парола</label>
+                <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        th:field="*{password}"
+                        th:errorclass="'is-invalid alert-danger'"
+                        required>
+                <!-- Validation Feedback -->
+                <div class="invalid-feedback text-danger">Моля, въведете парола.</div>
+            </div>
+            <!-- Error Message if User-Password Mismatch -->
+            <div th:if="${userPassMismatch}" class="alert alert-danger mb-3">
+                Грешен имейл или парола. Моля, опитайте отново.
+            </div>
+            <!-- Login Button -->
+            <button type="submit" class="btn btn-primary w-100">Влез</button>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

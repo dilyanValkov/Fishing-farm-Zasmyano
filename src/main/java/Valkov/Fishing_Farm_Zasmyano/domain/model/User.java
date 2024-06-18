@@ -21,10 +21,10 @@ public class User extends BaseEntity{
     @Column(nullable = false,name = "last_name",length = 50)
     private String lastName;
 
-    @Column(unique = true,length = 50)
+    @Column(unique = true,length = 50, nullable = false)
     private String email;
 
-    @Column(nullable = false,name = "phone_number")
+    @Column(nullable = false,name = "phone_number", unique = true)
     private String phoneNumber;
 
     @Column(nullable = false)
