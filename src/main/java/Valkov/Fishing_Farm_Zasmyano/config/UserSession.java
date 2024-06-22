@@ -2,12 +2,10 @@ package Valkov.Fishing_Farm_Zasmyano.config;
 
 import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 @Getter
-@Setter
 @Component
 @SessionScope
 public class UserSession {

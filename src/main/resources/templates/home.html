@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common::head}"></head>
+<body>
+<!-- Navigation Bar -->
+<nav th:replace="~{fragments/common::nav}"></nav>
+
+<!-- Hero Section -->
+<div class="hero" style="background-image: url('/images/hero.jpg');">
+    <div class="overlay"></div>
+    <div class="hero-content text-center text-white">
+        <h1>Welcome to Sport Fishing Paradise</h1>
+        <p>Experience the best sport fishing adventure</p>
+        <a th:href="@{/register}" class="btn btn-primary">Get Started</a>
+    </div>
+</div>
+
+<!-- Content Section -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>About Sport Fishing</h2>
+            <p>Our lakes offer a peaceful environment for anglers of all levels. Fully stocked waters and beautiful surroundings ensure an unforgettable experience.</p>
+            <a th:href="@{/about}" class="btn btn-secondary">Read More</a>
+        </div>
+        <div class="col-md-6">
+            <h2>Book Your Fishing Spot</h2>
+            <p>We offer various options to book a fishing spot or bungalow to suit your needs. Reserve your spot today and enjoy the perfect fishing getaway.</p>
+            <a th:href="@{/book-fishing-spot}" class="btn btn-secondary">Book Now</a>
+        </div>
+    </div>
+</div>
+
+<!-- Weather Section -->
+<div class="container mt-4">
+    <h2>Текущи метеоданни:</h2>
+    <div>
+        <p>Температура на въздуха: <span th:text="${temperature}">Температура на въздуха</span> °C</p>
+        <p>Скорост на вятъра: <span th:text="${wind}">Скорост на вятъра</span> м/с</p>
+        <p>Валежи: <span th:text="${rain}">Валежи</span></p>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

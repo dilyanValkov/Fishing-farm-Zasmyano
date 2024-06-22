@@ -1,4 +1,5 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
+import Valkov.Fishing_Farm_Zasmyano.config.UserSession;
 import Valkov.Fishing_Farm_Zasmyano.service.impl.WeatherService;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Controller;
@@ -10,12 +11,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     private final WeatherService weatherService;
 
-    public HomeController(WeatherService weatherService) {
+    private final UserSession userSession;
+
+    public HomeController(WeatherService weatherService, UserSession userSession) {
         this.weatherService = weatherService;
+        this.userSession = userSession;
     }
 
     @GetMapping("/")
-    public String home(Model model){
+    public String viewIndex(){
+        if (userSession.isUserLoggedIn()){
+            return "redirect:/home";
+        }
+       return "index";
+    }
+
+    @GetMapping("/home")
+    public String viewHome(Model model){
+        if (!userSession.isUserLoggedIn()){
+            return "redirect:/";
+        }
+
+
 
         double latitude = 43.402563;
         double longitude = 27.716726;
@@ -29,6 +46,7 @@ public class HomeController {
             rain = weatherData.path("rain").path("1h").asText();
         }
         model.addAttribute("rain", rain);
-        return "index";
+
+        return "home";
     }
 }

@@ -1,11 +1,11 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
 
+import Valkov.Fishing_Farm_Zasmyano.config.UserSession;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.UserLoginDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.UserRegisterDto;
 import Valkov.Fishing_Farm_Zasmyano.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,9 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final UserSession userSession;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserSession userSession) {
         this.userService = userService;
+        this.userSession = userSession;
     }
     @ModelAttribute("registerData")
     public UserRegisterDto createEmptyRegisterDto() {
@@ -58,7 +60,6 @@ public class UserController {
                     "userEmailOrPhoneTaken", true);
             return "redirect:/register";
         }
-
         return "redirect:/login";
     }
 
@@ -89,6 +90,15 @@ public class UserController {
         }
             return "redirect:/";
 
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        if (!userSession.isUserLoggedIn()) {
+            return "redirect:/";
+        }
+        userSession.logout();
+        return "redirect:/";
     }
 }
 
