@@ -31,9 +31,7 @@ public class HomeController {
         if (!userSession.isUserLoggedIn()){
             return "redirect:/";
         }
-
-
-
+        
         double latitude = 43.402563;
         double longitude = 27.716726;
 

@@ -36,7 +36,7 @@ public class User extends BaseEntity{
     @Enumerated(EnumType.ORDINAL)
     private Attitude attitude;
 
-    @OneToMany(targetEntity = BungalowReservation.class, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private List<BungalowReservation> reservations;
 
 }

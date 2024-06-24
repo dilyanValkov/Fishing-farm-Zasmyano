@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common::head}"></head>
+<body>
+<!-- Navigation Bar -->
+<nav th:replace="~{fragments/common::nav}"></nav>
+
+<!-- Hero Section -->
+<div class="hero" style="background-image: url('/images/bungalow.jpg');">
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h1>Резервирай бунгало</h1>
+        <p>Насладете се на уютен престой сред природата</p>
+        <a th:href="@{/login}" class="btn btn-primary">Вход</a>
+    </div>
+</div>
+
+<!-- Booking Form Section -->
+<div class="container my-5">
+    <h2>Резервирай бунгало</h2>
+    <form th:action="@{/book-bungalow}"
+          th:method="post"
+          th:object="${bookingData}">
+        <div class="mb-3">
+            <label for= "number" class="form-label">Номер на бунгало</label>
+            <input
+                    type="number"
+                    class="form-control"
+                    id="number"
+                    name="number"
+                    th:field="*{number}"
+                    th:errorclass="'is-invalid alert-danger'">
+            <div class="invalid-feedback text-danger">Моля, въведете валиден номер на бунгало.</div>
+            >
+        </div>
+        <div class="mb-3">
+            <label for="startDate" class="form-label">Дата на настаняване</label>
+            <input
+                    type="date"
+                    class="form-control"
+                    id="startDate"
+                    name="startDate"
+                    required th:min="${#temporals.format(today, 'yyyy-MM-dd')}"
+                    th:field="*{startDate}"
+                    th:errorclass="'is-invalid alert-danger'">
+            <div class="invalid-feedback text-danger">Моля, въведете дата.</div>
+            >
+        </div>
+        <div class="mb-3">
+            <label for="endDate" class="form-label">Дата на напускане</label>
+            <input
+                    type="date"
+                    class="form-control"
+                    id="endDate"
+                    name="endDate"
+                    required th:min="${#temporals.format(today, 'yyyy-MM-dd')}"
+                    th:field="*{endDate}"
+                    th:errorclass="'is-invalid alert-danger'">
+            <div class="invalid-feedback text-danger">Моля, въведете дата.</div>
+            >
+        </div>
+        <div class="mb-3">
+            <label for="comment" class="form-label">Коментар</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="comment"
+                    name="comment"
+                    th:field="*{comment}"
+            >
+        </div>
+        <button type="submit" class="btn btn-primary">Резервирай</button>
+    </form>
+</div>
+<!-- Footer -->
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

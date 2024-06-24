@@ -20,11 +20,6 @@ public class AppConfig {
             return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
         }
 
-        @Bean
-        public MessageSource messageSource() {
-            ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-            messageSource.setBasename("classpath:i18n/messages");
-            messageSource.setDefaultEncoding("UTF-8");
-            return messageSource;
-        }
+
+
 }
