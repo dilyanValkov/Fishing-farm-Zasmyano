@@ -33,7 +33,11 @@ public class BungalowController {
     @GetMapping("/book-bungalow")
     public String viewBungalow(Model model){
         List<Bungalow> bungalows = bungalowBookingService.allBungalows();
+
+
         model.addAttribute("today", LocalDate.now());
+        model.addAttribute("tomorrow", LocalDate.now().plusDays(1));
+
         model.addAttribute("bungalows", bungalows);
         return "book-bungalow";
     }
@@ -44,6 +48,10 @@ public class BungalowController {
                                 RedirectAttributes redirectAttributes,
                                 Model model){
 
+        if (dto.getEndDate().isBefore(dto.getStartDate())){
+            redirectAttributes.addFlashAttribute("dateError", dto);
+            return "redirect:/book-bungalow";
+        }
         if (bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("bookingData", dto);
             redirectAttributes.addFlashAttribute(

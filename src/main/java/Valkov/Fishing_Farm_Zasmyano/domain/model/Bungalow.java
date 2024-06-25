@@ -24,4 +24,6 @@ public class Bungalow extends BaseEntity{
 
     @OneToMany(targetEntity = BungalowReservation.class, mappedBy = "bungalow")
     private Set<BungalowReservation> reservations;
+
+
 }

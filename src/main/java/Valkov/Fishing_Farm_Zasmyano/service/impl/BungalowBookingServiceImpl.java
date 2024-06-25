@@ -44,15 +44,18 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
         }
 
         List<BungalowReservation> existingReservations = bungalowBookingRepository
-                .findByBungalowIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                .findByBungalowIdAndStartDateBetween(
                         dto.getNumber(), dto.getStartDate(), dto.getEndDate());
-        if (!existingReservations.isEmpty()){
+        List<BungalowReservation> conflict = bungalowBookingRepository.findByBungalowIdAndEndDateAfterAndStartDateBefore(dto.getNumber(),
+                dto.getEndDate(), dto.getStartDate());
+
+        if (!existingReservations.isEmpty()||!conflict.isEmpty()){
             return "Бунгалото е резервирано за посочените дати.";
         }
         Bungalow bungalow = byId.get();
 
         BungalowReservation reservation = modelMapper.map(dto, BungalowReservation.class);
-        reservation.setStatus(Status.PENDING);
+        reservation.setStatus(Status.CONFIRMED);
         reservation.setUser(user);
         reservation.setBungalow(bungalow);
         reservation.calculateTotalPrice();
