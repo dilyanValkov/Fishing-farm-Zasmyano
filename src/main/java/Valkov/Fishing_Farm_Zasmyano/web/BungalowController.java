@@ -48,7 +48,8 @@ public class BungalowController {
                                 RedirectAttributes redirectAttributes,
                                 Model model){
 
-        if (dto.getEndDate().isBefore(dto.getStartDate())){
+        if (dto.getEndDate().isBefore(dto.getStartDate())||
+                dto.getEndDate().isEqual(dto.getStartDate())){
             redirectAttributes.addFlashAttribute("dateError", dto);
             return "redirect:/book-bungalow";
         }
@@ -58,10 +59,14 @@ public class BungalowController {
                     "org.springframework.validation.BindingResult.bookingData", bindingResult);
             return "redirect:/book-bungalow";
         }
-        String result = bungalowBookingService.book(dto);
+        boolean book = bungalowBookingService.book(dto);
 
-       model.addAttribute("result", result);
-        return "message";
+        if (!book){
+            redirectAttributes.addFlashAttribute("bookStatus", dto);
+            return "redirect:/book-bungalow";
+        }
+
+        return "redirect:/book-info";
 
     }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
 import java.util.Set;
 @Getter
 @Setter
@@ -20,10 +21,13 @@ public class Bungalow extends BaseEntity{
     private BigDecimal price;
 
     @OneToMany(targetEntity = Picture.class, mappedBy = "bungalow")
+
     private Set<Picture> pictures;
 
     @OneToMany(targetEntity = BungalowReservation.class, mappedBy = "bungalow")
     private Set<BungalowReservation> reservations;
 
-
+    public Bungalow() {
+        this.pictures = new LinkedHashSet<>();
+    }
 }

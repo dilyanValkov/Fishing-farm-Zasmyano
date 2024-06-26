@@ -2,6 +2,7 @@ package Valkov.Fishing_Farm_Zasmyano.service.impl;
 
 import Valkov.Fishing_Farm_Zasmyano.config.UserSession;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookBungalowDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookInfoBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.Bungalow;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.BungalowReservation;
@@ -34,13 +35,26 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
     public List<Bungalow> allBungalows(){
         return bungalowRepository.findAll();
     }
+
     @Override
-    public String book(BookBungalowDto dto) {
+    public BookInfoBungalowDto getBookInfoBungalowDto() {
+
+        BungalowReservation lastReservation =
+                this.bungalowBookingRepository.findLastReservationByEmail(userSession.getEmail());
+
+        BookInfoBungalowDto mapped = modelMapper.map(lastReservation, BookInfoBungalowDto.class);
+        mapped.setBungalowNumber(lastReservation.getBungalow().getId());
+        mapped.setReservationNumber(lastReservation.getId());
+        return mapped;
+    }
+
+    @Override
+    public boolean book(BookBungalowDto dto) {
         User user = this.userRepository.getByEmail(userSession.getEmail());
 
         Optional<Bungalow> byId = bungalowRepository.findById(dto.getNumber());
         if (byId.isEmpty()){
-            return "Бунгало с номер " + dto.getNumber();
+            return false;
         }
 
         List<BungalowReservation> existingReservations = bungalowBookingRepository
@@ -50,16 +64,16 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
                 dto.getEndDate(), dto.getStartDate());
 
         if (!existingReservations.isEmpty()||!conflict.isEmpty()){
-            return "Бунгалото е резервирано за посочените дати.";
+            return false;
         }
         Bungalow bungalow = byId.get();
 
         BungalowReservation reservation = modelMapper.map(dto, BungalowReservation.class);
-        reservation.setStatus(Status.CONFIRMED);
+        reservation.setStatus(Status.НЕПОТЪВРДЕНА);
         reservation.setUser(user);
         reservation.setBungalow(bungalow);
         reservation.calculateTotalPrice();
         bungalowBookingRepository.save(reservation);
-        return "Успешна резвервация.";
+        return true;
     }
 }

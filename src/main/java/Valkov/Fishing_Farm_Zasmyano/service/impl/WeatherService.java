@@ -19,7 +19,6 @@ public class WeatherService {
         try {
             return mapper.readTree(response);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }

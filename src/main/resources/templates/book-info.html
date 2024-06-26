@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common::head}"></head>
+<body>
+<nav th:replace="~{fragments/common::nav}"></nav>
+<div class="container mt-5" th:object="${bookInfo}">
+    <h2>Благодарим ви!</h2>
+    <p>Вие направихте резервация на Бунгало <strong th:text="*{bungalowNumber}">bungalowNumber</strong>.</p>
+    <p>За времето от <strong th:text="*{startDate}">startDate</strong> до <strong th:text="*{endDate}">endDate</strong>.</p>
+    <p>Резервация <strong th:text="*{reservationNumber}">reservationNumber</strong> направена на <strong th:text="*{createdAt}">createdAt</strong>.</p>
+    <p>Моля, изчакайте <strong th:text="*{status.name().toLowerCase()}">status</strong> на вашата резервация.</p>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
