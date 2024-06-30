@@ -19,17 +19,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String viewIndex(){
-        if (userSession.isUserLoggedIn()){
-            return "redirect:/home";
-        }
+
        return "index";
     }
 
     @GetMapping("/home")
     public String viewHome(Model model){
-        if (!userSession.isUserLoggedIn()){
-            return "redirect:/";
-        }
+
         
         double latitude = 43.402563;
         double longitude = 27.716726;

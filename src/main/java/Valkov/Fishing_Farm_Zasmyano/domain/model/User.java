@@ -1,11 +1,11 @@
 package Valkov.Fishing_Farm_Zasmyano.domain.model;
 
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
-import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,12 +31,12 @@ public class User extends BaseEntity{
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
-    private Role role;
-
-    @Enumerated(EnumType.ORDINAL)
     private Attitude attitude;
 
     @OneToMany(mappedBy = "user")
     private List<BungalowReservation> reservations;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<UserRole> roles = new ArrayList<>();
 
 }

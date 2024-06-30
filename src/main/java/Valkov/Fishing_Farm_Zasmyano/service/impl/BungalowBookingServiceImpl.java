@@ -1,6 +1,4 @@
 package Valkov.Fishing_Farm_Zasmyano.service.impl;
-
-import Valkov.Fishing_Farm_Zasmyano.config.UserSession;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookInfoBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
@@ -12,6 +10,9 @@ import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowBookingRepositor
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.BungalowBookingService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,14 +22,17 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
     private final BungalowBookingRepository bungalowBookingRepository;
     private final BungalowRepository bungalowRepository;
     private final ModelMapper modelMapper;
-    private final UserSession userSession;
     private final UserRepository userRepository;
 
-    public BungalowBookingServiceImpl(BungalowBookingRepository bungalowBookingRepository, BungalowRepository bungalowRepository, ModelMapper modelMapper, UserSession userSession, UserRepository userRepository) {
+
+    @Autowired
+    public BungalowBookingServiceImpl(BungalowBookingRepository bungalowBookingRepository,
+                                      BungalowRepository bungalowRepository,
+                                      ModelMapper modelMapper,
+                                      UserRepository userRepository) {
         this.bungalowBookingRepository = bungalowBookingRepository;
         this.bungalowRepository = bungalowRepository;
         this.modelMapper = modelMapper;
-        this.userSession = userSession;
         this.userRepository = userRepository;
     }
     @Override
@@ -38,9 +42,10 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
 
     @Override
     public BookInfoBungalowDto getBookInfoBungalowDto() {
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
         BungalowReservation lastReservation =
-                this.bungalowBookingRepository.findLastReservationByEmail(userSession.getEmail());
+                this.bungalowBookingRepository.findLastReservationByEmail(email);
 
         BookInfoBungalowDto mapped = modelMapper.map(lastReservation, BookInfoBungalowDto.class);
         mapped.setBungalowNumber(lastReservation.getBungalow().getId());
@@ -50,7 +55,9 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
 
     @Override
     public boolean book(BookBungalowDto dto) {
-        User user = this.userRepository.getByEmail(userSession.getEmail());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = this.userRepository.getByEmail(email);
 
         Optional<Bungalow> byId = bungalowRepository.findById(dto.getNumber());
         if (byId.isEmpty()){
@@ -61,7 +68,7 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
                 .findByBungalowIdAndStartDateBetween(
                         dto.getNumber(), dto.getStartDate(), dto.getEndDate());
         List<BungalowReservation> conflict = bungalowBookingRepository.findByBungalowIdAndEndDateAfterAndStartDateBefore(dto.getNumber(),
-                dto.getEndDate(), dto.getStartDate());
+                        dto.getEndDate(), dto.getStartDate());
 
         if (!existingReservations.isEmpty()||!conflict.isEmpty()){
             return false;

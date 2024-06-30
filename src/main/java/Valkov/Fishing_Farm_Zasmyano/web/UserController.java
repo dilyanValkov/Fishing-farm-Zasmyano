@@ -68,37 +68,6 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String doLogin(@Valid UserLoginDto dto,
-                          BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes){
 
-        if (bindingResult.hasErrors()){
-            redirectAttributes.addFlashAttribute("loginData",dto);
-            redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.loginData", bindingResult);
-            return "redirect:/login";
-        }
-
-        boolean success = userService.login(dto);
-
-        if (!success){
-            redirectAttributes.addFlashAttribute("loginData",dto);
-            redirectAttributes.addFlashAttribute(
-                    "userPassMismatch", true);
-            return "redirect:/login";
-        }
-            return "redirect:/";
-
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        if (!userSession.isUserLoggedIn()) {
-            return "redirect:/";
-        }
-        userSession.logout();
-        return "redirect:/";
-    }
 }
 

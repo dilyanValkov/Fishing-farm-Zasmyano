@@ -70,6 +70,13 @@
   max-width: 100%;
   height: auto;
 }
-
+.logout{
+  border: none;
+  background: transparent;
+  color: #8E9597;
+}
+.logout:hover{
+  color: white;
+}
 
 
