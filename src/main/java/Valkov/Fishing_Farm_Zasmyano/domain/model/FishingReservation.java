@@ -1,9 +1,7 @@
 package Valkov.Fishing_Farm_Zasmyano.domain.model;
-
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingHours;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,11 +16,9 @@ import java.time.LocalDateTime;
 public class FishingReservation extends BaseEntity{
 
     @Column(name = "start_date", nullable = false)
-    @Future
     private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    @Future
     private LocalDate endDate;
 
     @Column(name = "fisherman_count",nullable = false)
@@ -39,7 +35,6 @@ public class FishingReservation extends BaseEntity{
     private Status status;
 
     @Column(nullable = false)
-    @Future
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
@@ -48,14 +43,14 @@ public class FishingReservation extends BaseEntity{
     @ManyToOne
     private User user;
     @PrePersist
-    private void calculateTotalPrice(){
+    public void calculateTotalPrice(){
         BigDecimal price = BigDecimal.ZERO;
         switch (fishingHours){
             case DAY -> price = fishingSpot.getDayPrice();
             case NIGHT -> price = fishingSpot.getNightPrice();
             case DAY_AND_NIGHT -> price = fishingSpot.getDayAndNightPrice();
         }
-        long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
         totalPrice = price.multiply(BigDecimal.valueOf(days)).multiply(BigDecimal.valueOf(fishermanCount));
     }
 }

@@ -1,10 +1,9 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
-
-import Valkov.Fishing_Farm_Zasmyano.config.UserSession;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.UserLoginDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.UserRegisterDto;
 import Valkov.Fishing_Farm_Zasmyano.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final UserSession userSession;
 
-    public UserController(UserService userService, UserSession userSession) {
-        this.userService = userService;
-        this.userSession = userSession;
-    }
     @ModelAttribute("registerData")
     public UserRegisterDto createEmptyRegisterDto() {
         return new UserRegisterDto();

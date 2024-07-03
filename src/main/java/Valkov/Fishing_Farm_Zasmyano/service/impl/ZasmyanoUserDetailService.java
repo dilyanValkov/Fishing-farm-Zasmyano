@@ -1,6 +1,4 @@
 package Valkov.Fishing_Farm_Zasmyano.service.impl;
-
-
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.UserRole;
@@ -19,6 +17,7 @@ public class ZasmyanoUserDetailService implements UserDetailsService {
     public ZasmyanoUserDetailService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -41,6 +40,6 @@ public class ZasmyanoUserDetailService implements UserDetailsService {
     }
 
     private static GrantedAuthority map(Role role){
-        return new SimpleGrantedAuthority("ROLE_"+role);
+        return new SimpleGrantedAuthority("ROLE_" + role);
     }
 }

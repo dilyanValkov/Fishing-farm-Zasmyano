@@ -1,10 +1,9 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
-
-import Valkov.Fishing_Farm_Zasmyano.config.UserSession;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.Bungalow;
-import Valkov.Fishing_Farm_Zasmyano.service.BungalowBookingService;
+import Valkov.Fishing_Farm_Zasmyano.service.BungalowBookService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,14 +16,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class BungalowController {
-    private final UserSession userSession;
-    private final BungalowBookingService bungalowBookingService;
-
-    public BungalowController(UserSession userSession, BungalowBookingService bungalowBookingService) {
-        this.userSession = userSession;
-        this.bungalowBookingService = bungalowBookingService;
-    }
+    private final BungalowBookService bungalowBookingService;
 
     @ModelAttribute(name = "bookingData")
     public BookBungalowDto bookBungalowDto(){
@@ -34,19 +28,17 @@ public class BungalowController {
     public String viewBungalow(Model model){
         List<Bungalow> bungalows = bungalowBookingService.allBungalows();
 
-
+        model.addAttribute("bungalows", bungalows);
         model.addAttribute("today", LocalDate.now());
         model.addAttribute("tomorrow", LocalDate.now().plusDays(1));
 
-        model.addAttribute("bungalows", bungalows);
         return "book-bungalow";
     }
 
     @PostMapping("/book-bungalow")
     public String doReservation(@Valid BookBungalowDto dto,
                                 BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes,
-                                Model model){
+                                RedirectAttributes redirectAttributes){
 
         if (dto.getEndDate().isBefore(dto.getStartDate())||
                 dto.getEndDate().isEqual(dto.getStartDate())){

@@ -4,23 +4,19 @@ import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
 import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private  final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
-    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.modelMapper = modelMapper;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
     @Override
     public boolean register(UserRegisterDto userRegisterDto) {
 

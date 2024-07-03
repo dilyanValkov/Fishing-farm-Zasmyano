@@ -8,9 +8,10 @@ import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
 import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowBookingRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowRepository;
-import Valkov.Fishing_Farm_Zasmyano.service.BungalowBookingService;
+import Valkov.Fishing_Farm_Zasmyano.service.BungalowBookService;
+import Valkov.Fishing_Farm_Zasmyano.service.UserUtilService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,23 +19,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 @Service
-public class BungalowBookingServiceImpl implements BungalowBookingService {
+@RequiredArgsConstructor
+public class BungalowBookServiceImpl implements BungalowBookService {
     private final BungalowBookingRepository bungalowBookingRepository;
     private final BungalowRepository bungalowRepository;
     private final ModelMapper modelMapper;
-    private final UserRepository userRepository;
+    private final UserUtilService userUtilService;
 
-
-    @Autowired
-    public BungalowBookingServiceImpl(BungalowBookingRepository bungalowBookingRepository,
-                                      BungalowRepository bungalowRepository,
-                                      ModelMapper modelMapper,
-                                      UserRepository userRepository) {
-        this.bungalowBookingRepository = bungalowBookingRepository;
-        this.bungalowRepository = bungalowRepository;
-        this.modelMapper = modelMapper;
-        this.userRepository = userRepository;
-    }
     @Override
     public List<Bungalow> allBungalows(){
         return bungalowRepository.findAll();
@@ -42,7 +33,7 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
 
     @Override
     public BookInfoBungalowDto getBookInfoBungalowDto() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = userUtilService.getAuthentication();
         String email = authentication.getName();
         BungalowReservation lastReservation =
                 this.bungalowBookingRepository.findLastReservationByEmail(email);
@@ -55,11 +46,10 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
 
     @Override
     public boolean book(BookBungalowDto dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = this.userRepository.getByEmail(email);
+        User user = userUtilService.getCurrentUser();
 
         Optional<Bungalow> byId = bungalowRepository.findById(dto.getNumber());
+
         if (byId.isEmpty()){
             return false;
         }
@@ -67,10 +57,10 @@ public class BungalowBookingServiceImpl implements BungalowBookingService {
         List<BungalowReservation> existingReservations = bungalowBookingRepository
                 .findByBungalowIdAndStartDateBetween(
                         dto.getNumber(), dto.getStartDate(), dto.getEndDate());
-        List<BungalowReservation> conflict = bungalowBookingRepository.findByBungalowIdAndEndDateAfterAndStartDateBefore(dto.getNumber(),
+        List<BungalowReservation> conflicts = bungalowBookingRepository.findByBungalowIdAndEndDateAfterAndStartDateBefore(dto.getNumber(),
                         dto.getEndDate(), dto.getStartDate());
 
-        if (!existingReservations.isEmpty()||!conflict.isEmpty()){
+        if (!existingReservations.isEmpty()||!conflicts.isEmpty()){
             return false;
         }
         Bungalow bungalow = byId.get();
