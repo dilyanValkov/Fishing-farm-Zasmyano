@@ -9,38 +9,31 @@
 <div class="hero" >
     <div class="overlay"></div>
     <div class="hero-content text-center text-white">
-        <h1>Welcome to Sport Fishing Paradise</h1>
+        <h1>Направи своята резервация</h1>
         <p>Experience the best sport fishing adventure</p>
-        <a th:href="@{/register}" class="btn btn-primary">Get Started</a>
+        <a th:href="@{/book-bungalow}" class="btn btn-primary">Нощувка</a>
+        <a th:href="@{/book-fishing}" class="btn btn-primary">Риболов</a>
     </div>
 </div>
 
 <!-- Content Section -->
-<div class="container my-5">
+<div class="container my-5 text-center">
     <div class="row">
         <div class="col-md-6">
             <h2>За риболова</h2>
             <p>Our sport fishing lake offers a serene environment for anglers of all levels. With fully stocked waters and beautiful bungalows, we provide an unforgettable experience.</p>
             <a href="#" class="btn btn-secondary">Read More</a>
         </div>
-        <div class="col-md-6">
-            <h2>Резервирай риболовно място</h2>
-            <p>Whether you're looking to book a bungalow or a fishing spot, we have a variety of options to suit your needs. Reserve your spot today and enjoy a perfect fishing getaway.</p>
-            <a href="#" class="btn btn-secondary">Book Now</a>
+        <div class="col-md-6" >
+            <h2>Текущи метеоданни:</h2>
+            <div>
+                <p>Температура на въздуха: <span th:text="${temperature}">Температура на въздуха</span> °C</p>
+                <p>Скорост на вятъра: <span th:text="${wind}">Скорост на вятъра</span> м/с</p>
+                <p>Валежи: <span th:text="${rain}">Валежи</span></p>
+            </div>
         </div>
     </div>
 </div>
-
-<!-- Weather Section -->
-<div class="container mt-4" >
-    <h2>Текущи метеоданни:</h2>
-    <div>
-        <p>Температура на въздуха: <span th:text="${temperature}">Температура на въздуха</span> °C</p>
-        <p>Скорост на вятъра: <span th:text="${wind}">Скорост на вятъра</span> м/с</p>
-        <p>Валежи: <span th:text="${rain}">Валежи</span></p>
-    </div>
-</div>
-
 <!-- Footer -->
 <footer th:replace = "~{fragments/common::footer}"> </footer>
 

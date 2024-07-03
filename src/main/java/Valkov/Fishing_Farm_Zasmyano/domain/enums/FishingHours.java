@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum FishingHours {
- DAY("12ч. дневен"), NIGHT("12ч. нощен"), DAY_AND_NIGHT("24ч. денонощен");
+ DAY("Дневен"), DAY_AND_NIGHT("Денонощен");
 
  private final String text;
 

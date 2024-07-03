@@ -1,8 +1,8 @@
-package Valkov.Fishing_Farm_Zasmyano.service.impl;
+package Valkov.Fishing_Farm_Zasmyano.service.impl.user;
 
 import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
 import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
-import Valkov.Fishing_Farm_Zasmyano.service.UserUtilService;
+import Valkov.Fishing_Farm_Zasmyano.service.user.UserUtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.service;
+package Valkov.Fishing_Farm_Zasmyano.service.book;
 
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookInfoBungalowDto;

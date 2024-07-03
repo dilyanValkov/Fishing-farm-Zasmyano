@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.service;
+package Valkov.Fishing_Farm_Zasmyano.service.user;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.UserRegisterDto;
 
 public interface UserService {

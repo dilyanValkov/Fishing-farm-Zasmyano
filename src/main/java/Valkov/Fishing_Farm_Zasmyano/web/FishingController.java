@@ -5,7 +5,7 @@ import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingHours;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingSpotNumber;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingSpot;
 import Valkov.Fishing_Farm_Zasmyano.repository.fishing.FishingSpotRepository;
-import Valkov.Fishing_Farm_Zasmyano.service.FishingBookService;
+import Valkov.Fishing_Farm_Zasmyano.service.book.FishingBookService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,6 @@ public class FishingController {
     @GetMapping("/book-fishing")
     public String viewFishing(Model model){
         model.addAttribute("today", LocalDate.now());
-        model.addAttribute("tomorrow", LocalDate.now().plusDays(1));
         return "book-fishing";
     }
 
@@ -52,8 +51,7 @@ public class FishingController {
 
        FishingSpot fishingSpot = fishingSpotRepository.findById(dto.getFishingSpot().getNumber()).get();
 
-        if (dto.getEndDate().isBefore(dto.getStartDate()) ||
-                dto.getEndDate().isEqual(dto.getStartDate())) {
+        if (dto.getEndDate().isBefore(dto.getStartDate())) {
             redirectAttributes.addFlashAttribute("dateError", dto);
             return "redirect:/book-fishing";
         }

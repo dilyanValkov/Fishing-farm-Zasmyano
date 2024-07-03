@@ -19,8 +19,6 @@ public class FishingSpot extends BaseEntity{
     @Column(name = "day_price", nullable = false)
     private BigDecimal dayPrice;
 
-    @Column(name = "night_price", nullable = false)
-    private BigDecimal nightPrice;
 
     @Column(name = "day_and_night_price", nullable = false)
     private BigDecimal dayAndNightPrice;

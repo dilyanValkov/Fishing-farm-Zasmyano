@@ -6,24 +6,43 @@
 <nav th:replace="~{fragments/common::nav}"></nav>
 <!-- Booking Form Section -->
 <div class="container my-5 booking-form">
-    <h2 style="margin-bottom: 3px; text-align: center;">Резервирай риболов</h2>
+    <h2 style="margin-bottom: 40px; text-align: center;">Резервирай риболов</h2>
     <form th:action="@{/book-fishing}" th:method="post" th:object="${bookingData}">
 
         <div class="form-group">
-            <div class="text-white label-holder d-flex justify-content-center">
-                <label for="fishingSpot" class="h4 mb-2">dsdasda</label>
+            <div class="mb-2">
+                <label for="fishingSpot" class="h4 mb-2"></label>
             </div>
             <select class="browser-default custom-select"
                     id="fishingSpot"
                     name="fishingSpot"
                     th:field="*{fishingSpot}"
                     th:errorclass="'is-invalid alert-danger'">
+                <option value="">Избери риболовно място</option>
                 <option th:each="spot: ${allFishingSpots}"
                         th:value="${spot}"
                         th:text="${spot.number}">
                 </option>
             </select>
             <small class="invalid-feedback text-danger">Моля, изберете риболовно място.</small>
+        </div>
+
+        <div class="form-group">
+            <div class="mb-2">
+                <label for="fishingHours" class="h4 mb-2"></label>
+            </div>
+            <select class="browser-default custom-select"
+                    id="fishingHours"
+                    name="fishingHours"
+                    th:field="*{fishingHours}"
+                    th:errorclass="'is-invalid alert-danger'">
+                <option value="">Избери риболов</option>
+                <option th:each="hour: ${allFishingHours}"
+                        th:value="${hour}"
+                        th:text="${hour.text}">
+                </option>
+            </select>
+            <small class="invalid-feedback text-danger">Избери вид риболов.</small>
         </div>
 
         <div class="mb-3">
@@ -42,23 +61,6 @@
             Броя на риболовци превишава лимита на риболовното място.
         </div>
 
-        <div class="form-group">
-            <div class="text-white label-holder d-flex justify-content-center">
-                <label for="fishingHours" class="h4 mb-2">Number</label>
-            </div>
-            <select class="browser-default custom-select"
-                    id="fishingHours"
-                    name="fishingHours"
-                    th:field="*{fishingHours}"
-                    th:errorclass="'is-invalid alert-danger'">
-                <option th:each="hour: ${allFishingHours}"
-                        th:value="${hour}"
-                        th:text="${hour.text}">
-                </option>
-            </select>
-            <small class="invalid-feedback text-danger">You must select a style!</small>
-        </div>
-
         <div class="mb-3">
             <label for="startDate" class="form-label">Дата на настаняване</label>
             <input type="date" class="form-control" id="startDate" name="startDate" required
@@ -70,7 +72,7 @@
         <div class="mb-3">
             <label for="endDate" class="form-label">Дата на напускане</label>
             <input type="date" class="form-control" id="endDate" name="endDate" required
-                   th:min="${#temporals.format(tomorrow, 'yyyy-MM-dd')}" th:field="*{endDate}"
+                   th:min="${#temporals.format(today, 'yyyy-MM-dd')}" th:field="*{endDate}"
                    th:errorclass="'is-invalid alert-danger'">
             <div class="invalid-feedback text-danger">Моля, въведете дата.</div>
         </div>

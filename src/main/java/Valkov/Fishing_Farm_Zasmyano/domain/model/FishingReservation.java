@@ -47,10 +47,12 @@ public class FishingReservation extends BaseEntity{
         BigDecimal price = BigDecimal.ZERO;
         switch (fishingHours){
             case DAY -> price = fishingSpot.getDayPrice();
-            case NIGHT -> price = fishingSpot.getNightPrice();
             case DAY_AND_NIGHT -> price = fishingSpot.getDayAndNightPrice();
         }
-        long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
+        long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate)+1;
+//            if (days==0L){
+//                days = 1L;
+//            }
         totalPrice = price.multiply(BigDecimal.valueOf(days)).multiply(BigDecimal.valueOf(fishermanCount));
     }
 }

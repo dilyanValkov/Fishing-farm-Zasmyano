@@ -1,7 +1,7 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.Bungalow;
-import Valkov.Fishing_Farm_Zasmyano.service.BungalowBookService;
+import Valkov.Fishing_Farm_Zasmyano.service.book.BungalowBookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

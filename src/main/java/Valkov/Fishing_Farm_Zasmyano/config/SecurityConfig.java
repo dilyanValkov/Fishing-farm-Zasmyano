@@ -1,7 +1,7 @@
 package Valkov.Fishing_Farm_Zasmyano.config;
 
 import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
-import Valkov.Fishing_Farm_Zasmyano.service.impl.ZasmyanoUserDetailService;
+import Valkov.Fishing_Farm_Zasmyano.service.impl.user.ZasmyanoUserDetailService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

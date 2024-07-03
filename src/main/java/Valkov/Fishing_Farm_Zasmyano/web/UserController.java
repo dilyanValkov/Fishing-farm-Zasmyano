@@ -1,7 +1,7 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.UserLoginDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.UserRegisterDto;
-import Valkov.Fishing_Farm_Zasmyano.service.UserService;
+import Valkov.Fishing_Farm_Zasmyano.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

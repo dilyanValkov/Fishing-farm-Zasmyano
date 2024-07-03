@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.service.impl;
+package Valkov.Fishing_Farm_Zasmyano.service.impl.book;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookFishingDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookInfoFishingDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
@@ -7,8 +7,8 @@ import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingSpot;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
 import Valkov.Fishing_Farm_Zasmyano.repository.fishing.FishingBookRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.fishing.FishingSpotRepository;
-import Valkov.Fishing_Farm_Zasmyano.service.FishingBookService;
-import Valkov.Fishing_Farm_Zasmyano.service.UserUtilService;
+import Valkov.Fishing_Farm_Zasmyano.service.book.FishingBookService;
+import Valkov.Fishing_Farm_Zasmyano.service.user.UserUtilService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -34,12 +34,10 @@ public class FishingBookServiceImpl implements FishingBookService {
         if (byId.isEmpty()){
             return false;
         }
-        List<FishingReservation> existingReservations = fishingBookRepository.findByFishingSpot_IdAndEndDateAfterAndStartDateBeforeAndFishingHours(
-                number, dto.getStartDate(), dto.getEndDate(), dto.getFishingHours()
-        );
-        List<FishingReservation> conflicts = fishingBookRepository.findByFishingSpot_IdAndStartDateBetweenAndFishingHours(
-                number, dto.getStartDate(), dto.getEndDate(), dto.getFishingHours()
-        );
+        List<FishingReservation> existingReservations = fishingBookRepository.findByFishingSpot_IdAndEndDateAfterAndStartDateBefore(
+                number, dto.getStartDate(), dto.getEndDate());
+        List<FishingReservation> conflicts = fishingBookRepository.findByFishingSpot_IdAndStartDateBetween(
+                number, dto.getStartDate(), dto.getEndDate());
 
         if (!existingReservations.isEmpty() || !conflicts.isEmpty()){
             return false;
@@ -49,7 +47,7 @@ public class FishingBookServiceImpl implements FishingBookService {
 
         FishingReservation reservation = modelMapper.map(dto, FishingReservation.class);
 
-        reservation.setStatus(Status.НЕПОТЪВРДЕНА);
+        reservation.setStatus(Status.UNCONFIRMED);
         reservation.setUser(user);
         reservation.setFishingSpot(fishingSpot);
         reservation.calculateTotalPrice();

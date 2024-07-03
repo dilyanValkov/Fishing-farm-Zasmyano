@@ -1,19 +1,17 @@
-package Valkov.Fishing_Farm_Zasmyano.service.impl;
+package Valkov.Fishing_Farm_Zasmyano.service.impl.book;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookInfoBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.Bungalow;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.BungalowReservation;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
-import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowBookingRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowRepository;
-import Valkov.Fishing_Farm_Zasmyano.service.BungalowBookService;
-import Valkov.Fishing_Farm_Zasmyano.service.UserUtilService;
+import Valkov.Fishing_Farm_Zasmyano.service.book.BungalowBookService;
+import Valkov.Fishing_Farm_Zasmyano.service.user.UserUtilService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,7 +64,7 @@ public class BungalowBookServiceImpl implements BungalowBookService {
         Bungalow bungalow = byId.get();
 
         BungalowReservation reservation = modelMapper.map(dto, BungalowReservation.class);
-        reservation.setStatus(Status.НЕПОТЪВРДЕНА);
+        reservation.setStatus(Status.UNCONFIRMED);
         reservation.setUser(user);
         reservation.setBungalow(bungalow);
         reservation.calculateTotalPrice();

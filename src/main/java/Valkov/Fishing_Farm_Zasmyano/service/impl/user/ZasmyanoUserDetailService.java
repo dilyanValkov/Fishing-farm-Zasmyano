@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.service.impl;
+package Valkov.Fishing_Farm_Zasmyano.service.impl.user;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.UserRole;
