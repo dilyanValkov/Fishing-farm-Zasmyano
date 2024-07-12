@@ -23,8 +23,6 @@ public class FishingSpot extends BaseEntity{
     @Column(name = "day_and_night_price", nullable = false)
     private BigDecimal dayAndNightPrice;
 
-    @OneToMany(targetEntity = Picture.class, mappedBy = "fishingSpot")
-    private Set<Picture> pictures;
 
     @OneToMany(targetEntity = FishingReservation.class, mappedBy = "fishingSpot")
     private Set<FishingReservation> reservations;

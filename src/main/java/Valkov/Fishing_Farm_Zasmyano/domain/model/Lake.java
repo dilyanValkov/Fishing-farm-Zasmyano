@@ -35,6 +35,4 @@ public class Lake extends BaseEntity{
     @OneToMany(targetEntity = FishingSpot.class, mappedBy = "lake")
     private List<FishingSpot> fishingSpots;
 
-    @OneToMany(targetEntity = Review.class, mappedBy = "lake")
-    private List<Review> reviews;
 }

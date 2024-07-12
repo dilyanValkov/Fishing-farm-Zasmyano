@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.domain.dto;
+package Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingHours;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingSpotNumber;
 import jakarta.validation.constraints.*;

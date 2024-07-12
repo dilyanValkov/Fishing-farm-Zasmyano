@@ -20,14 +20,9 @@ public class Bungalow extends BaseEntity{
     @Column(nullable = false)
     private BigDecimal price;
 
-    @OneToMany(targetEntity = Picture.class, mappedBy = "bungalow")
-
-    private Set<Picture> pictures;
 
     @OneToMany(targetEntity = BungalowReservation.class, mappedBy = "bungalow")
     private Set<BungalowReservation> reservations;
 
-    public Bungalow() {
-        this.pictures = new LinkedHashSet<>();
-    }
+
 }

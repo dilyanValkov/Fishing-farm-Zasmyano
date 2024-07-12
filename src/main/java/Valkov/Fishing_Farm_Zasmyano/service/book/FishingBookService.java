@@ -1,12 +1,11 @@
 package Valkov.Fishing_Farm_Zasmyano.service.book;
-
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookFishingDto;
-
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookInfoFishingDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing.BookFishingDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing.BookInfoFishingDto;
+import java.util.List;
 
 public interface FishingBookService {
 
     boolean book(BookFishingDto dto);
 
-    BookInfoFishingDto getBookInfoFishingDto();
+    List<BookInfoFishingDto> getAllBookings();
 }

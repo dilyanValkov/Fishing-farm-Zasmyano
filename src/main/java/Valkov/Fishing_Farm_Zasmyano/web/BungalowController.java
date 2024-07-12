@@ -1,7 +1,8 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookBungalowDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.bungalow.BookBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.Bungalow;
 import Valkov.Fishing_Farm_Zasmyano.service.book.BungalowBookService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class BungalowController {
     @PostMapping("/book-bungalow")
     public String doReservation(@Valid BookBungalowDto dto,
                                 BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes){
+                                RedirectAttributes redirectAttributes) throws MessagingException {
 
         if (dto.getEndDate().isBefore(dto.getStartDate())||
                 dto.getEndDate().isEqual(dto.getStartDate())){

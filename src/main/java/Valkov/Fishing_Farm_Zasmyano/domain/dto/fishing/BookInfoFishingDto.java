@@ -1,15 +1,15 @@
-package Valkov.Fishing_Farm_Zasmyano.domain.dto;
+package Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing;
+
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 @Getter
 @Setter
-public class BookInfoBungalowDto {
-
+public class BookInfoFishingDto {
     private LocalDate startDate;
 
     private LocalDate endDate;
@@ -20,8 +20,11 @@ public class BookInfoBungalowDto {
 
     private Status status;
 
-    private long bungalowNumber;
+    private long spotNumber;
 
     private long reservationNumber;
 
+    private int fishermanCount;
+
+    private String type;
 }

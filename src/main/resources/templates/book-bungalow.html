@@ -10,9 +10,12 @@
     <h2 style="margin-bottom: 30px; text-align: center;">Нашите бунгала</h2>
     <div class="row">
         <!-- Iterate over bungalows -->
-        <div class="col-md-4 bungalow-card" th:each="bungalow : ${bungalows}" th:object="${bungalow}">
+        <div class="col-md-4 bungalow-card d-none bungalow-section"
+             th:each="bungalow : ${bungalows}"
+             th:object="${bungalow}"
+             th:id = "*{id}">
             <!-- Use specific image for each bungalow -->
-            <img th:src="'images/bungalow' + ${bungalow.id} + '.jpg'" alt="Bungalow Image">
+            <img th:src="'images/bungalow' + ${bungalow.id} + '.jpg'" alt= "Bungalow Image">
             <h3 th:text="'Бунгало ' + ${bungalow.id}"></h3>
             <p th:text="'Капацитет: ' + ${bungalow.capacity} + ' легла'"></p>
             <p th:text="'Цена: ' + ${bungalow.price} + ' лева/нощувка'"></p>
@@ -73,7 +76,7 @@
 
 <!-- Footer -->
 <footer th:replace = "~{fragments/common::footer}"> </footer>
-
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/bungalow-section.js}"></script>
 </body>
 </html>

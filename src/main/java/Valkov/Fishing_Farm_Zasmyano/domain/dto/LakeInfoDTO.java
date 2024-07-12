@@ -1,6 +1,5 @@
 package Valkov.Fishing_Farm_Zasmyano.domain.dto;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingSpot;
-import Valkov.Fishing_Farm_Zasmyano.domain.model.Review;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +23,4 @@ public class LakeInfoDTO {
 
     private Set<FishingSpot> fishingSpots;
 
-    private Set<Review> reviews;
 }

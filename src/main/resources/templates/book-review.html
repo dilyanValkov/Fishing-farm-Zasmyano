@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common::head}"></head>
+<body>
+<!-- Navigation Bar -->
+<nav th:replace="~{fragments/common::nav}"></nav>
+
+<!-- Bookings Section -->
+<div class="container-fluid my-5">
+    <h2 style="margin-bottom: 40px; text-align: center;">Вашите резервации</h2>
+    <div class="row">
+
+        <!-- Fishing Bookings Section -->
+        <div class="col-lg-4 container-fluid">
+            <h3 class="text-center">Резервации за риболов</h3>
+            <div th:if="${allFishingBookings.isEmpty()}"><p>Нямате резервации за риболов.</p>
+            </div>
+            <div th:each="booking : ${allFishingBookings}"
+                 th:object="${booking}">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Риболовно място <span th:text="*{spotNumber}">Spot</span></h5>
+                        <p class= "card-text">Резервация No:
+                            <span th:text= "' ' + *{reservationNumber}  + ', направена на: '
+                              + *{#temporals.format(createdAt, 'dd-MM-yyyy')} + ' г. в '
+                              + *{#temporals.format(createdAt, 'HH:mm')} + ' ч.'" >Booking</span></p>
+                        <p class="card-text">Резервирано
+                            <span th:if ="*{startDate.equals(endDate)}"
+                                  th:text="' на: ' + *{#temporals.format(startDate, 'dd-MM-yyyy')} +' г.'">Date</span>
+                            <span th:unless ="*{startDate.equals(endDate)}"
+                                  th:text="' за времето от: ' + *{#temporals.format(startDate, 'dd-MM')}
+                              + ' до ' + *{#temporals.format(endDate, 'dd-MM-yyyy')} +' г.'">Date</span></p>
+                        <p class= "card-text" >Брой риболовци:
+                            <span th:text="' ' + *{fishermanCount} + ' за ' + *{type} + ' риболов'">Price</span></p>
+                        <p class="card-text">Обща сума:
+                            <span th:text="' ' + *{totalPrice} + ' лв.'">Price</span></p>
+                        <p class="card-text">Статус:
+                            <span th:text="' ' + *{status.text}">Status</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bungalow Bookings Section -->
+        <div class="col-lg-4 container-fluid">
+            <h3 class="text-center">Резервации за бунгало</h3>
+            <div th:if="${allBungalowBookings.isEmpty()}"><p>Нямате резервации за бунгало.</p>
+            </div>
+            <div th:each="booking : ${allBungalowBookings}"
+                 th:object="${booking}">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Бунгало <span th:text="*{bungalowNumber}">Bungalow</span></h5>
+                        <p class= "card-text">Резервация No:
+                            <span th:text= "' ' + *{reservationNumber}  + ', направена на: '
+                              + *{#temporals.format(createdAt, 'dd-MM-yyyy')} + ' г. в '
+                              + *{#temporals.format(createdAt, 'HH:mm')} + ' ч.'" >Time</span></p>
+                        <p class="card-text">Дата на настаняване:
+                            <span th:text="*{#temporals.format(startDate, 'dd-MM-yyyy')+' г.'}">Check-In Date</span></p>
+                        <p class="card-text">Дата на напускане:
+                            <span th:text="*{#temporals.format(endDate, 'dd-MM-yyyy')+' г.'}">Check-Out Date</span></p>
+                        <p class="card-text">Обща сума:
+                            <span th:text="' ' + *{totalPrice} + ' лв.'">Price</span></p>
+                        <p class="card-text">Статус:
+                            <span th:text="' ' + *{status.text}">Status</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

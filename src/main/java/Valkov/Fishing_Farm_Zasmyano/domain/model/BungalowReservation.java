@@ -42,4 +42,19 @@ public class BungalowReservation extends BaseEntity{
         long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
         totalPrice = bungalow.getPrice().multiply(BigDecimal.valueOf(days));
     }
+
+    public String toBeConfirmed() {
+        StringBuilder sb = new StringBuilder();
+                sb.append(user.getFirstName())
+                .append(" направихте резервация за бунгало ")
+                .append(bungalow.getId()).append(" за времето от ")
+                .append(startDate).append(" до ").append(endDate).append(".").append(System.lineSeparator())
+                .append("Цена за престоя: ").append(totalPrice).append(".").append(System.lineSeparator())
+                .append("Моля, изчакайте да се свържем с Вас за потвърждение на резервацията.");
+        return sb.toString();
+    }
+
+    public String emailContent(){
+        return "Относно резервация с номер: " + getId();
+    }
 }

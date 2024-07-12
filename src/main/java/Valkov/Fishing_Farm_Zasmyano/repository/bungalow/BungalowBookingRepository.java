@@ -13,6 +13,7 @@ public interface BungalowBookingRepository extends JpaRepository<BungalowReserva
 
     List<BungalowReservation> findByBungalowIdAndEndDateAfterAndStartDateBefore(
             Long id, LocalDate endDate, LocalDate startDate);
-    @Query("SELECT r FROM BungalowReservation r JOIN User u ON r.user.id = u.id WHERE u.email = :email ORDER BY r.createdAt DESC LIMIT 1")
-    BungalowReservation findLastReservationByEmail (String email);
+
+    @Query("SELECT r FROM BungalowReservation r JOIN User u ON r.user.id = u.id WHERE u.email = :email ORDER BY r.createdAt DESC")
+    List<BungalowReservation> findAllByEmail(String email);
 }

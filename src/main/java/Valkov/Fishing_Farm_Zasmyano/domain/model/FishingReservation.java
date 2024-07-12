@@ -50,9 +50,6 @@ public class FishingReservation extends BaseEntity{
             case DAY_AND_NIGHT -> price = fishingSpot.getDayAndNightPrice();
         }
         long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate)+1;
-//            if (days==0L){
-//                days = 1L;
-//            }
         totalPrice = price.multiply(BigDecimal.valueOf(days)).multiply(BigDecimal.valueOf(fishermanCount));
     }
 }

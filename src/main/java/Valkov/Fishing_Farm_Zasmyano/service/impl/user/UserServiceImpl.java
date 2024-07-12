@@ -1,17 +1,13 @@
 package Valkov.Fishing_Farm_Zasmyano.service.impl.user;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.UserRegisterDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserRegisterDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
-import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
-import Valkov.Fishing_Farm_Zasmyano.domain.model.UserRole;
 import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service

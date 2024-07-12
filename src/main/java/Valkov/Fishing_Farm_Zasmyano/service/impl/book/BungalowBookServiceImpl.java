@@ -1,6 +1,6 @@
 package Valkov.Fishing_Farm_Zasmyano.service.impl.book;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookBungalowDto;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookInfoBungalowDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.bungalow.BookBungalowDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.bungalow.BookInfoBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.Bungalow;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.BungalowReservation;
@@ -8,12 +8,14 @@ import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowBookingRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.book.BungalowBookService;
+import Valkov.Fishing_Farm_Zasmyano.service.impl.EmailService;
 import Valkov.Fishing_Farm_Zasmyano.service.user.UserUtilService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -23,6 +25,7 @@ public class BungalowBookServiceImpl implements BungalowBookService {
     private final BungalowRepository bungalowRepository;
     private final ModelMapper modelMapper;
     private final UserUtilService userUtilService;
+    private final EmailService emailService;
 
     @Override
     public List<Bungalow> allBungalows(){
@@ -30,20 +33,24 @@ public class BungalowBookServiceImpl implements BungalowBookService {
     }
 
     @Override
-    public BookInfoBungalowDto getBookInfoBungalowDto() {
-        Authentication authentication = userUtilService.getAuthentication();
-        String email = authentication.getName();
-        BungalowReservation lastReservation =
-                this.bungalowBookingRepository.findLastReservationByEmail(email);
+    public List<BookInfoBungalowDto> getAllBookings() {
+        User user = userUtilService.getCurrentUser();
+        String email = user.getEmail();
 
-        BookInfoBungalowDto mapped = modelMapper.map(lastReservation, BookInfoBungalowDto.class);
-        mapped.setBungalowNumber(lastReservation.getBungalow().getId());
-        mapped.setReservationNumber(lastReservation.getId());
-        return mapped;
+        List<BungalowReservation> allByEmail = this.bungalowBookingRepository.findAllByEmail(email);
+        List<BookInfoBungalowDto> dtos = new ArrayList<>();
+
+        for (BungalowReservation reservation : allByEmail) {
+            BookInfoBungalowDto mapped = modelMapper.map(reservation, BookInfoBungalowDto.class);
+            mapped.setReservationNumber(reservation.getId());
+            mapped.setBungalowNumber(reservation.getBungalow().getId());
+            dtos.add(mapped);
+        }
+        return dtos;
     }
 
     @Override
-    public boolean book(BookBungalowDto dto) {
+    public boolean book(BookBungalowDto dto) throws MessagingException {
         User user = userUtilService.getCurrentUser();
 
         Optional<Bungalow> byId = bungalowRepository.findById(dto.getNumber());
@@ -69,6 +76,8 @@ public class BungalowBookServiceImpl implements BungalowBookService {
         reservation.setBungalow(bungalow);
         reservation.calculateTotalPrice();
         bungalowBookingRepository.save(reservation);
+        emailService.sendSimpleEmail(user.getEmail(), reservation.emailContent(), reservation.toBeConfirmed());
         return true;
     }
+
 }

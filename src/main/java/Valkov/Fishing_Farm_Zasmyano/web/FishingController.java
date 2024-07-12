@@ -1,6 +1,6 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
 
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookFishingDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing.BookFishingDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingHours;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingSpotNumber;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingSpot;
@@ -73,6 +73,8 @@ public class FishingController {
             return "redirect:/book-fishing";
         }
 
-        return "redirect:/";
+        return "redirect:/book-info";
     }
+
+
 }

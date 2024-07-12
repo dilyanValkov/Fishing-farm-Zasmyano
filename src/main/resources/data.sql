@@ -1,6 +1,9 @@
 ALTER TABLE `zasmyanodb`.`users_roles`
 ADD PRIMARY KEY (`user_id`, `roles_id`);
 
+INSERT INTO `zasmyanodb`.`roles` (`id`, `role`) VALUES ('1', 'ADMIN');
+INSERT INTO `zasmyanodb`.`roles` (`id`, `role`) VALUES ('2', 'USER');
+
 INSERT INTO zasmyanodb.bungalows (`id`, `capacity`, `price`) VALUES ('1', '2', '80');
 INSERT INTO zasmyanodb.bungalows (`id`, `capacity`, `price`) VALUES ('2', '2', '80');
 INSERT INTO zasmyanodb.bungalows (`id`, `capacity`, `price`) VALUES ('3', '4', '80');

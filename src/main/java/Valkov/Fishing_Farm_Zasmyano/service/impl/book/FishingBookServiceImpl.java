@@ -1,6 +1,6 @@
 package Valkov.Fishing_Farm_Zasmyano.service.impl.book;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookFishingDto;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.BookInfoFishingDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing.BookFishingDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing.BookInfoFishingDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingReservation;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingSpot;
@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +57,18 @@ public class FishingBookServiceImpl implements FishingBookService {
     }
 
     @Override
-    public BookInfoFishingDto getBookInfoFishingDto() {
-        return null;
+    public List<BookInfoFishingDto> getAllBookings() {
+        User user = userUtilService.getCurrentUser();
+        String email = user.getEmail();
+        List<FishingReservation> allByEmail = this.fishingBookRepository.findAllByEmail(email);
+        List<BookInfoFishingDto> dtos = new ArrayList<>();
+        for (FishingReservation reservation : allByEmail) {
+            BookInfoFishingDto mapped = modelMapper.map(reservation, BookInfoFishingDto.class);
+            mapped.setSpotNumber(reservation.getFishingSpot().getId());
+            mapped.setReservationNumber(reservation.getId());
+            mapped.setType(reservation.getFishingHours().getText());
+            dtos.add(mapped);
+        }
+        return dtos;
     }
 }
