@@ -52,4 +52,26 @@ public class FishingReservation extends BaseEntity{
         long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate)+1;
         totalPrice = price.multiply(BigDecimal.valueOf(days)).multiply(BigDecimal.valueOf(fishermanCount));
     }
+
+    public String toBeConfirmed() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(user.getFirstName())
+                .append(" направихте резервация за риболовно място No ").append(fishingSpot.getId());
+                if (startDate.isEqual(endDate)){
+                    sb.append(" на ").append(startDate)
+                        .append(".").append(System.lineSeparator());
+                }else {
+                    sb.append(" за времето от ")
+                      .append(startDate).append(" до ").append(endDate)
+                      .append(".").append(System.lineSeparator());
+                }
+
+                sb.append("Цена за престоя: ").append(totalPrice).append(".").append(System.lineSeparator())
+                .append("Моля, изчакайте да се свържем с Вас за потвърждение на резервацията.");
+        return sb.toString();
+    }
+
+    public String emailContent(){
+        return "Относно направена резервация на язовир Засмяно с номер: " + getId();
+    }
 }

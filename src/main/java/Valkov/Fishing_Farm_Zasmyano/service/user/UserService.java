@@ -7,4 +7,6 @@ boolean register(UserRegisterDto userRegisterDto);
 
 boolean passwordsMatch(UserRegisterDto userRegisterDto);
 
+String userFullName(Long userId);
+
 }

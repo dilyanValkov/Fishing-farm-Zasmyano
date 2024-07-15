@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +39,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean passwordsMatch(UserRegisterDto userRegisterDto){
         return userRegisterDto.getPassword().equals(userRegisterDto.getConfirmPassword());
+    }
+
+    @Override
+    public String userFullName(Long userId) {
+        User user = userRepository.findById(userId).get();
+        return user.getFullName();
     }
 }

@@ -39,4 +39,7 @@ public class User extends BaseEntity{
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRole> roles = new ArrayList<>();
 
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 }

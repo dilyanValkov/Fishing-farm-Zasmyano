@@ -24,15 +24,8 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
-  #sql:
-    #init:
-      #mode: always
   jpa:
-    # Choose either MySQL 8 or MySQL 5 below
-    # For MySQL 8
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    #For MySQL 5
-    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
     open-in-view: false
@@ -40,11 +33,7 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
-#Cloudinary Properties
-#cloudinary:
-  #api-key: 
-  #api-secret: 
-  #cloud-name:
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -59,6 +48,9 @@ spring:
         api:
           from: ${mail}
 
+review:
+  api:
+    baseUrl: "http://localhost:8081"
 
 
 

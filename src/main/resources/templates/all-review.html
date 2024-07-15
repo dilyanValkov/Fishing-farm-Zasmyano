@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>язовир Засмяно - Отзиви на клиенти</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav th:replace="~{fragments/common::nav}"></nav>
+
+<!-- Reviews Section -->
+<div class="container my-5">
+    <h2 class="text-center">Отзиви на клиенти</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div th:each="review : ${allReviews}">
+                <div th:if="${reviewStat.index >= currentPage * pageSize and reviewStat.index < (currentPage + 1) * pageSize}" class="card mb-3">
+                    <div class="card-body" th:object="${review}">
+                        <h5 class="card-title" th:text="*{fullName}">Име на клиента</h5>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="*{#temporals.format(createdAt, 'dd-MM-yyyy')}">Дата</h6>
+                        <div class="star-rating">
+                            <span th:each="star : ${#numbers.sequence(1, review.rating)}" class="star">&#9733;</span>
+                            <span th:if="${review.rating < 5}" th:each="star : ${#numbers.sequence(review.rating + 1, 5)}" class="star text-muted">&#9733;</span>
+                        </div>
+                        <p class="card-text" th:text="*{comment}">Коментар</p>
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{|/review/all-review?page=${currentPage - 1}|}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="page, stat : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == page} ? 'active'">
+                        <a class="page-link" th:href="@{|/review/all-review?page=${page}|}" th:text="${page + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{|/review/all-review?page=${currentPage + 1}|}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

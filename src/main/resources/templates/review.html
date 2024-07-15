@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common::head}"></head>
+<body>
+<!-- Navigation Bar -->
+<nav th:replace="~{fragments/common::nav}"></nav>
+
+<!-- Hero Section -->
+<div class="hero" style="background-image: url('/images/homeBackground.jpg');">
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h1>Отзиви на клиенти</h1>
+        <p>Споделете вашето мнение за нашето обслужване и условия.</p>
+    </div>
+</div>
+<!-- Content Section -->
+<div class="container my-5">
+    <h2 class="text-center">Оставете своя отзив</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form th:action="@{/review/add}"
+                  th:method="POST"
+                  th:object="${reviewDto}"
+            >
+                <div class="mb-3">
+                    <label th:for= "rating" class="form-label">Оценка</label>
+                    <div class="star-rating">
+                        <input type="radio"
+                               id="5-stars"
+                               name="rating"
+                               value="5"
+                               th:field="*{rating}"
+                               th:errorclass="'is-invalid alert-danger'"
+                               required>
+                        <label for="5-stars" class="star">&#9733;</label>
+                        <input type="radio" id="4-stars" name="rating" value="4">
+                        <label for="4-stars" class="star">&#9733;</label>
+                        <input type="radio" id="3-stars" name="rating" value="3">
+                        <label for="3-stars" class="star">&#9733;</label>
+                        <input type="radio" id="2-stars" name="rating" value="2">
+                        <label for="2-stars" class="star">&#9733;</label>
+                        <input type="radio" id="1-star" name="rating" value="1">
+                        <label for="1-star" class="star">&#9733;</label>
+                        <div class="invalid-feedback text-danger"> Моля, въведете вашето име.</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Коментар</label>
+                    <textarea class="form-control"
+                              id="comment"
+                              name="comment"
+                              rows="3"
+                              th:field="*{comment}"
+                              th:errorclass="'is-invalid alert-danger'"
+                              required
+                    ></textarea>
+                </div>
+                <div class="invalid-feedback text-danger"> Моля, въведете вашето име.</div>
+                <button type="submit" class="btn btn-primary">Изпрати</button>
+            </form>
+        </div>
+    </div>
+    <h2 class="text-center mt-5">Отзиви на клиенти</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div th:each="review : ${reviews}" class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${review.name}">Име на клиента</h5>
+                    <h6 class="card-subtitle mb-2 text-muted" th:text="${review.date}">Дата</h6>
+                    <div class="star-rating">
+                        <span th:each="star : ${#numbers.sequence(1, review.rating)}" class="star">&#9733;</span>
+                        <span th:each="star : ${#numbers.sequence(review.rating + 1, 5)}" class="star text-muted">&#9733;</span>
+                    </div>
+                    <p class="card-text" th:text="${review.comment}">Коментар</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

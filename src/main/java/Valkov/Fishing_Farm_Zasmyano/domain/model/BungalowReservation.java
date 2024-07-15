@@ -55,6 +55,6 @@ public class BungalowReservation extends BaseEntity{
     }
 
     public String emailContent(){
-        return "Относно резервация с номер: " + getId();
+        return "Относно направена резервация на язовир Засмяно с номер: " + getId();
     }
 }
