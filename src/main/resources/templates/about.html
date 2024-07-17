@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common::head}"></head>
+<body>
+<!-- Navigation Bar -->
+<nav th:replace="~{fragments/common::nav}"></nav>
+
+<!-- Hero Section -->
+<div class="hero" style="background-image: url('/images/homeBackground.jpg');">
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h1>За язовир Засмяно</h1>
+        <p>Разберете повече за нашето място за риболов и отдих</p>
+    </div>
+</div>
+
+<!-- Content Section -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>История на язовира</h2>
+            <p>Язовир Засмяно е създаден през 1975 година и оттогава насам е едно от най-популярните места за риболов и отдих в региона. С годините язовирът е станал дом на различни видове риба и предоставя отлични условия за спортен риболов.</p>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-lg-6">
+            <h2>Удобства и услуги</h2>
+            <ul>
+                <li>Бунгала за нощувка</li>
+                <li>Зони за риболов</li>
+                <li>Наем на лодки и оборудване</li>
+                <li>Пешеходни и велосипедни маршрути</li>
+            </ul>
+        </div>
+        <div class="col-lg-6">
+            <h2>Правила и информация за посетители</h2>
+            <p>Моля, спазвайте правилата за риболов и отдих, за да осигурим безопасност и комфорт на всички гости. Риболовът е разрешен само с валиден лиценз. Настаняването в бунгала се извършва след предварителна резервация.</p>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-lg-12">
+            <h2>Контакт</h2>
+            <p>За повече информация, моля свържете се с нас на телефон: <strong>+359 123 456 789</strong> или по имейл: <strong>info@zasmyano-lake.bg</strong></p>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/bungalow-section.js}"></script>
+</body>
+</html>

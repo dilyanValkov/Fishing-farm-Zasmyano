@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.domain.model;
+package Valkov.Fishing_Farm_Zasmyano.domain.model.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

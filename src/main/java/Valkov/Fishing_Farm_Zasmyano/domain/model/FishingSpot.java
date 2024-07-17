@@ -24,7 +24,4 @@ public class FishingSpot extends BaseEntity{
 
     @OneToMany(targetEntity = FishingReservation.class, mappedBy = "fishingSpot")
     private Set<FishingReservation> reservations;
-
-    @ManyToOne
-    private Lake lake;
 }

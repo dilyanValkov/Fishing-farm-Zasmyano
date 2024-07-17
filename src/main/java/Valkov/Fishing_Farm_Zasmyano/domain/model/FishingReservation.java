@@ -1,10 +1,10 @@
 package Valkov.Fishing_Farm_Zasmyano.domain.model;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingHours;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -56,22 +56,26 @@ public class FishingReservation extends BaseEntity{
     public String toBeConfirmed() {
         StringBuilder sb = new StringBuilder();
         sb.append(user.getFirstName())
-                .append(" направихте резервация за риболовно място No ").append(fishingSpot.getId());
+                .append(", направихте резервация за риболовно място No ").append(fishingSpot.getId());
                 if (startDate.isEqual(endDate)){
-                    sb.append(" на ").append(startDate)
-                        .append(".").append(System.lineSeparator());
+                    sb.append(" за ").append(startDate).append(System.lineSeparator());
                 }else {
                     sb.append(" за времето от ")
-                      .append(startDate).append(" до ").append(endDate)
-                      .append(".").append(System.lineSeparator());
+                      .append(startDate).append(" до ").append(endDate).append(System.lineSeparator());
+                }
+                sb.append(" за ").append(fishermanCount);
+                if(fishermanCount==1){
+                  sb.append(" риболовец.").append(System.lineSeparator());
+                }else {
+                  sb.append(" риболовци.").append(System.lineSeparator());
                 }
 
-                sb.append("Цена за престоя: ").append(totalPrice).append(".").append(System.lineSeparator())
+                sb.append("Цена за риболова: ").append(totalPrice).append(" лв.").append(System.lineSeparator())
                 .append("Моля, изчакайте да се свържем с Вас за потвърждение на резервацията.");
         return sb.toString();
     }
 
     public String emailContent(){
-        return "Относно направена резервация на язовир Засмяно с номер: " + getId();
+        return "Относно: направена резервация с No " + getId()+ " за риболов на язовир Засмяно." ;
     }
 }

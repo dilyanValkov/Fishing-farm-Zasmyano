@@ -15,87 +15,81 @@
         class="needs-validation row justify-content-center"
         novalidate>
     <div class="col-md-8 col-lg-6">
-    <div class="mb-3">
-      <label for="firstName" class="form-label">Име</label>
-      <input
-              type="text"
-              class="form-control form-control-sm"
-              id="firstName"
-              name="firstName"
-              th:field="*{firstName}"
-              th:errorclass="'is-invalid alert-danger'"
-              required
-      <div class="invalid-feedback text-danger"> Моля, въведете вашето име.</div>
-      />
-
-    </div>
-    <div class="mb-3">
-      <label for="lastName" class="form-label">Фамилия</label>
-      <input
-              type="text"
-              class="form-control form-control-sm"
-              id="lastName"
-              name="lastName"
-              th:field="*{lastName}"
-              th:errorclass="'is-invalid alert-danger'"
-              required>
-      <div class="invalid-feedback text-danger">Моля, въведете вашата фамилия.</div>
-    </div>
-    <div class="mb-3">
-      <label for="phoneNumber" class="form-label">Телефонен номер</label>
-      <input
-              type="text"
-              class="form-control form-control-sm"
-              id="phoneNumber"
-              name="phoneNumber"
-              th:field="*{phoneNumber}"
-              th:errorclass="'is-invalid alert-danger'"
-              required>
-      <div class="invalid-feedback text-danger">Моля, въведете телефонен номер.</div>
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Имейл</label>
-      <input
-              type="email"
-              class="form-control form-control-sm"
-              id="email"
-              name="email"
-              th:field="*{email}"
-              th:errorclass="'is-invalid alert-danger'"
-              required>
-      <div class="invalid-feedback text-danger">Моля, въведете валиден имейл адрес.</div>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Парола</label>
-      <input
-              type="password"
-              class="form-control form-control-sm"
-              id="password"
-              name="password"
-              th:field="*{password}"
-              th:errorclass="'is-invalid alert-danger'"
-              required>
-      <div class="invalid-feedback text-danger">Моля, въведете парола.</div>
-    </div>
-    <div class="mb-3">
-      <label for="confirmPassword" class="form-label">Потвърдете паролата</label>
-      <input
-              type="password"
-              class="form-control form-control-sm"
-              id="confirmPassword"
-              name="confirmPassword"
-              th:field="*{confirmPassword}"
-              th:errorclass="'is-invalid alert-danger'"
-              required>
-      <div class="invalid-feedback text-danger">Моля, потвърдете вашата парола.</div>
-    </div>
-    <div th:if="${userEmailOrPhoneTaken}" class="alert alert-danger mb-3">
-      Има регистриран потребител с този имейл или телефонен номер. Моля, опитайте отново.
-    </div>
-      <div th:if="${passwordsMatch}" class="alert alert-danger mb-3">
-        Паролите не съвпадат. Моля, опитайте отново.
+      <div class="mb-3">
+        <label for="firstName" class="form-label">Име</label>
+        <input
+                type="text"
+                class="form-control form-control-sm"
+                id="firstName"
+                name="firstName"
+                th:field="*{firstName}"
+                th:errorclass="'is-invalid alert-danger'"
+                required
+        />
+        <div class="invalid-feedback text-danger"> Моля, въведете вашето име.</div>
       </div>
-    <button type="submit" class="btn btn-primary">Регистрация</button>
+      <div class="mb-3">
+        <label for="lastName" class="form-label">Фамилия</label>
+        <input
+                type="text"
+                class="form-control form-control-sm"
+                id="lastName"
+                name="lastName"
+                th:field="*{lastName}"
+                th:classappend="${#fields.hasErrors('lastName')}?'is-invalid alert-danger'"
+                required>
+
+      </div>
+      <div class="mb-3">
+        <label for="phoneNumber" class="form-label">Телефонен номер</label>
+        <input
+                type="text"
+                class="form-control form-control-sm"
+                id="phoneNumber"
+                name="phoneNumber"
+                th:field="*{phoneNumber}"
+                th:classappend="${#fields.hasErrors('phoneNumber')}?'is-invalid alert-danger'" required>
+        <small th:errors="*{phoneNumber}" id="phoneNumberUniqueError"
+               class="invalid-feedback text-danger"></small>
+
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Имейл</label>
+        <input
+                type="email"
+                class="form-control form-control-sm"
+                id="email"
+                name="email"
+                th:field="*{email}"
+                th:errorclass="'is-invalid alert-danger'"
+                required>
+        <div class="invalid-feedback text-danger">Моля, въведете валиден имейл адрес.</div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Парола</label>
+        <input
+                type="password"
+                class="form-control form-control-sm"
+                id="password"
+                name="password"
+                th:field="*{password}"
+                th:errorclass="'is-invalid alert-danger'"
+                required>
+        <div class="invalid-feedback text-danger">Моля, въведете парола.</div>
+      </div>
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Потвърдете паролата</label>
+        <input
+                type="password"
+                class="form-control form-control-sm"
+                id="confirmPassword"
+                name="confirmPassword"
+                th:field="*{confirmPassword}"
+                th:errorclass="'is-invalid alert-danger'"
+                required>
+        <div class="invalid-feedback text-danger">Моля, потвърдете вашата парола.</div>
+      </div>
+      <button type="submit" class="btn btn-primary">Регистрация</button>
     </div>
   </form>
 </div>

@@ -1,10 +1,9 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserLoginDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserRegisterDto;
-import Valkov.Fishing_Farm_Zasmyano.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,16 +13,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
 
     @ModelAttribute("registerData")
     public UserRegisterDto createEmptyRegisterDto() {
         return new UserRegisterDto();
-    }
-
-    @ModelAttribute("loginData")
-    public UserLoginDto createEmptyLoginDto() {
-        return new UserLoginDto();
     }
 
     @GetMapping("/register")
@@ -42,19 +35,6 @@ public class UserController {
         return "redirect:/register";
         }
 
-        if (!userService.passwordsMatch(dto)){
-            redirectAttributes.addFlashAttribute("registerData",dto);
-            redirectAttributes.addFlashAttribute(
-                    "passwordsMatch", true);
-            return "redirect:/register";
-        }
-
-        if (!userService.register(dto)) {
-            redirectAttributes.addFlashAttribute("registerData",dto);
-            redirectAttributes.addFlashAttribute(
-                    "userEmailOrPhoneTaken", true);
-            return "redirect:/register";
-        }
         return "redirect:/login";
     }
 
@@ -63,7 +43,11 @@ public class UserController {
         return "login";
     }
 
-
-
+    @PostMapping("login-error")
+    public String loginError(Model model, @ModelAttribute ("email")String email){
+        model.addAttribute("hasError",true);
+        model.addAttribute("email",email);
+        return "login";
+    }
 }
 

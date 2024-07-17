@@ -4,7 +4,7 @@ import Valkov.Fishing_Farm_Zasmyano.domain.dto.bungalow.BookInfoBungalowDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.Bungalow;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.BungalowReservation;
-import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowBookingRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.book.BungalowBookService;

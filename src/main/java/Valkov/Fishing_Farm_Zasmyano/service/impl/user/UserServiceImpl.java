@@ -1,15 +1,13 @@
 package Valkov.Fishing_Farm_Zasmyano.service.impl.user;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserRegisterDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
-import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 
 @Service
@@ -22,13 +20,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean register(UserRegisterDto dto) {
 
-        boolean isEmailOrPhoneTaken= this.userRepository.existsByEmailOrPhoneNumber(
-                dto.getEmail(), dto.getPhoneNumber());
-
-        if (isEmailOrPhoneTaken){
-            return false;
-        }
-
         User user = this.modelMapper.map(dto, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAttitude(Attitude.GOOD);
@@ -36,14 +27,22 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(user);
         return true;
     }
-    @Override
-    public boolean passwordsMatch(UserRegisterDto userRegisterDto){
-        return userRegisterDto.getPassword().equals(userRegisterDto.getConfirmPassword());
-    }
+
 
     @Override
     public String userFullName(Long userId) {
         User user = userRepository.findById(userId).get();
         return user.getFullName();
     }
+
+    @Override
+    public boolean isEmailUnique(String email) {
+        return !userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean isPhoneNumberUnique(String phoneNumber) {
+        return !userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
 }

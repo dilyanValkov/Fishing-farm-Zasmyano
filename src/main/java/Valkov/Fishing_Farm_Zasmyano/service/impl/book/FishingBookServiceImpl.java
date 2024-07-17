@@ -4,10 +4,11 @@ import Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing.BookInfoFishingDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingReservation;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingSpot;
-import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import Valkov.Fishing_Farm_Zasmyano.repository.fishing.FishingBookRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.fishing.FishingSpotRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.book.FishingBookService;
+import Valkov.Fishing_Farm_Zasmyano.service.impl.EmailService;
 import Valkov.Fishing_Farm_Zasmyano.service.user.UserUtilService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,6 +26,7 @@ public class FishingBookServiceImpl implements FishingBookService {
     private final FishingBookRepository fishingBookRepository;
     private final FishingSpotRepository fishingSpotRepository;
     private final ModelMapper modelMapper;
+    private final EmailService emailService;
 
     @Override
     public boolean book(BookFishingDto dto) {
@@ -53,6 +55,7 @@ public class FishingBookServiceImpl implements FishingBookService {
         reservation.setFishingSpot(fishingSpot);
         reservation.calculateTotalPrice();
         fishingBookRepository.save(reservation);
+        emailService.sendSimpleEmail(user.getEmail(),reservation.emailContent(),reservation.toBeConfirmed());
         return true;
     }
 

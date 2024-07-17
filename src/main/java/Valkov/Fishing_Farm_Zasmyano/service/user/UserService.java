@@ -5,8 +5,9 @@ public interface UserService {
 
 boolean register(UserRegisterDto userRegisterDto);
 
-boolean passwordsMatch(UserRegisterDto userRegisterDto);
 
 String userFullName(Long userId);
 
+boolean isEmailUnique(String email);
+boolean isPhoneNumberUnique(String phoneNumber);
 }

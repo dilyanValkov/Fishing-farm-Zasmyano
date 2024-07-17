@@ -1,5 +1,6 @@
 package Valkov.Fishing_Farm_Zasmyano.domain.model;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,15 +47,15 @@ public class BungalowReservation extends BaseEntity{
     public String toBeConfirmed() {
         StringBuilder sb = new StringBuilder();
                 sb.append(user.getFirstName())
-                .append(" направихте резервация за бунгало ")
+                .append(", направихте резервация за бунгало ")
                 .append(bungalow.getId()).append(" за времето от ")
                 .append(startDate).append(" до ").append(endDate).append(".").append(System.lineSeparator())
-                .append("Цена за престоя: ").append(totalPrice).append(".").append(System.lineSeparator())
+                .append("Цена за престоя: ").append(totalPrice).append(" лв.").append(System.lineSeparator())
                 .append("Моля, изчакайте да се свържем с Вас за потвърждение на резервацията.");
         return sb.toString();
     }
 
     public String emailContent(){
-        return "Относно направена резервация на язовир Засмяно с номер: " + getId();
+        return "Относно: направена резервация с No " + getId()+ " за настаняване на язовир Засмяно.";
     }
 }

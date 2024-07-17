@@ -1,15 +1,11 @@
-package Valkov.Fishing_Farm_Zasmyano.domain.model;
+package Valkov.Fishing_Farm_Zasmyano.domain.model.user;
 
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.w3c.dom.stylesheets.LinkStyle;
-
-import java.util.List;
 
 @Entity
 @Table(name = "roles")

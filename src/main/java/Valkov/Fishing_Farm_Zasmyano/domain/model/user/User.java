@@ -1,6 +1,8 @@
-package Valkov.Fishing_Farm_Zasmyano.domain.model;
+package Valkov.Fishing_Farm_Zasmyano.domain.model.user;
 
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.BaseEntity;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.BungalowReservation;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "users")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
 
     @Column(nullable = false,name = "first_name",length = 50)

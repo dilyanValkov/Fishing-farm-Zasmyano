@@ -1,8 +1,8 @@
 package Valkov.Fishing_Farm_Zasmyano.service.impl.user;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
-import Valkov.Fishing_Farm_Zasmyano.domain.model.User;
-import Valkov.Fishing_Farm_Zasmyano.domain.model.UserRole;
-import Valkov.Fishing_Farm_Zasmyano.domain.model.ZasmyanoUserDetails;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.user.UserRole;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.user.ZasmyanoUserDetails;
 import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,7 +25,6 @@ public class ZasmyanoUserDetailService implements UserDetailsService {
         return userRepository.findByEmail(email).map(ZasmyanoUserDetailService::map)
                 .orElseThrow(
                         () -> new UsernameNotFoundException("User with email " + email + " not found!"));
-
     }
 
     private static UserDetails map(User user){
