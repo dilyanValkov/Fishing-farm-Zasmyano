@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common::head}"></head>
+<body>
+<!-- Navigation Bar -->
+<nav th:replace="~{fragments/common::nav}"></nav>
+<div class="container-fluid my-5 profile-container">
+    <h1>Моят профил</h1>
+    <form th:action="@{/user/update}"
+          th:object="${userInfo}"
+          th:method="POST">
+        <div class="form-group">
+            <label for="firstName">Име:</label>
+            <input type="text"
+                   id="firstName"
+                   name="firstName"
+                   th:value="*{firstName}"
+                   class="form-control form-control-sm"
+                   th:classappend="${#fields.hasErrors('firstName')}?'is-invalid alert-danger'" required>
+            <small th:errors="*{firstName}" id="firstNameNameError"
+                   class="invalid-feedback text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Фамилия:</label>
+            <input type="text"
+                   id="lastName"
+                   name="lastName"
+                   th:value="*{lastName}"
+                   class="form-control form-control-sm"
+                   th:classappend="${#fields.hasErrors('lastName')}?'is-invalid alert-danger'" required>
+            <small th:errors="*{lastName}" id="lastNameError"
+                   class="invalid-feedback text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Телефонен номер:</label>
+            <input type="text"
+                   id="phoneNumber"
+                   name="phoneNumber"
+                   th:value="*{phoneNumber}"
+                   class="form-control form-control-sm"
+                   th:classappend="${#fields.hasErrors('phoneNumber')}?'is-invalid alert-danger'" required>
+            <small th:errors="*{phoneNumber}" id="phoneNumberError"
+                   class="invalid-feedback text-danger"></small>
+        </div>
+        <div th:if="${success}" class="alert alert-danger mb-3">Успешна редакция!</div>
+        <button type="submit" class="btn btn-primary btn-sm">Промени профил</button>
+    </form>
+
+    <div class="container-fluid my-5 profile-container">
+    <h2>Промени парола</h2>
+    <form th:action="@{/user/change-password}"
+          th:method="POST">
+        <div class="form-group">
+            <label for="oldPassword">Стара парола:</label>
+            <input type="password"
+                   id="oldPassword"
+                   name="oldPassword"
+                   class="form-control form-control-sm"/>
+        </div>
+        <div class="form-group">
+            <label for="newPassword">Нова парола:</label>
+            <input type="password"
+                   id="newPassword"
+                   name="newPassword"
+                   class="form-control form-control-sm"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Промени парола</button>
+    </form>
+
+    <div th:if="${passwordChangeSuccess != null}">
+        <p th:text="${passwordChangeSuccess ? 'Паролата е променена успешно.' : 'Грешна парола.'}"></p>
+    </div>
+</div>
+</div>
+<div class="container-fluid my-5 profile-container">
+    <form
+          th:action="@{/user/delete/{id}(id=*{userInfo.getId()})}"
+          th:method="DELETE">
+    <button type="submit" class="btn btn-danger btn-sm">Изтрий профил</button>
+    </form>
+</div>
+
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

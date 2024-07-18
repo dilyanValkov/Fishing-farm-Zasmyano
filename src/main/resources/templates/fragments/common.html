@@ -11,7 +11,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid justify-content-center">
-        <a class="navbar-brand" href="#" sec:authorize="isAuthenticated()" th:href="@{/home}">Риболов и отдих</a>
+        <a class="navbar-brand" sec:authorize="isAuthenticated()" th:href="@{/home}" th:text="#{nav_bar_fishing_and_relax}">Риболов и отдих</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -19,43 +19,50 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/about}">За язовира</a>
+                    <a class="nav-link" th:href="@{/about}" th:text="#{nav_bar_about}">За язовира</a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link" th:href="@{/register}">Регистрация</a>
+                    <a class="nav-link" th:href="@{/register}" th:text="#{nav_bar_register}" >Регистрация</a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link" th:href="@{/login}">Вход</a>
+                    <a class="nav-link" th:href="@{/user/login}" th:text="#{nav_bar_login}" >Вход</a>
                 </li>
 
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:href="@{/book-bungalow}">Резервирай бунгало</a>
+                    <a class="nav-link" th:href="@{/book-bungalow}" th:text="#{nav_bar_book_bungalow}" >Резервирай бунгало</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:href="@{/book-fishing}">Резервирай риболов</a>
+                    <a class="nav-link" th:href="@{/book-fishing}" th:text="#{nav_bar_book_fishing}" >Резервирай риболов</a>
                 </li>
                 <li class="nav-item" >
-                    <a class="nav-link" th:href="@{/map}">Карта</a>
-                </li>
-                <li class="nav-item" >
-                    <a class="nav-link" th:href="@{/contact}">Контакт</a>
+                    <a class="nav-link" th:href="@{/contact}" th:text="#{nav_bar_contact}" >Контакт</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:href="@{/review}">Напиши отзив</a>
+                    <a class="nav-link" th:href="@{/review}" th:text="#{nav_bar_write_review}">Напиши отзив</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/review/all-review}">Отзиви</a>
+                    <a class="nav-link" th:href="@{/review/all-review}" th:text="#{nav_bar_reviews}">Отзиви</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:href="@{/book-info}">Моите резервации</a>
+                    <a class="nav-link" th:href="@{/book-info}" th:text="#{nav_bar_my_bookings}">Моите резервации</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" th:href="@{/about}">Админ</a>
+                    <a class="nav-link" th:href="@{/admin}" th:text="#{nav_bar_admin}" >Админ</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" th:href="@{/user/profile}" th:text="#{nav_bar_user}" >Профил</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <form class="nav-link logout"  th:method="POST"
-                          th:action = "@{/logout}"
-                    ><button type="submit" class="logout">Изход</button></form>
+                    <form class="nav-link logout"  th:method="POST" th:action = "@{/logout}"
+                    ><button type="submit" class="logout" th:text="#{nav_bar_logout}">Изход</button></form>
+                </li>
+                <li class="nav-item">
+                    <form class="nav-link language-form" th:method="get">
+                        <select id="lang" name="lang" class="form-select" onchange="this.form.submit()">
+                            <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
+                            <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
+                        </select>
+                    </form>
                 </li>
             </ul>
         </div>

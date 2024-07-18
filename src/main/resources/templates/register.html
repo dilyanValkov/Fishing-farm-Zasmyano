@@ -23,10 +23,9 @@
                 id="firstName"
                 name="firstName"
                 th:field="*{firstName}"
-                th:errorclass="'is-invalid alert-danger'"
-                required
-        />
-        <div class="invalid-feedback text-danger"> Моля, въведете вашето име.</div>
+                th:classappend="${#fields.hasErrors('firstName')}?'is-invalid alert-danger'" required>
+        <small th:errors="*{firstName}" id="firstNameNameError"
+               class="invalid-feedback text-danger"></small>
       </div>
       <div class="mb-3">
         <label for="lastName" class="form-label">Фамилия</label>
@@ -36,9 +35,9 @@
                 id="lastName"
                 name="lastName"
                 th:field="*{lastName}"
-                th:classappend="${#fields.hasErrors('lastName')}?'is-invalid alert-danger'"
-                required>
-
+                th:classappend="${#fields.hasErrors('lastName')}?'is-invalid alert-danger'" required>
+        <small th:errors="*{lastName}" id="lastNameError"
+                class="invalid-feedback text-danger"></small>
       </div>
       <div class="mb-3">
         <label for="phoneNumber" class="form-label">Телефонен номер</label>
@@ -49,9 +48,8 @@
                 name="phoneNumber"
                 th:field="*{phoneNumber}"
                 th:classappend="${#fields.hasErrors('phoneNumber')}?'is-invalid alert-danger'" required>
-        <small th:errors="*{phoneNumber}" id="phoneNumberUniqueError"
-               class="invalid-feedback text-danger"></small>
-
+        <small th:errors="*{phoneNumber}" id="phoneNumberError"
+                class="invalid-feedback text-danger"></small>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Имейл</label>
@@ -61,9 +59,9 @@
                 id="email"
                 name="email"
                 th:field="*{email}"
-                th:errorclass="'is-invalid alert-danger'"
-                required>
-        <div class="invalid-feedback text-danger">Моля, въведете валиден имейл адрес.</div>
+                th:classappend="${#fields.hasErrors('email')}?'is-invalid alert-danger'" required>
+        <small  th:errors="*{email}" id="emailError"
+               class="invalid-feedback text-danger"></small>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Парола</label>
@@ -73,9 +71,9 @@
                 id="password"
                 name="password"
                 th:field="*{password}"
-                th:errorclass="'is-invalid alert-danger'"
-                required>
-        <div class="invalid-feedback text-danger">Моля, въведете парола.</div>
+                th:classappend="${#fields.hasErrors('password')}?'is-invalid alert-danger'" required>
+        <small  th:errors="*{password}" id="passwordError"
+                class="invalid-feedback text-danger"></small>
       </div>
       <div class="mb-3">
         <label for="confirmPassword" class="form-label">Потвърдете паролата</label>
@@ -85,9 +83,9 @@
                 id="confirmPassword"
                 name="confirmPassword"
                 th:field="*{confirmPassword}"
-                th:errorclass="'is-invalid alert-danger'"
-                required>
-        <div class="invalid-feedback text-danger">Моля, потвърдете вашата парола.</div>
+                th:classappend="${#fields.hasErrors('confirmPassword')}?'is-invalid alert-danger'" required>
+        <small  th:errors="*{confirmPassword}" id="confirmPasswordError"
+                class="invalid-feedback text-danger"></small>
       </div>
       <button type="submit" class="btn btn-primary">Регистрация</button>
     </div>
