@@ -1,6 +1,7 @@
 package Valkov.Fishing_Farm_Zasmyano.domain.dto.user;
 
 import Valkov.Fishing_Farm_Zasmyano.validation.anotation.UniquePhoneNumber;
+import Valkov.Fishing_Farm_Zasmyano.validation.anotation.UniquePhoneNumberExceptCurrent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -20,7 +21,7 @@ public class UserChangeInfoDto {
 
     @NotNull(message ="{add.user.phoneNumber.NotBlank}" )
     @Size(min = 10 ,message = "{add.user.phoneNumber.length}")
-    @UniquePhoneNumber
+    @UniquePhoneNumberExceptCurrent
     private String phoneNumber;
 
 }

@@ -7,15 +7,16 @@
 <div class="container-fluid my-5 profile-container">
     <h1>Моят профил</h1>
     <form th:action="@{/user/update}"
+          th:method="POST"
           th:object="${userInfo}"
-          th:method="POST">
+          novalidate>
         <div class="form-group">
             <label for="firstName">Име:</label>
             <input type="text"
+                   class="form-control form-control-sm"
                    id="firstName"
                    name="firstName"
-                   th:value="*{firstName}"
-                   class="form-control form-control-sm"
+                   th:field="*{firstName}"
                    th:classappend="${#fields.hasErrors('firstName')}?'is-invalid alert-danger'" required>
             <small th:errors="*{firstName}" id="firstNameNameError"
                    class="invalid-feedback text-danger"></small>
@@ -23,10 +24,10 @@
         <div class="form-group">
             <label for="lastName">Фамилия:</label>
             <input type="text"
+                   class="form-control form-control-sm"
                    id="lastName"
                    name="lastName"
-                   th:value="*{lastName}"
-                   class="form-control form-control-sm"
+                   th:field="*{lastName}"
                    th:classappend="${#fields.hasErrors('lastName')}?'is-invalid alert-danger'" required>
             <small th:errors="*{lastName}" id="lastNameError"
                    class="invalid-feedback text-danger"></small>
@@ -34,10 +35,10 @@
         <div class="form-group">
             <label for="phoneNumber">Телефонен номер:</label>
             <input type="text"
+                   class="form-control form-control-sm"
                    id="phoneNumber"
                    name="phoneNumber"
-                   th:value="*{phoneNumber}"
-                   class="form-control form-control-sm"
+                   th:field="*{phoneNumber}"
                    th:classappend="${#fields.hasErrors('phoneNumber')}?'is-invalid alert-danger'" required>
             <small th:errors="*{phoneNumber}" id="phoneNumberError"
                    class="invalid-feedback text-danger"></small>
@@ -49,32 +50,53 @@
     <div class="container-fluid my-5 profile-container">
     <h2>Промени парола</h2>
     <form th:action="@{/user/change-password}"
-          th:method="POST">
+          th:method="POST"
+            th:object="${passwordData}">
         <div class="form-group">
-            <label for="oldPassword">Стара парола:</label>
+            <label for="password">Стара парола:</label>
             <input type="password"
-                   id="oldPassword"
-                   name="oldPassword"
-                   class="form-control form-control-sm"/>
+                   class="form-control form-control-sm"
+                   id="password"
+                   name="password"
+                   th:field="*{oldPassword}"
+                   th:classappend="${#fields.hasErrors('oldPassword')}?'is-invalid alert-danger'" required>
+            <small th:errors="*{oldPassword}" id="oldPasswordError"
+                   class="invalid-feedback text-danger"></small>
         </div>
         <div class="form-group">
             <label for="newPassword">Нова парола:</label>
             <input type="password"
+                   class="form-control form-control-sm"
                    id="newPassword"
                    name="newPassword"
-                   class="form-control form-control-sm"/>
+                   th:field="*{newPassword}"
+                   th:classappend="${#fields.hasErrors('newPassword')}?'is-invalid alert-danger'" required>
+            <small th:errors="*{newPassword}" id="newPasswordError"
+                   class="invalid-feedback text-danger"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Въведи отново новата парола:</label>
+            <input type="password"
+                   class="form-control form-control-sm"
+                   id="confirmPassword"
+                   name="confirmPassword"
+                   th:field="*{confirmPassword}"
+                   th:classappend="${#fields.hasErrors('confirmPassword')}?'is-invalid alert-danger'" required>
+            <small th:errors="*{confirmPassword}" id="confirmPasswordError"
+                   class="invalid-feedback text-danger"></small>
         </div>
         <button type="submit" class="btn btn-primary btn-sm">Промени парола</button>
     </form>
 
-    <div th:if="${passwordChangeSuccess != null}">
-        <p th:text="${passwordChangeSuccess ? 'Паролата е променена успешно.' : 'Грешна парола.'}"></p>
-    </div>
+        <div th:if="${passwordMatch}" class="alert alert-danger mb-3">Паролата е променена успешно!</div>
+        <div th:if="${passwordMismatch}" class="alert alert-danger mb-3">Грешна парола.</div>
+
 </div>
 </div>
 <div class="container-fluid my-5 profile-container">
-    <form
-          th:action="@{/user/delete/{id}(id=*{userInfo.getId()})}"
+    <form th:object="${userInfo}"
+          th:action="@{/user/delete/{id}(id=*{getId()})}"
           th:method="DELETE">
     <button type="submit" class="btn btn-danger btn-sm">Изтрий профил</button>
     </form>

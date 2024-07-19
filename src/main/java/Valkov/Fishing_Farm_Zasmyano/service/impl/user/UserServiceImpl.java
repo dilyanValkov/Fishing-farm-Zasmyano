@@ -1,5 +1,6 @@
 package Valkov.Fishing_Farm_Zasmyano.service.impl.user;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserChangeInfoDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserChangePasswordDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserInfoDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserRegisterDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
@@ -24,14 +25,13 @@ public class UserServiceImpl implements UserService {
     private final UserUtilService userUtilService;
 
     @Override
-    public boolean register(UserRegisterDto dto) {
+    public void register(UserRegisterDto dto) {
 
         User user = this.modelMapper.map(dto, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAttitude(Attitude.GOOD);
 
         this.userRepository.save(user);
-        return true;
     }
 
     @Override
@@ -58,9 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUser(UserChangeInfoDto dto) {
-        User currentUser = userUtilService.getCurrentUser();
-        Long userId = currentUser.getId();
-        User user = userRepository.getReferenceById(userId);
+        User user = getCurrentUser();
 
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
@@ -72,5 +70,42 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public boolean isPhoneNumberUniqueExceptCurrent(String phoneNumber) {
+        User user = getCurrentUser();
+
+        if (user.getPhoneNumber().equals(phoneNumber)){
+            return true;
+        }
+
+        return !userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(UserChangePasswordDto dto) {
+        User user = getCurrentUser();
+
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public boolean passwordMatches(String oldPassword, String newPassword, String confirmPassword) {
+        User user = userUtilService.getCurrentUser();
+        String encodedPassword = user.getPassword();
+
+        return newPassword.equals(confirmPassword) && passwordEncoder.matches(oldPassword, encodedPassword);
+    }
+
+
+    private User getCurrentUser(){
+        User currentUser = userUtilService.getCurrentUser();
+        Long userId = currentUser.getId();
+        return userRepository.getReferenceById(userId);
     }
 }

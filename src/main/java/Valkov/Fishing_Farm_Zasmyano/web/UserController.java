@@ -1,8 +1,10 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserChangeInfoDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserChangePasswordDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserInfoDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserRegisterDto;
 import Valkov.Fishing_Farm_Zasmyano.service.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,9 @@ public class UserController {
 
     @ModelAttribute("changeUserData")
     public UserChangeInfoDto createUserChangeInfoDto(){return new UserChangeInfoDto();}
+
+    @ModelAttribute("passwordData")
+    public UserChangePasswordDto createUserChangePasswordDto(){return new UserChangePasswordDto();}
 
     @GetMapping("/register")
     public String viewRegister(){
@@ -67,28 +72,53 @@ public class UserController {
 
     @PostMapping("user/update")
     public String updateProfile(@Valid UserChangeInfoDto user,
-                                Model model, BindingResult bindingResult,
+                                BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes){
 
+            if (bindingResult.hasErrors()) {
+                redirectAttributes.addFlashAttribute("changeUserData", user);
+                redirectAttributes.addFlashAttribute("hasError", true);
+                redirectAttributes.addFlashAttribute(
+                        "org.springframework.validation.BindingResult.changeUserData", bindingResult);
+                return "redirect:/user/profile";
+            }
+
+            redirectAttributes.addFlashAttribute("success", true);
+            userService.updateUser(user);
+
+            return "redirect:/user/profile";
+    }
+
+    @PostMapping("user/change-password")
+    public String changePassword(@Valid UserChangePasswordDto dto,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("changeUserData", user);
+            redirectAttributes.addFlashAttribute("passwordData", dto);
             redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.changeUserData", bindingResult);
+                    "org.springframework.validation.BindingResult.passwordData", bindingResult);
             return "redirect:/user/profile";
         }
+        if (!userService.passwordMatches(dto.getOldPassword(), dto.getNewPassword(),dto.getConfirmPassword())) {
+            redirectAttributes.addFlashAttribute("passwordMismatch", true);
+        }else {
+            userService.changePassword(dto);
+            redirectAttributes.addFlashAttribute("passwordMatch", true);
+        }
 
-        redirectAttributes.addFlashAttribute("success", true);
-        userService.updateUser(user);
         return "redirect:/user/profile";
+
     }
 
     @DeleteMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
+    public String deleteUser(@PathVariable("id") Long id, HttpServletRequest request) {
+
         userService.deleteUser(id);
+        request.getSession().invalidate();
+
         return "redirect:/";
     }
-
 
 }
 
