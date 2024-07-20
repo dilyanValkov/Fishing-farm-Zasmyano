@@ -8,4 +8,5 @@ public interface FishingBookService {
     boolean book(BookFishingDto dto);
 
     List<BookInfoFishingDto> getAllBookings();
+    void deleteReservations(Long userId);
 }

@@ -16,4 +16,6 @@ public interface BungalowBookingRepository extends JpaRepository<BungalowReserva
 
     @Query("SELECT r FROM BungalowReservation r JOIN User u ON r.user.id = u.id WHERE u.email = :email ORDER BY r.createdAt DESC")
     List<BungalowReservation> findAllByEmail(String email);
+
+    void deleteAllByUser_Id(Long id);
 }

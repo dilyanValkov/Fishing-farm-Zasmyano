@@ -34,3 +34,6 @@ INSERT INTO `zasmyanodb`.`fishing_spots` (`id`, `capacity`, `day_and_night_price
 INSERT INTO `zasmyanodb`.`fishing_spots` (`id`, `capacity`, `day_and_night_price`, `day_price`, `description`) VALUES ('23', '4', '40', '25', 'Място 23');
 INSERT INTO `zasmyanodb`.`fishing_spots` (`id`, `capacity`, `day_and_night_price`, `day_price`, `description`) VALUES ('24', '3', '40', '25', 'Място 24');
 INSERT INTO `zasmyanodb`.`fishing_spots` (`id`, `capacity`, `day_and_night_price`, `day_price`, `description`) VALUES ('25', '4', '40', '25', 'Място 25');
+
+INSERT INTO `zasmyanodb`.`users` (`id`, `attitude`, `email`, `first_name`, `last_name`, `password`, `phone_number`) VALUES ('1', '4', 'dilqnvalkov@gmail.com', 'Дилян ', 'Вълков', 'feeffb9ad3e174f61de2dfc5179a9a959799046de5633a8136174c573c4c61d5c30fa955bf075c90c3a17dc2541f114a', '0899363327');
+INSERT INTO `zasmyanodb`.`users_roles` (`user_id`, `roles_id`) VALUES ('1', '1');

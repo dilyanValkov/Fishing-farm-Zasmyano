@@ -35,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteReview(Long id) {
+    public void deleteAllReviews(Long id) {
         restClient.delete()
                 .uri("http://localhost:8081/review//{id}", id)
                 .retrieve()

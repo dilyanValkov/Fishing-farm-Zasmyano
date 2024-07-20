@@ -11,4 +11,5 @@ public interface BungalowBookService {
     boolean book (BookBungalowDto dto) throws MessagingException;
     List<Bungalow> allBungalows();
     List<BookInfoBungalowDto> getAllBookings();
+    void deleteReservations(Long userId);
 }

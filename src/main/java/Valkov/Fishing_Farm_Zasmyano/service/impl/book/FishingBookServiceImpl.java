@@ -74,4 +74,9 @@ public class FishingBookServiceImpl implements FishingBookService {
         }
         return dtos;
     }
+
+    @Override
+    public void deleteReservations(Long userId) {
+        fishingBookRepository.deleteAllByUser_id(userId);
+    }
 }

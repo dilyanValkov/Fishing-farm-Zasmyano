@@ -17,4 +17,6 @@ public interface FishingBookRepository extends JpaRepository<FishingReservation,
 
     @Query("SELECT r FROM FishingReservation r JOIN User u ON r.user.id = u.id WHERE u.email = :email ORDER BY r.createdAt DESC")
     List<FishingReservation> findAllByEmail(String email);
+
+    void deleteAllByUser_id(Long userId);
 }

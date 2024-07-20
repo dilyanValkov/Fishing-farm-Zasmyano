@@ -3,6 +3,7 @@ package Valkov.Fishing_Farm_Zasmyano.domain.model.user;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.BaseEntity;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.BungalowReservation;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingReservation;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,6 @@ import java.util.List;
 @Setter
 @Table(name = "users")
 public class User extends BaseEntity {
-
 
     @Column(nullable = false,name = "first_name",length = 50)
     private String firstName;
@@ -36,7 +36,10 @@ public class User extends BaseEntity {
     private Attitude attitude;
 
     @OneToMany(mappedBy = "user")
-    private List<BungalowReservation> reservations;
+    private List<BungalowReservation> bungalowReservations;
+
+    @OneToMany(mappedBy = "user")
+    private List<FishingReservation> fishingReservations;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRole> roles = new ArrayList<>();

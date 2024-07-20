@@ -50,6 +50,12 @@ public class BungalowBookServiceImpl implements BungalowBookService {
     }
 
     @Override
+    public void deleteReservations(Long userId) {
+        Long id = userUtilService.getCurrentUser().getId();
+        bungalowBookingRepository.deleteAllByUser_Id(id);
+    }
+
+    @Override
     public boolean book(BookBungalowDto dto) throws MessagingException {
         User user = userUtilService.getCurrentUser();
 
@@ -79,5 +85,6 @@ public class BungalowBookServiceImpl implements BungalowBookService {
         emailService.sendSimpleEmail(user.getEmail(), reservation.emailContent(), reservation.toBeConfirmed());
         return true;
     }
+
 
 }

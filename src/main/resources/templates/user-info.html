@@ -98,7 +98,7 @@
     <form th:object="${userInfo}"
           th:action="@{/user/delete/{id}(id=*{getId()})}"
           th:method="DELETE">
-    <button type="submit" class="btn btn-danger btn-sm">Изтрий профил</button>
+    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Сигурни ли сте, че искате да изтрите профила си?');">Изтрий профил</button>
     </form>
 </div>
 

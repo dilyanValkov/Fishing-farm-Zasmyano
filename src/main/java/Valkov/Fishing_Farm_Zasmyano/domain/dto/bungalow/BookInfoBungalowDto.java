@@ -24,4 +24,6 @@ public class BookInfoBungalowDto {
 
     private long reservationNumber;
 
+    private String comment;
+
 }

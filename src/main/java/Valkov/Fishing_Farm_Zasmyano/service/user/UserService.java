@@ -1,8 +1,7 @@
 package Valkov.Fishing_Farm_Zasmyano.service.user;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserChangeInfoDto;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserChangePasswordDto;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserInfoDto;
-import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserRegisterDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.*;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -25,4 +24,6 @@ boolean isPhoneNumberUniqueExceptCurrent(String phoneNumber);
 void changePassword(UserChangePasswordDto dto);
 
 boolean passwordMatches(String oldPassword, String newPassword, String confirmPassword );
+
+List<UserInfoAdminDto> findAll();
 }

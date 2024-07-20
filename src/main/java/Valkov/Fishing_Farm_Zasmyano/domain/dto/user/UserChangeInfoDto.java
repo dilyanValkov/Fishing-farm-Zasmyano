@@ -1,6 +1,4 @@
 package Valkov.Fishing_Farm_Zasmyano.domain.dto.user;
-
-import Valkov.Fishing_Farm_Zasmyano.validation.anotation.UniquePhoneNumber;
 import Valkov.Fishing_Farm_Zasmyano.validation.anotation.UniquePhoneNumberExceptCurrent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
