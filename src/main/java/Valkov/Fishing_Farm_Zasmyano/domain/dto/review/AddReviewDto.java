@@ -12,10 +12,10 @@ import lombok.Setter;
 public class AddReviewDto {
     @Min(1)
     @Max(5)
-    @NotNull
+    @NotNull(message = "{add.user.firstName.NotBlank}")
     private int rating;
 
     @Size(min = 5, max = 500)
-    @NotNull
+    @NotNull(message = "{add.user.firstName.NotBlank}")
     private String comment;
 }

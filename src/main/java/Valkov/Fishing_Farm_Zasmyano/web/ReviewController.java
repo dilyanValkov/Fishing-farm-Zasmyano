@@ -42,7 +42,7 @@ public class ReviewController {
             redirectAttributes.addFlashAttribute("addReviewDto", dto);
             redirectAttributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.addReviewDto", bindingResult);
-            return "redirect:/review/add";
+            return "redirect:/review";
         }
 
         reviewService.createReview(dto);

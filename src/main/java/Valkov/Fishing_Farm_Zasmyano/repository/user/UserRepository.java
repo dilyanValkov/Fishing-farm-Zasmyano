@@ -1,4 +1,4 @@
-package Valkov.Fishing_Farm_Zasmyano.repository;
+package Valkov.Fishing_Farm_Zasmyano.repository.user;
 
 import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -3,7 +3,7 @@ import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.user.UserRole;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.user.ZasmyanoUserDetails;
-import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
+import Valkov.Fishing_Farm_Zasmyano.repository.user.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -30,8 +30,7 @@
                                name="rating"
                                value="5"
                                th:field="*{rating}"
-                               th:errorclass="'is-invalid alert-danger'"
-                               required>
+                               th:classappend="${#fields.hasErrors('rating')}?'is-invalid alert-danger'" required>
                         <label for="5-stars" class="star">&#9733;</label>
                         <input type="radio" id="4-stars" name="rating" value="4">
                         <label for="4-stars" class="star">&#9733;</label>
@@ -41,44 +40,26 @@
                         <label for="2-stars" class="star">&#9733;</label>
                         <input type="radio" id="1-star" name="rating" value="1">
                         <label for="1-star" class="star">&#9733;</label>
-                        <div class="invalid-feedback text-danger"> Моля, въведете вашето име.</div>
+                        <small th:errors="*{rating}" id="ratingError" class="invalid-feedback text-danger"></small>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="comment" class="form-label">Коментар</label>
+                    <label th:for="comment" class="form-label">Коментар</label>
                     <textarea class="form-control"
                               id="comment"
                               name="comment"
                               rows="3"
                               th:field="*{comment}"
-                              th:errorclass="'is-invalid alert-danger'"
-                              required
-                    ></textarea>
+                              th:classappend="${#fields.hasErrors('comment')}?'is-invalid alert-danger'" required>
+                    </textarea>
+                    <small th:errors="*{rating}" id="commentError" class="invalid-feedback text-danger"></small>
                 </div>
-                <div class="invalid-feedback text-danger"> Моля, въведете вашето име.</div>
                 <button type="submit" class="btn btn-primary">Изпрати</button>
             </form>
         </div>
     </div>
-    <h2 class="text-center mt-5">Отзиви на клиенти</h2>
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div th:each="review : ${reviews}" class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${review.name}">Име на клиента</h5>
-                    <h6 class="card-subtitle mb-2 text-muted" th:text="${review.date}">Дата</h6>
-                    <div class="star-rating">
-                        <span th:each="star : ${#numbers.sequence(1, review.rating)}" class="star">&#9733;</span>
-                        <span th:each="star : ${#numbers.sequence(review.rating + 1, 5)}" class="star text-muted">&#9733;</span>
-                    </div>
-                    <p class="card-text" th:text="${review.comment}">Коментар</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
-<!-- Footer -->
 <footer th:replace = "~{fragments/common::footer}"> </footer>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>

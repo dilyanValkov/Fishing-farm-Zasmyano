@@ -6,14 +6,14 @@ import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.user.UserRole;
-import Valkov.Fishing_Farm_Zasmyano.repository.UserRepository;
+import Valkov.Fishing_Farm_Zasmyano.repository.user.UserRepository;
+import Valkov.Fishing_Farm_Zasmyano.repository.user.UserRoleRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.ReviewService;
 import Valkov.Fishing_Farm_Zasmyano.service.book.BungalowBookService;
 import Valkov.Fishing_Farm_Zasmyano.service.book.FishingBookService;
 import Valkov.Fishing_Farm_Zasmyano.service.user.UserService;
 import Valkov.Fishing_Farm_Zasmyano.service.user.UserUtilService;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final FishingBookService fishingBookService;
     private final BungalowBookService bungalowBookService;
     private final ReviewService reviewService;
+    private final UserRoleRepository userRoleRepository;
 
     public UserServiceImpl(ModelMapper modelMapper,
                            UserRepository userRepository,
@@ -40,7 +41,8 @@ public class UserServiceImpl implements UserService {
                            UserUtilService userUtilService,
                            FishingBookService fishingBookService,
                            BungalowBookService bungalowBookService,
-                           @Lazy ReviewService reviewService) {
+                           @Lazy ReviewService reviewService,
+                           UserRoleRepository userRoleRepository) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -48,18 +50,17 @@ public class UserServiceImpl implements UserService {
         this.fishingBookService = fishingBookService;
         this.bungalowBookService = bungalowBookService;
         this.reviewService = reviewService;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @Override
     public void register(UserRegisterDto dto) {
-        //TODO role menage
-       // List<UserRole> roles = new ArrayList<>();
-      //  roles.add(new UserRole(Role.USER));
 
         User user = this.modelMapper.map(dto, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAttitude(Attitude.GOOD);
-      //  user.getRoles().add();
+        setUserInitialRole(user);
+
         this.userRepository.save(user);
     }
 
@@ -136,7 +137,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserInfoAdminDto> findAll() {
+    public List<UserInfoAdminDto> findAll()     {
         List<UserInfoAdminDto> dtos = new ArrayList<>();
         List<BookInfoFishingDto> fishingBookings = fishingBookService.getAllBookings();
         List<BookInfoBungalowDto> bungalowBookings = bungalowBookService.getAllBookings();
@@ -161,9 +162,16 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
     private User getCurrentUser(){
         User currentUser = userUtilService.getCurrentUser();
         Long userId = currentUser.getId();
         return userRepository.getReferenceById(userId);
+    }
+
+    private void setUserInitialRole(User user){
+        List<UserRole> roles = userRoleRepository.findAll();
+        roles.removeIf(userRole -> userRole.getRole().equals(Role.ADMIN));
+        user.setRoles(roles);
     }
 }
