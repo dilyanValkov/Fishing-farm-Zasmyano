@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление на резервации за риболов</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .form-inline select, .form-inline button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav th:replace="~{fragments/common::nav}"></nav>
+
+<main>
+    <section>
+        <h2 class="text-center">Управление на резервации за риболов</h2>
+        <div class="container-fluid" >
+            <table>
+                <thead>
+                <tr>
+                    <th>Рез. No</th>
+                    <th>Място</th>
+                    <th>Риболов</th>
+                    <th>Рибари</th>
+                    <th>От</th>
+                    <th>До</th>
+                    <th>Създадена</th>
+                    <th>Статус</th>
+                    <th>Потребител</th>
+                    <th>Сума</th>
+                    <th>Промени статус</th>
+                    <th>Изтрий запис</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                    th:each="fishingBook : ${fishingBookings}"
+                    th:object="${fishingBook}">
+                    <td th:text="*{reservationNumber}">Резервация No:</td>
+                    <td th:text="*{spotNumber}">Риболовно място</td>
+                    <td th:text="*{fishingHours.text}">Вид риболов</td>
+                    <td th:text="*{fishermanCount}">Брой рибари</td>
+                    <td th:text="*{#temporals.format(startDate, 'dd-MM-yyyy')}">От</td>
+                    <td th:text="*{#temporals.format(endDate, 'dd-MM-yyyy')}">До</td>
+                    <td th:text="*{#temporals.format(createdAt, 'dd-MM-yyyy-HH:mm')}">Създадена на </td>
+                    <td th:text="*{status.text}">Статус</td>
+                    <td th:text="*{userFullName}">Потребител</td>
+                    <td th:text="*{totalPrice}">Сума</td>
+                    <td>
+                        <form th:action="@{/admin/book/fishing/updateStatus}"
+                              th:method="POST"
+                              th:object="${fishingBook}">
+                            <select th:field="*{status}">
+                                <option value="UNCONFIRMED" th:selected="*{status == 'UNCONFIRMED'}">Непотвърдена</option>
+                                <option value="CONFIRMED" th:selected="*{status == 'CONFIRMED'}">Потвърдена</option>
+                                <option value="REJECTED" th:selected="*{status == 'REJECTED'}">Отхвърлена</option>
+                            </select>
+                            <input type="hidden" th:name="reservationNumber" th:value="${fishingBook.getReservationNumber()}" />
+                            <button type="submit">Update</button>
+                        </form>
+                    <td>
+                        <form   th:object="${fishingBook}"
+                                th:action="@{/admin/book/fishing/delete/{id}(id=*{getId()})}"
+                                th:method="DELETE" >
+                            <input type="hidden" name="id" th:value="${user.id}"/>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Сигурни ли сте, че искате да резервацията?');">Изтрий</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<footer th:replace = "~{fragments/common::footer}"> </footer>
+</body>
+</html>

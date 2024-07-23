@@ -48,9 +48,6 @@ public class FishingController {
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
 
-
-       FishingSpot fishingSpot = fishingSpotRepository.findById(dto.getFishingSpot().getNumber()).get();
-
         if (dto.getEndDate().isBefore(dto.getStartDate())) {
             redirectAttributes.addFlashAttribute("dateError", dto);
             return "redirect:/book-fishing";
@@ -62,10 +59,12 @@ public class FishingController {
                     "org.springframework.validation.BindingResult.bookingData", bindingResult);
             return "redirect:/book-fishing";
         }
-        if (dto.getFishermanCount() > fishingSpot.getCapacity()){
+
+        if (fishingBookService.isFishingSpotHasCapacity(dto)){
             redirectAttributes.addFlashAttribute("countError",dto);
             return "redirect:/book-fishing";
         }
+
         boolean book = fishingBookService.book(dto);
 
         if (!book) {

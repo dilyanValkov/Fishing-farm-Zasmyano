@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,22 +51,18 @@
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')"
                 id="admin-option">
-                    <a class="nav-link" th:href="@{/admin}" th:text="#{nav_bar_admin}">Админ</a>
+                    <a class="nav-link" th:text="#{nav_bar_admin}">Админ</a>
                     <ul class="navbar-nav ms-auto d-none ">
                         <li class="nav-item" sec:authorize="isAuthenticated()">
-                            <a class="nav-link" th:href="@{/book-info}" th:text="#{nav_bar_my_bookings}">Моите
-                                резервации</a>
+                            <a class="nav-link" th:href="@{/admin/user}" th:text="#{nav_bar_admin_user_profile}">Потребителски профил</a>
                         </li>
                         <li class="nav-item" sec:authorize="isAuthenticated()">
-                            <a class="nav-link" th:href="@{/book-info}" th:text="#{nav_bar_my_bookings}">Моите
-                                резервации</a>
+                            <a class="nav-link" th:href="@{/admin/book/bungalow}" th:text="#{nav_bar_admin_book_bungalow}">Резервации бунгала</a>
                         </li>
                         <li class="nav-item" sec:authorize="isAuthenticated()">
-                            <a class="nav-link" th:href="@{/book-info}" th:text="#{nav_bar_my_bookings}">Моите
-                                резервации</a>
+                            <a class="nav-link" th:href="@{/admin/book/fishing}" th:text="#{nav_bar_admin_book_fishing}">Резервации риболов</a>
                         </li>
                     </ul>
-
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" th:href="@{/user/profile}" th:text="#{nav_bar_user}">Профил</a>

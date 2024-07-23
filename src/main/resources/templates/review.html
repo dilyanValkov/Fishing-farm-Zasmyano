@@ -31,6 +31,7 @@
                                value="5"
                                th:field="*{rating}"
                                th:classappend="${#fields.hasErrors('rating')}?'is-invalid alert-danger'" required>
+                        <small th:errors="*{rating}" id="ratingError" class="invalid-feedback text-danger"></small>
                         <label for="5-stars" class="star">&#9733;</label>
                         <input type="radio" id="4-stars" name="rating" value="4">
                         <label for="4-stars" class="star">&#9733;</label>
@@ -40,7 +41,6 @@
                         <label for="2-stars" class="star">&#9733;</label>
                         <input type="radio" id="1-star" name="rating" value="1">
                         <label for="1-star" class="star">&#9733;</label>
-                        <small th:errors="*{rating}" id="ratingError" class="invalid-feedback text-danger"></small>
                     </div>
                 </div>
                 <div class="mb-3">

@@ -41,7 +41,7 @@
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
-            <small class="invalid-feedback text-danger">You must select a style!</small>
+            <small class="invalid-feedback text-danger">Моля, селектирайте бунгало.</small>
         </div>
         <div class="mb-3">
             <label for="startDate" class="form-label">Дата на настаняване</label>
@@ -66,7 +66,9 @@
         <div class="mb-3">
             <label for="comment" class="form-label">Коментар</label>
             <input type="text" class="form-control comment-field" id="comment" name="comment"
-                   th:field="*{comment}">
+                   th:field="*{comment}"
+                   th:errorclass="'is-invalid alert-danger'">
+            <div class="invalid-feedback text-danger"> 25 максимално позволени символа.</div>
         </div >
         <div class="text-center">
         <button type="submit" class="btn btn-primary">Резервирай</button>

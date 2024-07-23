@@ -87,12 +87,13 @@
         <div class="mb-3">
             <label for="comment" class="form-label">Коментар</label>
             <input type="text" class="form-control comment-field" id="comment" name="comment"
-                   th:field="*{comment}">
+                   th:field="*{comment}"
+                   th:errorclass="'is-invalid alert-danger'">
+            <div class="invalid-feedback text-danger">25 максимално позволени символа.</div>
         </div >
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Резервирай</button>
         </div>
-
     </form>
 </div>
 

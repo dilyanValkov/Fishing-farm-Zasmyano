@@ -177,11 +177,17 @@
   color: #DC3545;
 }
 
+#admin-option ul{
+    position: absolute;
+    background-color: #323B3F;
+    z-index: 99;
+}
 
-#admin-option:hover{
+#admin-option:hover {
   ul{
-    display: block;
+    display: block !important;
   }
 }
+
 
 

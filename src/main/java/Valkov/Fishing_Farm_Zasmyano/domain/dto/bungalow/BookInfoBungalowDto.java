@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BookInfoBungalowDto {
+    private Long id;
 
     private LocalDate startDate;
 
@@ -26,4 +27,5 @@ public class BookInfoBungalowDto {
 
     private String comment;
 
+    private String userFullName;
 }

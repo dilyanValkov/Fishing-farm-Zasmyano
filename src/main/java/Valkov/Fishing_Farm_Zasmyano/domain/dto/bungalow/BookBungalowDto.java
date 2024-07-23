@@ -21,6 +21,6 @@ public class BookBungalowDto {
     @NotNull
     private LocalDate endDate;
 
-    @Size(max = 400)
+    @Size(max = 25)
     private String comment;
 }

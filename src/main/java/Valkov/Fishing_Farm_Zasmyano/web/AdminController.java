@@ -1,15 +1,18 @@
 package Valkov.Fishing_Farm_Zasmyano.web;
 
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.bungalow.BookInfoBungalowDto;
+import Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing.BookInfoFishingDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.user.UserInfoAdminDto;
 import Valkov.Fishing_Farm_Zasmyano.service.AdminService;
+import Valkov.Fishing_Farm_Zasmyano.service.book.BungalowBookService;
+import Valkov.Fishing_Farm_Zasmyano.service.book.FishingBookService;
 import Valkov.Fishing_Farm_Zasmyano.service.user.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -18,32 +21,82 @@ public class AdminController {
 
     private final UserService userService;
     private final AdminService adminService;
+    private final BungalowBookService bungalowBookService;
+    private final FishingBookService fishingBookService;
 
 
     @ModelAttribute("user")
-    public UserInfoAdminDto createDto(){return new UserInfoAdminDto();}
-    @GetMapping()
-    public String adminPage(Model model){
+    public UserInfoAdminDto createUserDto(){return new UserInfoAdminDto();}
+
+    @ModelAttribute("bungalowBooking")
+    public BookInfoBungalowDto createBungalowDto(){return new BookInfoBungalowDto();}
+
+    @ModelAttribute("fishingBook")
+    public BookInfoFishingDto createFishingDto(){return new BookInfoFishingDto();}
+
+    @GetMapping("/user")
+    public String adminUserPage(Model model){
         List<UserInfoAdminDto> users = userService.findAll();
         model.addAttribute("users", users);
-        return "admin";
+        return "admin-user";
     }
 
-    @PostMapping("/updateRole")
-    public String updateRole(UserInfoAdminDto dto){
+    @PostMapping("/user/updateRole")
+    public String updateUserRole(UserInfoAdminDto dto){
         adminService.setUserRole(dto.getId(),dto.getRole());
-        return "redirect:/admin";
+        return "redirect:/admin/user";
     }
 
-    @PostMapping("/updateAttitude")
-    public String updateAttitude(UserInfoAdminDto dto){
+    @PostMapping("/user/updateAttitude")
+    public String updateUserAttitude(UserInfoAdminDto dto){
         adminService.setUserAttitude(dto.getId(),dto.getAttitude().toString());
-        return "redirect:/admin";
+        return "redirect:/admin/user";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
-        return "redirect:/admin";
+        return "redirect:/admin/user";
+    }
+
+    @GetMapping("/book/bungalow")
+    public String viewBungalowBooking(Model model){
+        List<BookInfoBungalowDto> bookings = bungalowBookService.getAllBookings();
+        model.addAttribute("bungalowBookings", bookings);
+        return "admin-book-bungalow";
+    }
+
+    @PostMapping("/book/bungalow/updateStatus")
+    public String updateBookBungalowStatus(BookInfoBungalowDto dto){
+        adminService.setBookBungalowStatus(dto.getReservationNumber(), dto.getStatus().toString());
+        return "redirect:/admin/book/bungalow";
+    }
+
+    @DeleteMapping("/book/bungalow/delete/{id}")
+    public String deleteBookBungalow(@PathVariable("id") Long id) {
+        adminService.deleteBookBungalowById(id);
+        return "redirect:/admin/book/bungalow";
+    }
+
+
+    @GetMapping("/book/fishing")
+    public String viewFishingBooking(Model model){
+
+        List<BookInfoFishingDto> bookings = fishingBookService.getAllBookings();
+
+        model.addAttribute("fishingBookings", bookings);
+        return "admin-book-fishing";
+    }
+
+    @PostMapping("/book/fishing/updateStatus")
+    public String updateBookFishingStatus(BookInfoFishingDto dto){
+       // adminService.setBookBungalowStatus(dto.getReservationNumber(), dto.getStatus().toString());
+        return "redirect:/admin/book/fishing";
+    }
+
+    @DeleteMapping("/book/fishing/delete/{id}")
+    public String deleteBookFishing(@PathVariable("id") Long id) {
+        adminService.deleteBookFishingById(id);
+        return "redirect:/admin/book/fishing";
     }
 }

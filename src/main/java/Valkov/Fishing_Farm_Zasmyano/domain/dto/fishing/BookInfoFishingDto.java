@@ -1,5 +1,6 @@
 package Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing;
 
+import Valkov.Fishing_Farm_Zasmyano.domain.enums.FishingHours;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BookInfoFishingDto {
+    private Long id;
+
     private LocalDate startDate;
 
     private LocalDate endDate;
@@ -26,5 +29,7 @@ public class BookInfoFishingDto {
 
     private int fishermanCount;
 
-    private String type;
+    private FishingHours fishingHours;
+
+    private String userFullName;
 }

@@ -60,7 +60,7 @@ public class FishingBookServiceImpl implements FishingBookService {
     }
 
     @Override
-    public List<BookInfoFishingDto> getAllBookings() {
+    public List<BookInfoFishingDto> getAllUserBookings() {
         User user = userUtilService.getCurrentUser();
         String email = user.getEmail();
         List<FishingReservation> allByEmail = this.fishingBookRepository.findAllByEmail(email);
@@ -68,8 +68,8 @@ public class FishingBookServiceImpl implements FishingBookService {
         for (FishingReservation reservation : allByEmail) {
             BookInfoFishingDto mapped = modelMapper.map(reservation, BookInfoFishingDto.class);
             mapped.setSpotNumber(reservation.getFishingSpot().getId());
+            mapped.setUserFullName(reservation.getUser().getFullName());
             mapped.setReservationNumber(reservation.getId());
-            mapped.setType(reservation.getFishingHours().getText());
             dtos.add(mapped);
         }
         return dtos;
@@ -78,5 +78,27 @@ public class FishingBookServiceImpl implements FishingBookService {
     @Override
     public void deleteReservations(Long userId) {
         fishingBookRepository.deleteAllByUser_id(userId);
+    }
+
+    @Override
+    public boolean isFishingSpotHasCapacity(BookFishingDto dto) {
+       FishingSpot fishingSpot = fishingSpotRepository.findById(dto.getFishingSpot().getNumber()).get();
+       return dto.getFishermanCount() > fishingSpot.getCapacity();
+    }
+
+    @Override
+    public List<BookInfoFishingDto> getAllBookings() {
+
+        List<FishingReservation> bookings = fishingBookRepository.findAll();
+        List<BookInfoFishingDto> dtos = new ArrayList<>();
+
+        for (FishingReservation booking : bookings) {
+            BookInfoFishingDto mapped = modelMapper.map(booking, BookInfoFishingDto.class);
+            mapped.setUserFullName(booking.getUser().getFullName());
+            mapped.setReservationNumber(booking.getId());
+            mapped.setSpotNumber(booking.getFishingSpot().getId());
+            dtos.add(mapped);
+        }
+        return dtos;
     }
 }

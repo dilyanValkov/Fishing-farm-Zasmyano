@@ -54,7 +54,7 @@
                     <td th:text="${user.role}">Роля</td>
                     <td th:text="${user.attitude.text}">Поведение</td>
                     <td>
-                        <form th:action="@{/admin/updateRole}"
+                        <form th:action="@{/admin/user/updateRole}"
                               th:method="POST"
                               th:object="${user}">
                             <select th:field="*{role}">
@@ -66,7 +66,7 @@
                         </form>
                     <td>
                         <!-- Status Form -->
-                        <form th:action="@{/admin/updateAttitude}"
+                        <form th:action="@{/admin/user/updateAttitude}"
                               th:method="POST"
                               th:object="${user}">
                             <select th:field="*{attitude}">
@@ -82,10 +82,10 @@
                     </td>
                     <td>
                         <form   th:object="${user}"
-                                th:action="@{/admin/delete/{id}(id=*{getId()})}"
+                                th:action="@{/admin/user/delete/{id}(id=*{getId()})}"
                                 th:method="DELETE" >
                             <input type="hidden" name="id" th:value="${user.id}"/>
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Сигурни ли сте, че искате да изтрите профила си?');">Изтрий профил</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Сигурни ли сте, че искате да изтриете профила си?');">Изтрий профил</button>
                         </form>
                     </td>
                 </tr>

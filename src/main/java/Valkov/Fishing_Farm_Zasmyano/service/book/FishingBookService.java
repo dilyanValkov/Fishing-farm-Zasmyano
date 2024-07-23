@@ -7,6 +7,11 @@ public interface FishingBookService {
 
     boolean book(BookFishingDto dto);
 
-    List<BookInfoFishingDto> getAllBookings();
+    List<BookInfoFishingDto> getAllUserBookings();
+
     void deleteReservations(Long userId);
+
+    boolean isFishingSpotHasCapacity(BookFishingDto dto);
+
+    List<BookInfoFishingDto> getAllBookings();
 }

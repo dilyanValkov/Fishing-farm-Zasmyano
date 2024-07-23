@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Service
 @RequiredArgsConstructor
 public class BungalowBookServiceImpl implements BungalowBookService {
@@ -33,7 +36,7 @@ public class BungalowBookServiceImpl implements BungalowBookService {
     }
 
     @Override
-    public List<BookInfoBungalowDto> getAllBookings() {
+    public List<BookInfoBungalowDto> getAllUserBookings() {
         User user = userUtilService.getCurrentUser();
         String email = user.getEmail();
 
@@ -51,8 +54,21 @@ public class BungalowBookServiceImpl implements BungalowBookService {
 
     @Override
     public void deleteReservations(Long userId) {
-        Long id = userUtilService.getCurrentUser().getId();
-        bungalowBookingRepository.deleteAllByUser_Id(id);
+        bungalowBookingRepository.deleteAllByUser_Id(userId);
+    }
+
+    @Override
+    public List<BookInfoBungalowDto> getAllBookings() {
+        List<BungalowReservation> bookings = bungalowBookingRepository.findAll();
+        List<BookInfoBungalowDto> dtos = new ArrayList<>();
+        for (BungalowReservation booking : bookings) {
+            BookInfoBungalowDto mapped = modelMapper.map(booking, BookInfoBungalowDto.class);
+            mapped.setUserFullName(booking.getUser().getFullName());
+            mapped.setReservationNumber(booking.getId());
+            mapped.setBungalowNumber(booking.getBungalow().getId());
+            dtos.add(mapped);
+        }
+        return dtos;
     }
 
     @Override

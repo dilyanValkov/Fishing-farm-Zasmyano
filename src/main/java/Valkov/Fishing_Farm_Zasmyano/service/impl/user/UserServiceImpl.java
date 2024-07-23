@@ -139,8 +139,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserInfoAdminDto> findAll()     {
         List<UserInfoAdminDto> dtos = new ArrayList<>();
-        List<BookInfoFishingDto> fishingBookings = fishingBookService.getAllBookings();
-        List<BookInfoBungalowDto> bungalowBookings = bungalowBookService.getAllBookings();
+        List<BookInfoFishingDto> fishingBookings = fishingBookService.getAllUserBookings();
+        List<BookInfoBungalowDto> bungalowBookings = bungalowBookService.getAllUserBookings();
         List<User> users = userRepository.findAll();
 
         for (User user : users) {

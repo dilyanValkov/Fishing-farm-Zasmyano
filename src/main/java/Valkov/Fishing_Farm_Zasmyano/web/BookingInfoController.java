@@ -19,8 +19,8 @@ public class BookingInfoController {
 
     @GetMapping("/book-info")
     public String viewBooking(Model model){
-        List<BookInfoBungalowDto> allBungalowBookings = bungalowBookingService.getAllBookings();
-        List<BookInfoFishingDto> allFishingBookings = fishingBookService.getAllBookings();
+        List<BookInfoBungalowDto> allBungalowBookings = bungalowBookingService.getAllUserBookings();
+        List<BookInfoFishingDto> allFishingBookings = fishingBookService.getAllUserBookings();
 
         model.addAttribute("allBungalowBookings",allBungalowBookings);
         model.addAttribute("allFishingBookings",allFishingBookings);

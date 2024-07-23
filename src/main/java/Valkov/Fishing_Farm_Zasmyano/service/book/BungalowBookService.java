@@ -10,6 +10,7 @@ import java.util.List;
 public interface BungalowBookService {
     boolean book (BookBungalowDto dto) throws MessagingException;
     List<Bungalow> allBungalows();
-    List<BookInfoBungalowDto> getAllBookings();
+    List<BookInfoBungalowDto> getAllUserBookings();
     void deleteReservations(Long userId);
+    List<BookInfoBungalowDto> getAllBookings();
 }
