@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface BungalowBookingRepository extends JpaRepository<BungalowReservation, Long> {
+public interface BungalowBookRepository extends JpaRepository<BungalowReservation, Long> {
     List<BungalowReservation> findByBungalowIdAndStartDateBetween(
             Long id, LocalDate startDate, LocalDate endDate);
 

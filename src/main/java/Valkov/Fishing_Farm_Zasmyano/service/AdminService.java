@@ -1,6 +1,5 @@
 package Valkov.Fishing_Farm_Zasmyano.service;
 
-
 public interface AdminService {
 
     void setUserRole(Long userId, String role);
@@ -12,4 +11,6 @@ public interface AdminService {
     void deleteBookBungalowById(Long id);
 
     void deleteBookFishingById(Long id);
+
+    void setBookFishingStatus(Long id, String status);
 }

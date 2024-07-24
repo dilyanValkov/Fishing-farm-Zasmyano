@@ -31,5 +31,5 @@ public class BookInfoFishingDto {
 
     private FishingHours fishingHours;
 
-    private String userFullName;
+    private String userInfo;
 }

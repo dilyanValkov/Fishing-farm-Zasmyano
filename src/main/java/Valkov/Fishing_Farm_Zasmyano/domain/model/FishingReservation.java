@@ -53,25 +53,30 @@ public class FishingReservation extends BaseEntity{
         totalPrice = price.multiply(BigDecimal.valueOf(days)).multiply(BigDecimal.valueOf(fishermanCount));
     }
 
-    public String toBeConfirmed() {
+    public String statusMessage (String status) {
         StringBuilder sb = new StringBuilder();
-        sb.append(user.getFirstName())
-                .append(", направихте резервация за риболовно място No ").append(fishingSpot.getId());
-                if (startDate.isEqual(endDate)){
-                    sb.append(" за ").append(startDate).append(System.lineSeparator());
-                }else {
-                    sb.append(" за времето от ")
-                      .append(startDate).append(" до ").append(endDate).append(System.lineSeparator());
-                }
-                sb.append(" за ").append(fishermanCount);
-                if(fishermanCount==1){
-                  sb.append(" риболовец.").append(System.lineSeparator());
-                }else {
-                  sb.append(" риболовци.").append(System.lineSeparator());
-                }
-
-                sb.append("Цена за риболова: ").append(totalPrice).append(" лв.").append(System.lineSeparator())
-                .append("Моля, изчакайте да се свържем с Вас за потвърждение на резервацията.");
+        if (status.equals("UNCONFIRMED")){
+            sb.append(user.getFirstName())
+                    .append(", направихте резервация за риболовно място No ").append(fishingSpot.getId());
+            if (startDate.isEqual(endDate)){
+                sb.append(" за ").append(startDate).append(System.lineSeparator());
+            }else {
+                sb.append(" за времето от ")
+                        .append(startDate).append(" до ").append(endDate).append(System.lineSeparator());
+            }
+            sb.append(" за ").append(fishermanCount);
+            if(fishermanCount==1){
+                sb.append(" риболовец.").append(System.lineSeparator());
+            }else {
+                sb.append(" риболовци.").append(System.lineSeparator());
+            }
+            sb.append("Цена за риболова: ").append(totalPrice).append(" лв.").append(System.lineSeparator())
+                    .append("Моля, изчакайте да се свържем с Вас за потвърждение на резервацията.");
+        }else if (status.equals("REJECTED")){
+            sb.append("Резервацията Ви е отказана.");
+        }else if (status.equals("CONFIRMED")){
+            sb.append("Резервацията Ви е потвърдена.Моля, заповядайте на риболов и отдих.");
+        }
         return sb.toString();
     }
 

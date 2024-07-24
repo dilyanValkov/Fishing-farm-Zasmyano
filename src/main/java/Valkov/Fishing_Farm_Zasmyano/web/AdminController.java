@@ -36,7 +36,7 @@ public class AdminController {
 
     @GetMapping("/user")
     public String adminUserPage(Model model){
-        List<UserInfoAdminDto> users = userService.findAll();
+        List<UserInfoAdminDto> users = userService.findAll().reversed();
         model.addAttribute("users", users);
         return "admin-user";
     }
@@ -61,7 +61,7 @@ public class AdminController {
 
     @GetMapping("/book/bungalow")
     public String viewBungalowBooking(Model model){
-        List<BookInfoBungalowDto> bookings = bungalowBookService.getAllBookings();
+        List<BookInfoBungalowDto> bookings = bungalowBookService.getAllBookings().reversed();
         model.addAttribute("bungalowBookings", bookings);
         return "admin-book-bungalow";
     }
@@ -81,16 +81,14 @@ public class AdminController {
 
     @GetMapping("/book/fishing")
     public String viewFishingBooking(Model model){
-
-        List<BookInfoFishingDto> bookings = fishingBookService.getAllBookings();
-
+        List<BookInfoFishingDto> bookings = fishingBookService.getAllBookings().reversed();
         model.addAttribute("fishingBookings", bookings);
         return "admin-book-fishing";
     }
 
     @PostMapping("/book/fishing/updateStatus")
     public String updateBookFishingStatus(BookInfoFishingDto dto){
-       // adminService.setBookBungalowStatus(dto.getReservationNumber(), dto.getStatus().toString());
+        adminService.setBookFishingStatus(dto.getReservationNumber(), dto.getStatus().toString());
         return "redirect:/admin/book/fishing";
     }
 

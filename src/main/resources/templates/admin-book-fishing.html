@@ -40,11 +40,10 @@
                     <th>Място</th>
                     <th>Риболов</th>
                     <th>Рибари</th>
-                    <th>От</th>
-                    <th>До</th>
-                    <th>Създадена</th>
+                    <th>Дата</th>
+                    <th>Създадена на</th>
                     <th>Статус</th>
-                    <th>Потребител</th>
+                    <th>Име/телефон/поведение</th>
                     <th>Сума</th>
                     <th>Промени статус</th>
                     <th>Изтрий запис</th>
@@ -58,11 +57,13 @@
                     <td th:text="*{spotNumber}">Риболовно място</td>
                     <td th:text="*{fishingHours.text}">Вид риболов</td>
                     <td th:text="*{fishermanCount}">Брой рибари</td>
-                    <td th:text="*{#temporals.format(startDate, 'dd-MM-yyyy')}">От</td>
-                    <td th:text="*{#temporals.format(endDate, 'dd-MM-yyyy')}">До</td>
-                    <td th:text="*{#temporals.format(createdAt, 'dd-MM-yyyy-HH:mm')}">Създадена на </td>
+                    <td th:unless ="*{startDate.equals(endDate)}"
+                        th:text="*{#temporals.format(startDate, 'dd.M') + '-'+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
+                    <td th:if ="*{startDate.equals(endDate)}"
+                        th:text="*{#temporals.format(startDate, 'dd.MM.yyyy')}">Дата</td>
+                    <td th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy HH:mm')}">Създадена на </td>
                     <td th:text="*{status.text}">Статус</td>
-                    <td th:text="*{userFullName}">Потребител</td>
+                    <td th:text="*{userInfo}">Потребител</td>
                     <td th:text="*{totalPrice}">Сума</td>
                     <td>
                         <form th:action="@{/admin/book/fishing/updateStatus}"

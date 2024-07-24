@@ -47,4 +47,12 @@ public class User extends BaseEntity {
     public String getFullName(){
         return firstName + " " + lastName;
     }
+
+    public String getUserInfo(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(firstName).append(" ").append(lastName)
+                .append(System.lineSeparator()).append("/")
+                .append(phoneNumber).append("/").append(attitude.getText());
+        return sb.toString();
+    }
 }

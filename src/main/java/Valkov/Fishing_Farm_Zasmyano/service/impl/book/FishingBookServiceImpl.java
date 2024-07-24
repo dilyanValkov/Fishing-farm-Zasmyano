@@ -55,7 +55,10 @@ public class FishingBookServiceImpl implements FishingBookService {
         reservation.setFishingSpot(fishingSpot);
         reservation.calculateTotalPrice();
         fishingBookRepository.save(reservation);
-        emailService.sendSimpleEmail(user.getEmail(),reservation.emailContent(),reservation.toBeConfirmed());
+        emailService.sendSimpleEmail(user.getEmail(),
+                reservation.emailContent(),
+                reservation.statusMessage(reservation.getStatus().toString()));
+
         return true;
     }
 
@@ -68,7 +71,7 @@ public class FishingBookServiceImpl implements FishingBookService {
         for (FishingReservation reservation : allByEmail) {
             BookInfoFishingDto mapped = modelMapper.map(reservation, BookInfoFishingDto.class);
             mapped.setSpotNumber(reservation.getFishingSpot().getId());
-            mapped.setUserFullName(reservation.getUser().getFullName());
+            mapped.setUserInfo(reservation.getUser().getUserInfo());
             mapped.setReservationNumber(reservation.getId());
             dtos.add(mapped);
         }
@@ -94,7 +97,7 @@ public class FishingBookServiceImpl implements FishingBookService {
 
         for (FishingReservation booking : bookings) {
             BookInfoFishingDto mapped = modelMapper.map(booking, BookInfoFishingDto.class);
-            mapped.setUserFullName(booking.getUser().getFullName());
+            mapped.setUserInfo(booking.getUser().getUserInfo());
             mapped.setReservationNumber(booking.getId());
             mapped.setSpotNumber(booking.getFishingSpot().getId());
             dtos.add(mapped);

@@ -36,13 +36,12 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Резервация No</th>
+                    <th>Рез. No</th>
                     <th>Бунгало</th>
-                    <th>От</th>
-                    <th>До</th>
-                    <th>Създадена</th>
+                    <th>Дата</th>
+                    <th>Създадена на</th>
                     <th>Статус</th>
-                    <th>Потребител</th>
+                    <th>Име/телефон/поведение</th>
                     <th>Сума</th>
                     <th>Забележка</th>
                     <th>Промени статус</th>
@@ -55,11 +54,10 @@
                     th:object="${bungalowBooking}">
                     <td th:text="*{reservationNumber}">Резервация No:</td>
                     <td th:text="*{bungalowNumber}">Бунгало</td>
-                    <td th:text="*{#temporals.format(startDate, 'dd-MM-yyyy')}">От</td>
-                    <td th:text="*{#temporals.format(endDate, 'dd-MM-yyyy')}">До</td>
-                    <td th:text="*{#temporals.format(createdAt, 'dd-MM-yyyy-HH:mm')}">Създадена на </td>
+                    <td th:text="*{#temporals.format(startDate, 'dd.M') + '-'+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
+                    <td th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy HH:mm')}">Създадена на </td>
                     <td th:text="*{status.text}">Статус</td>
-                    <td th:text="*{userFullName}">ID Потребител</td>
+                    <td th:text="*{userInfo}">Име/телефон/поведение</td>
                     <td th:text="*{totalPrice}">Сума</td>
                     <td th:text="*{comment}">Забележка</td>
                     <td>

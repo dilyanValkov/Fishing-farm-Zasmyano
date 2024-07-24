@@ -22,16 +22,16 @@
                     <h5 class="card-title">Риболовно място <span th:text="*{spotNumber}">Spot</span></h5>
                     <p class= "card-text">Резервация No:
                         <span th:text= "' ' + *{reservationNumber}  + ', направена на: '
-                              + *{#temporals.format(createdAt, 'dd-MM-yyyy')} + ' г. в '
+                              + *{#temporals.format(createdAt, 'dd.MM.yyyy')} + ' г. в '
                               + *{#temporals.format(createdAt, 'HH:mm')} + ' ч.'" >Booking</span></p>
                     <p class="card-text">Резервирано
                         <span th:if ="*{startDate.equals(endDate)}"
-                              th:text="' на: ' + *{#temporals.format(startDate, 'dd-MM-yyyy')} +' г.'">Date</span>
+                              th:text="' на: ' + *{#temporals.format(startDate, 'dd.MM.yyyy')} +' г.'">Date</span>
                         <span th:unless ="*{startDate.equals(endDate)}"
-                              th:text="' за времето от: ' + *{#temporals.format(startDate, 'dd-MM')}
-                              + ' до ' + *{#temporals.format(endDate, 'dd-MM-yyyy')} +' г.'">Date</span></p>
+                              th:text="' за времето от: ' + *{#temporals.format(startDate, 'dd.MM')}
+                              + ' до ' + *{#temporals.format(endDate, 'dd.MM.yyyy')} +' г.'">Date</span></p>
                     <p class= "card-text" >Брой риболовци:
-                        <span th:text="' ' + *{fishermanCount} + ' за ' + *{type} + ' риболов'">Price</span></p>
+                        <span th:text="' ' + *{fishermanCount} + ' за ' + *{fishingHours.text} + ' риболов'">Price</span></p>
                     <p class="card-text">Обща сума:
                         <span th:text="' ' + *{totalPrice} + ' лв.'">Price</span></p>
                     <p class="card-text">Статус:
@@ -53,12 +53,12 @@
                     <h5 class="card-title">Бунгало <span th:text="*{bungalowNumber}">Bungalow</span></h5>
                     <p class= "card-text">Резервация No:
                         <span th:text= "' ' + *{reservationNumber}  + ', направена на: '
-                              + *{#temporals.format(createdAt, 'dd-MM-yyyy')} + ' г. в '
+                              + *{#temporals.format(createdAt, 'dd.MM.yyyy')} + ' г. в '
                               + *{#temporals.format(createdAt, 'HH:mm')} + ' ч.'" >Time</span></p>
                     <p class="card-text">Дата на настаняване:
-                        <span th:text="*{#temporals.format(startDate, 'dd-MM-yyyy')+' г.'}">Check-In Date</span></p>
+                        <span th:text="*{#temporals.format(startDate, 'dd.MM.yyyy')+' г.'}">Check-In Date</span></p>
                     <p class="card-text">Дата на напускане:
-                        <span th:text="*{#temporals.format(endDate, 'dd-MM-yyyy')+' г.'}">Check-Out Date</span></p>
+                        <span th:text="*{#temporals.format(endDate, 'dd.MM.yyyy')+' г.'}">Check-Out Date</span></p>
                     <p class="card-text">Обща сума:
                         <span th:text="' ' + *{totalPrice} + ' лв.'">Price</span></p>
                     <p class="card-text">Статус:

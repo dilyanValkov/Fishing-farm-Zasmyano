@@ -4,9 +4,11 @@ import Valkov.Fishing_Farm_Zasmyano.domain.enums.Attitude;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Role;
 import Valkov.Fishing_Farm_Zasmyano.domain.enums.Status;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.BungalowReservation;
+import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingReservation;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.user.User;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.user.UserRole;
-import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowBookingRepository;
+import Valkov.Fishing_Farm_Zasmyano.repository.bungalow.BungalowBookRepository;
+import Valkov.Fishing_Farm_Zasmyano.repository.fishing.FishingBookRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.user.UserRepository;
 import Valkov.Fishing_Farm_Zasmyano.repository.user.UserRoleRepository;
 import Valkov.Fishing_Farm_Zasmyano.service.AdminService;
@@ -22,7 +24,9 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
-    private final BungalowBookingRepository bungalowBookingRepository;
+    private final BungalowBookRepository bungalowBookRepository;
+    private final FishingBookRepository fishingBookRepository;
+    private final EmailService emailService;
 
     @Transactional
     @Override
@@ -53,18 +57,35 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     @Override
     public void setBookBungalowStatus(Long id, String status) {
-        BungalowReservation booking = bungalowBookingRepository.getReferenceById(id);
+        BungalowReservation booking = bungalowBookRepository.getReferenceById(id);
         booking.setStatus(Status.valueOf(status));
-        bungalowBookingRepository.save(booking);
+        bungalowBookRepository.save(booking);
+        emailService.sendSimpleEmail(booking.getUser().getEmail(),
+                booking.emailContent(),
+                booking.statusMessage(booking.getStatus().toString()));
     }
+
     @Transactional
     @Override
     public void deleteBookBungalowById(Long id) {
-        bungalowBookingRepository.deleteById(id);
+        bungalowBookRepository.deleteById(id);
     }
 
+    @Transactional
+    @Override
+    public void setBookFishingStatus(Long id, String status) {
+        FishingReservation booking = fishingBookRepository.getReferenceById(id);
+        booking.setStatus(Status.valueOf(status));
+        fishingBookRepository.save(booking);
+        emailService.sendSimpleEmail(booking.getUser().getEmail(),
+                booking.emailContent(),
+                booking.statusMessage(booking.getStatus().toString()));
+    }
+
+    @Transactional
     @Override
     public void deleteBookFishingById(Long id) {
-
+        fishingBookRepository.deleteById(id);
     }
+
 }

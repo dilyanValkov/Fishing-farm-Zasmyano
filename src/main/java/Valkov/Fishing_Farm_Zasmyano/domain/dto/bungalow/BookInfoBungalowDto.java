@@ -27,5 +27,5 @@ public class BookInfoBungalowDto {
 
     private String comment;
 
-    private String userFullName;
+    private String userInfo;
 }
