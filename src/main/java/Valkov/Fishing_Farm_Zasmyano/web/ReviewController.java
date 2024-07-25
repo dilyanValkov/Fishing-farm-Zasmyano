@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -28,6 +29,7 @@ public class ReviewController {
     public ReviewDto reviewDto(){
         return new ReviewDto();
     }
+
     @GetMapping()
     public String viewReview(){
         return "review";
@@ -63,5 +65,13 @@ public class ReviewController {
 
         model.addAttribute("allReviews", allReviews);
         return "all-review";
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteReviewById(@PathVariable Long id) {
+
+        reviewService.deleteReviewById(id);
+        return "redirect:/review/all-review";
     }
 }

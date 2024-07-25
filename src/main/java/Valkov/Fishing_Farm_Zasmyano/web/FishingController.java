@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
+import java.util.List;
+
 @Transactional
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class FishingController {
     public BookFishingDto bookFishingDto(){
         return new BookFishingDto();
     }
+
     @ModelAttribute(name = "allFishingSpots")
     public FishingSpotNumber[] fishingSpotNumbers(){
         return FishingSpotNumber.values();
@@ -39,6 +42,9 @@ public class FishingController {
     }
     @GetMapping("/book-fishing")
     public String viewFishing(Model model){
+        List<FishingSpot> fishingSpots = fishingSpotRepository.findAll();
+
+        model.addAttribute("fishingSpots",fishingSpots);
         model.addAttribute("today", LocalDate.now());
         return "book-fishing";
     }
@@ -74,6 +80,7 @@ public class FishingController {
 
         return "redirect:/book-info";
     }
+
 
 
 }

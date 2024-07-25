@@ -9,8 +9,8 @@
 <div class="hero" >
     <div class="overlay"></div>
     <div class="hero-content text-center text-white">
-        <h1>Направи своята резервация</h1>
-        <p>Experience the best sport fishing adventure</p>
+        <h1>Здравей, <span th:text="${user.toString()} + '!'"></span></h1>
+        <p>Направи своята резервация за риболов или нощувка в бунгало</p>
         <a th:href="@{/book-bungalow}" class="btn btn-primary">Нощувка</a>
         <a th:href="@{/book-fishing}" class="btn btn-primary">Риболов</a>
     </div>
@@ -21,8 +21,7 @@
     <div class="row">
         <div class="col-md-6">
             <h2>За риболова</h2>
-            <p>Our sport fishing lake offers a serene environment for anglers of all levels. With fully stocked waters and beautiful bungalows, we provide an unforgettable experience.</p>
-            <a href="#" class="btn btn-secondary">Read More</a>
+            <p>В язовира има богат избор от трофейни сладководни риби. </p>
         </div>
         <div class="col-md-6" >
             <h2>Текущи метеоданни:</h2>

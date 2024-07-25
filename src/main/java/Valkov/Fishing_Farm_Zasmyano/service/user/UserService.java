@@ -26,4 +26,6 @@ void changePassword(UserChangePasswordDto dto);
 boolean passwordMatches(String oldPassword, String newPassword, String confirmPassword );
 
 List<UserInfoAdminDto> findAll();
+
+String getUserEmail(Long userId);
 }

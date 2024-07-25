@@ -24,6 +24,15 @@
         .form-inline select, .form-inline button {
             margin-right: 10px;
         }
+        nav {
+            margin-bottom: 40px;
+        }
+        body, html {
+            height: 100%;
+        }
+        main {
+            min-height: calc(100vh - 160px);
+        }
     </style>
 </head>
 <body>
@@ -39,6 +48,7 @@
                     <th>Име</th>
                     <th>Фамилия</th>
                     <th>Имейл</th>
+                    <th>Телефонен номер</th>
                     <th>Роля</th>
                     <th>Поведение</th>
                     <th>Промени роля</th>
@@ -51,6 +61,7 @@
                     <td th:text="${user.firstName}">Име</td>
                     <td th:text="${user.lastName}">Фамилия</td>
                     <td th:text="${user.email}">Имейл</td>
+                    <td th:text="${user.phoneNumber}">Имейл</td>
                     <td th:text="${user.role}">Роля</td>
                     <td th:text="${user.attitude.text}">Поведение</td>
                     <td>

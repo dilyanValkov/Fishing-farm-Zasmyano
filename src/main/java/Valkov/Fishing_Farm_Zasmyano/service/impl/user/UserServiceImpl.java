@@ -96,18 +96,18 @@ public class UserServiceImpl implements UserService {
 
         userRepository.saveAndFlush(user);
     }
+
     @Transactional
     @Override
     @Lazy
     public void deleteUser(Long id) {
         fishingBookService.deleteReservations(id);
         bungalowBookService.deleteReservations(id);
-        reviewService.deleteAllReviews(id);
+        reviewService.deleteAllUserReviews(id);
         userRepository.deleteById(id);
     }
-
-    @Override
     @Transactional
+    @Override
     public boolean isPhoneNumberUniqueExceptCurrent(String phoneNumber) {
         User user = getCurrentUser();
 
@@ -118,8 +118,8 @@ public class UserServiceImpl implements UserService {
         return !userRepository.existsByPhoneNumber(phoneNumber);
     }
 
-    @Override
     @Transactional
+    @Override
     public void changePassword(UserChangePasswordDto dto) {
         User user = getCurrentUser();
 
@@ -161,7 +161,11 @@ public class UserServiceImpl implements UserService {
         return dtos;
     }
 
-
+    @Transactional
+    @Override
+    public String getUserEmail(Long userId) {
+        return userRepository.getReferenceById(userId).getEmail();
+    }
 
     private User getCurrentUser(){
         User currentUser = userUtilService.getCurrentUser();

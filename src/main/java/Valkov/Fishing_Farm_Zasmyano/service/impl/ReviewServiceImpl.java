@@ -35,15 +35,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteAllReviews(Long id) {
-        restClient.delete()
-                .uri("http://localhost:8081/review//{id}", id)
-                .retrieve()
-                .toBodilessEntity();
-    }
-
-
-    @Override
     public List<ReviewDto> getAllReviews() {
         List<ReviewDto> reviews = restClient.get()
                 .uri("http://localhost:8081/review")
@@ -54,17 +45,36 @@ public class ReviewServiceImpl implements ReviewService {
         if (reviews != null) {
             for (ReviewDto review : reviews) {
                 review.setFullName(userService.userFullName(review.getUser()));
+                review.setEmail(userService.getUserEmail(review.getUser()));
             }
         }
+
         return reviews;
     }
 
     @Override
     public List<ReviewDto> getAllReviewsByUserId(Long userId) {
         return restClient.get()
-                .uri("http://localhost:8081/review//user{id}", userId)
+                .uri("http://localhost:8081/review/user{id}", userId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
     }
+
+    @Override
+    public void deleteAllUserReviews(Long id) {
+        restClient.delete()
+                .uri("http://localhost:8081/review/delete/user/{id}", id)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    @Override
+    public void deleteReviewById(Long id) {
+        restClient.delete()
+                .uri("http://localhost:8081/review/delete/{id}", id)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
 }

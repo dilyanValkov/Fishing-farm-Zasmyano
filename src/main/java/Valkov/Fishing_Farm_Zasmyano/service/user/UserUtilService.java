@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public interface UserUtilService {
 
     User getCurrentUser();
+
     Authentication getAuthentication();
 
     UserDetails getUserDetails();

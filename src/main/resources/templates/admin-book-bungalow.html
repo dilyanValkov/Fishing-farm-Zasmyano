@@ -24,6 +24,15 @@
         .form-inline select, .form-inline button {
             margin-right: 10px;
         }
+        nav {
+            margin-bottom: 40px;
+        }
+        body, html {
+            height: 100%;
+        }
+        main {
+            min-height: calc(100vh - 160px);
+        }
     </style>
 </head>
 <body>
@@ -54,7 +63,7 @@
                     th:object="${bungalowBooking}">
                     <td th:text="*{reservationNumber}">Резервация No:</td>
                     <td th:text="*{bungalowNumber}">Бунгало</td>
-                    <td th:text="*{#temporals.format(startDate, 'dd.M') + '-'+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
+                    <td th:text="*{#temporals.format(startDate, 'dd.M') + ' - '+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
                     <td th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy HH:mm')}">Създадена на </td>
                     <td th:text="*{status.text}">Статус</td>
                     <td th:text="*{userInfo}">Име/телефон/поведение</td>

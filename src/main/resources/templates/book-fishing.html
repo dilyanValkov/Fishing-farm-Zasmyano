@@ -2,12 +2,28 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/common::head}"></head>
 <body>
-<!-- Navigation Bar -->
+
 <nav th:replace="~{fragments/common::nav}"></nav>
-<!-- Booking Form Section -->
+
 <div class="container my-5 booking-form">
     <h2 style="margin-bottom: 40px; text-align: center;">Резервирай риболов</h2>
     <form th:action="@{/book-fishing}" th:method="post" th:object="${bookingData}">
+
+        <div class="container my-5">
+            <h2 style="margin-bottom: 30px; text-align: center;">Нашите риболовни места</h2>
+            <div class="row justify-content-center">
+
+                <div class="col-md-4 fishing-card">
+
+                    <img id="bungalowImage" src="" alt= "Bungalow Image">
+                    <h3 id="number" ></h3>
+                    <p id="description" ></p>
+                    <p id="capacity" ></p>
+                    <p id="dayPrice" ></p>
+                    <p id="dayAndNightPrice"></p>
+                </div>
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="mb-2">
@@ -17,7 +33,8 @@
                     id="fishingSpot"
                     name="fishingSpot"
                     th:field="*{fishingSpot}"
-                    th:errorclass="'is-invalid alert-danger'">
+                    th:errorclass="'is-invalid alert-danger'"
+                    onchange="showFishingSpot(this.selectedIndex)">
                 <option value="">Избери риболовно място</option>
                 <option th:each="spot: ${allFishingSpots}"
                         th:value="${spot}"
@@ -83,14 +100,6 @@
         <div th:if="${bookStatus}" class="alert alert-danger mb-3">
             Риболовното място е резервирано за посочените дати.
         </div>
-
-        <div class="mb-3">
-            <label for="comment" class="form-label">Коментар</label>
-            <input type="text" class="form-control comment-field" id="comment" name="comment"
-                   th:field="*{comment}"
-                   th:errorclass="'is-invalid alert-danger'">
-            <div class="invalid-feedback text-danger">25 максимално позволени символа.</div>
-        </div >
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Резервирай</button>
         </div>
@@ -100,5 +109,24 @@
 <!-- Footer -->
 <footer th:replace = "~{fragments/common::footer}"> </footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/fishing-section.js}"></script>
+<script>
+    function showFishingSpot(id){
+      fetch('http://localhost:8080/fishing-spots/' + id)
+          .then(e => e.json())
+          .then(data => {
+
+              //TODO
+              const number = document.getElementById('number');
+              const description = document.getElementById('description');
+              const capacity = document.getElementById('capacity');
+              const dayPrice = document.getElementById('dayPrice');
+              const dayAndNightPrice = document.getElementById('dayAndNightPrice');
+
+
+          })
+          .catch(failure => console.log(failure))
+    }
+</script>
 </body>
 </html>

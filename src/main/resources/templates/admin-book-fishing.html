@@ -24,6 +24,15 @@
         .form-inline select, .form-inline button {
             margin-right: 10px;
         }
+        nav {
+            margin-bottom: 40px;
+        }
+        body, html {
+            height: 100%;
+        }
+        main {
+            min-height: calc(100vh - 160px);
+        }
     </style>
 </head>
 <body>
@@ -58,7 +67,7 @@
                     <td th:text="*{fishingHours.text}">Вид риболов</td>
                     <td th:text="*{fishermanCount}">Брой рибари</td>
                     <td th:unless ="*{startDate.equals(endDate)}"
-                        th:text="*{#temporals.format(startDate, 'dd.M') + '-'+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
+                        th:text="*{#temporals.format(startDate, 'dd.M') + ' - '+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
                     <td th:if ="*{startDate.equals(endDate)}"
                         th:text="*{#temporals.format(startDate, 'dd.MM.yyyy')}">Дата</td>
                     <td th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy HH:mm')}">Създадена на </td>

@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>язовир Засмяно - Отзиви на клиенти</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/styles.css}" rel="stylesheet">
+<style>
+    .card-body {
+        position: relative;
+    }
+    .delete-button {
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+    }
+</style>
 </head>
 <body>
 <!-- Navigation Bar -->
@@ -26,6 +36,11 @@
                             <span th:if="${review.rating < 5}" th:each="star : ${#numbers.sequence(review.rating + 1, 5)}" class="star text-muted">&#9733;</span>
                         </div>
                         <p class="card-text" th:text="*{comment}">Коментар</p>
+                        <div th:if="${#authentication.name == review.email}">
+                            <form th:action="@{/review/delete/{id}(id=${review.getId()})}"  th:method="DELETE">
+                                <button type="submit" class="btn btn-danger delete-button" onclick="return confirm('Сигурни ли сте, че искате да изтриете този коментар?');">Изтрий коментара</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
