@@ -37,10 +37,14 @@ public class FishingBookServiceImpl implements FishingBookService {
         if (byId.isEmpty()){
             return false;
         }
-        List<FishingReservation> existingReservations = fishingBookRepository.findByFishingSpot_IdAndEndDateAfterAndStartDateBefore(
-                number, dto.getStartDate(), dto.getEndDate());
-        List<FishingReservation> conflicts = fishingBookRepository.findByFishingSpot_IdAndStartDateBetween(
-                number, dto.getStartDate(), dto.getEndDate());
+        List<Status> statuses = new ArrayList<>();
+        statuses.add(Status.UNCONFIRMED);
+        statuses.add(Status.CONFIRMED);
+
+        List<FishingReservation> existingReservations = fishingBookRepository.findByFishingSpot_IdAndEndDateAfterAndStartDateBeforeAndStatusIsIn(
+                number, dto.getStartDate(), dto.getEndDate(),statuses);
+        List<FishingReservation> conflicts = fishingBookRepository.findByFishingSpot_IdAndStartDateBetweenAndStatusIsIn(
+                number, dto.getStartDate(), dto.getEndDate(),statuses);
 
         if (!existingReservations.isEmpty() || !conflicts.isEmpty()){
             return false;

@@ -8,7 +8,7 @@
 <!-- Login Section -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="col-md-6">
-        <h2 class="text-center mb-4">Моля, въведете вашите данни.</h2>
+        <h2  th:text="#{login_header}" class="text-center mb-4">Моля, въведете вашите данни.</h2>
         <form
                 th:action="@{/login}"
                 th:method="POST"
@@ -16,7 +16,7 @@
                 novalidate>
             <!-- Email Field -->
             <div class="mb-3">
-                <label for="email" class="form-label">Имейл</label>
+                <label for="email" class="form-label"  th:text="#{login_email}">Имейл</label>
                 <input type="email"
                        class="form-control"
                        id="email"
@@ -26,7 +26,7 @@
             </div>
             <!-- Password Field -->
             <div class="mb-3">
-                <label for="password" class="form-label">Парола</label>
+                <label for="password" class="form-label"  th:text="#{login_password}">Парола</label>
                 <input
                         type="password"
                         class="form-control"
@@ -34,11 +34,11 @@
                         name="password"
                         required>
             </div>
-            <div th:if="${hasError}" class="alert alert-danger mb-3">
+            <div th:if="${hasError}" class="alert alert-danger mb-3" th:text="#{login_error}" >
                 Грешен имейл или парола. Моля, опитайте отново.
             </div>
             <!-- Login Button -->
-            <button type="submit" class="btn btn-primary w-100">Влез</button>
+            <button type="submit" class="btn btn-primary w-100" th:text="#{login_button}">Влез</button>
         </form>
     </div>
 </div>

@@ -3,6 +3,7 @@ package Valkov.Fishing_Farm_Zasmyano.web;
 import Valkov.Fishing_Farm_Zasmyano.domain.dto.fishing.FishingSpotInfoDto;
 import Valkov.Fishing_Farm_Zasmyano.domain.model.FishingSpot;
 import Valkov.Fishing_Farm_Zasmyano.repository.fishing.FishingSpotRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class FishingRestController {
     private final FishingSpotRepository fishingSpotRepository;
     private final ModelMapper modelMapper;
+
+@Transactional
 @GetMapping("/{id}")
     public ResponseEntity<FishingSpotInfoDto> fishingSpotInfo(@PathVariable Long id) {
     if (!fishingSpotRepository.existsById(id)) {

@@ -79,11 +79,14 @@ public class BungalowBookServiceImpl implements BungalowBookService {
             return false;
         }
 
+        List<Status> statuses = new ArrayList<>();
+        statuses.add(Status.UNCONFIRMED);
+        statuses.add(Status.CONFIRMED);
+
         List<BungalowReservation> existingReservations = bungalowBookRepository
-                .findByBungalowIdAndStartDateBetween(
-                        dto.getNumber(), dto.getStartDate(), dto.getEndDate());
-        List<BungalowReservation> conflicts = bungalowBookRepository.findByBungalowIdAndEndDateAfterAndStartDateBefore(dto.getNumber(),
-                        dto.getEndDate(), dto.getStartDate());
+                .findByBungalowIdAndStartDateBetweenAndStatusIsIn(dto.getNumber(), dto.getStartDate(), dto.getEndDate(), statuses);
+        List<BungalowReservation> conflicts = bungalowBookRepository
+                .findByBungalowIdAndStartDateBetweenAndStatusIsIn(dto.getNumber(), dto.getEndDate(), dto.getStartDate(),statuses);
 
         if (!existingReservations.isEmpty()||!conflicts.isEmpty()){
             return false;

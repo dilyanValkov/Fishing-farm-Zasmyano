@@ -9,18 +9,17 @@
     <h2 style="margin-bottom: 40px; text-align: center;">Резервирай риболов</h2>
     <form th:action="@{/book-fishing}" th:method="post" th:object="${bookingData}">
 
-        <div class="container my-5">
-            <h2 style="margin-bottom: 30px; text-align: center;">Нашите риболовни места</h2>
+        <div class="container my-5 d-none " id="fishing-spot-section">
+            <h2 style="margin-bottom: 30px; text-align: center;">Риболовно място</h2>
             <div class="row justify-content-center">
 
-                <div class="col-md-4 fishing-card">
-
-                    <img id="bungalowImage" src="" alt= "Bungalow Image">
+                <div class="col-md-8 fishing-card">
+                    <img id="fishingSpotImage" src="" alt= "fishingSpot Image">
                     <h3 id="number" ></h3>
-                    <p id="description" ></p>
-                    <p id="capacity" ></p>
-                    <p id="dayPrice" ></p>
-                    <p id="dayAndNightPrice"></p>
+                    <div class="wrap"><span>Описание: </span><span id="description" ></span> </div>
+                    <div class="wrap"><span>Kапацитет: </span><span id="capacity" ></span><span> риболовци</span> </div>
+                    <div class="wrap"><span>Дневна такса: </span><span id="dayPrice" ></span><span> лв./риболовец</span></div>
+                    <div class="wrap"><span>Денонощна такса: </span><span id="dayAndNightPrice" ></span><span> лв./риболовец</span> </div>
                 </div>
             </div>
         </div>
@@ -112,17 +111,24 @@
 <script th:src="@{/js/fishing-section.js}"></script>
 <script>
     function showFishingSpot(id){
+      if (id === ' ' ) {return}
       fetch('http://localhost:8080/fishing-spots/' + id)
           .then(e => e.json())
           .then(data => {
 
-              //TODO
-              const number = document.getElementById('number');
-              const description = document.getElementById('description');
-              const capacity = document.getElementById('capacity');
-              const dayPrice = document.getElementById('dayPrice');
-              const dayAndNightPrice = document.getElementById('dayAndNightPrice');
+            document.getElementById('fishing-spot-section').classList.toggle('d-none',false)
 
+            document.getElementById('fishingSpotImage').src = 'images/fishingSpot' + id + '.jpg';
+
+            document.getElementById('number').textContent = id;
+
+            document.getElementById('description').textContent = data.description;
+
+            document.getElementById('capacity').textContent = data.capacity;
+
+            document.getElementById('dayPrice').textContent = data.dayPrice;
+
+            document.getElementById('dayAndNightPrice').textContent = data.dayAndNightPrice;
 
           })
           .catch(failure => console.log(failure))

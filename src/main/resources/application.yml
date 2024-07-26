@@ -1,15 +1,14 @@
 spring:
   datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
     url: "jdbc:mysql://localhost:3306/zasmyanoDB?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
     username: root
     password: MyNewPass
-  thymeleaf: # Thymeleaf
+  thymeleaf:
       cache: false
       mode: HTML
       encoding: UTF-8
       prefix: file:src/main/resources/templates/
-      resources: # Static resources
+      resources:
         static-locations: file:src/main/resources/static
         cache:
           period: 0
@@ -46,11 +45,15 @@ spring:
           starttls:
             enable: true
         api:
-          from: ${mail}
+          to: ${business-mail}
 
 review:
   api:
     baseUrl: "http://localhost:8081"
 
-server:
-  port: 8082
+google:
+  maps:
+    api-key: ${mapKey}
+
+
+
