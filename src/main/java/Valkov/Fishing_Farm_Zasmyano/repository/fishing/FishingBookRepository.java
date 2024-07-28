@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 @Repository
@@ -20,4 +22,6 @@ public interface FishingBookRepository extends JpaRepository<FishingReservation,
     List<FishingReservation> findAllByEmail(String email);
 
     void deleteAllByUser_id(Long userId);
+
+    void deleteAllByStatus(Status status);
 }

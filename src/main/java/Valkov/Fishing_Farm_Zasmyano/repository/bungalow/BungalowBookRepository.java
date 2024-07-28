@@ -19,4 +19,6 @@ public interface BungalowBookRepository extends JpaRepository<BungalowReservatio
     List<BungalowReservation> findAllByEmail(String email);
 
     void deleteAllByUser_Id(Long id);
+
+    void deleteAllByStatus(Status status);
 }
