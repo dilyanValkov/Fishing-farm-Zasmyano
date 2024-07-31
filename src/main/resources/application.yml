@@ -55,5 +55,6 @@ google:
   maps:
     api-key: ${mapKey}
 
-
+whether:
+  api-key: ${whetherKey}
 

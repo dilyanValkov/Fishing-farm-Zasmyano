@@ -16,11 +16,13 @@ import com.valkov.fishingfarm.service.user.UserUtilService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -66,7 +68,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String userFullName(Long userId) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(()
+                -> new NoSuchElementException("User with" + userId + "not found!") );
         return user.getFullName();
     }
 
@@ -106,6 +109,7 @@ public class UserServiceImpl implements UserService {
         reviewService.deleteAllUserReviews(id);
         userRepository.deleteById(id);
     }
+
     @Transactional
     @Override
     public boolean isPhoneNumberUniqueExceptCurrent(String phoneNumber) {
