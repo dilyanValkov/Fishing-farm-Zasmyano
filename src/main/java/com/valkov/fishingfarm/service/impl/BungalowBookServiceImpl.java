@@ -69,7 +69,7 @@ public class BungalowBookServiceImpl implements BungalowBookService {
     }
 
     @Override
-    public boolean book(BookBungalowDto dto) throws MessagingException {
+    public boolean book(BookBungalowDto dto) throws MessagingException  {
         User user = userUtilService.getCurrentUser();
 
         Optional<Bungalow> byId = bungalowRepository.findById(dto.getNumber());

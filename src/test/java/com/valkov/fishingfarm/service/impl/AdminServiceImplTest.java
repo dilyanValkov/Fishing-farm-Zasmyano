@@ -48,6 +48,9 @@ public class AdminServiceImplTest {
     @Captor
     private ArgumentCaptor<User> userCaptor;
 
+    @Captor
+    public ArgumentCaptor<Long> captor = ArgumentCaptor.forClass(Long.class);
+
     @BeforeEach
     void setUp(){
         toTest = new AdminServiceImpl(
@@ -120,6 +123,8 @@ public class AdminServiceImplTest {
     void testDeleteBookBungalowById(){
         toTest.deleteBookBungalowById(1L);
         verify(mockBungalowBookRepository, times(1)).deleteById(1L);
+        verify(mockBungalowBookRepository).deleteById(captor.capture());
+        Assertions.assertEquals(1L,captor.getValue());
     }
 
     @Test
@@ -136,6 +141,8 @@ public class AdminServiceImplTest {
     void testDeleteBookFishingById(){
         toTest.deleteBookFishingById(1L);
         verify(mockFishingBookRepository, times(1)).deleteById(1L);
+        verify(mockFishingBookRepository).deleteById(captor.capture());
+        Assertions.assertEquals(1L,captor.getValue());
     }
 
     private User user(){

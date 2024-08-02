@@ -34,6 +34,13 @@ review:
   api:
     baseUrl: "http://localhost:8081"
 
+google:
+  maps:
+    api-key:
+
+whether:
+  api-key:
+
 
 
 

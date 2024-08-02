@@ -3,7 +3,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -17,5 +18,5 @@ public class Bungalow extends BaseEntity{
     private BigDecimal price;
 
     @OneToMany(targetEntity = BungalowReservation.class, mappedBy = "bungalow")
-    private Set<BungalowReservation> reservations;
+    private List<BungalowReservation> reservations;
 }
