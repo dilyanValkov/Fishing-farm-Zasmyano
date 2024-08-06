@@ -15,7 +15,7 @@ public class ContactDto {
 
     public String form(){
         return "С вас се свърза " + name + ".\n\n"
-                + "Съобшение: \n\n"
+                + "Съобщение: \n\n"
                 + message + ".\n\n" +
                 "Email за обратна връзка: " + email;
     }

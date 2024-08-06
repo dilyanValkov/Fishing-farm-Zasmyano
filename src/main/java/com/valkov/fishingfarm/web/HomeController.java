@@ -26,8 +26,6 @@ public class HomeController {
     @Value("${spring.mail.properties.mail.api.to}")
     private String businessEmail;
 
-    private final String EMAIL_CONTENT = "Връзка с клиент";
-
     @GetMapping("/")
     public String viewIndex(){
        return "index";
@@ -35,11 +33,8 @@ public class HomeController {
 
     @GetMapping("/home")
     public String viewHome(Model model){
-        
-        double latitude = 43.402563;
-        double longitude = 27.716726;
 
-        JsonNode weatherData = weatherService.getWeather(latitude, longitude);
+        JsonNode weatherData = weatherService.getWeather();
         model.addAttribute("temperature", weatherData.path("main").path("temp").asText());
         model.addAttribute("wind", weatherData.path("wind").path("speed").asText());
 
@@ -71,7 +66,8 @@ public class HomeController {
 
     @PostMapping("/contact")
     public String sendForm(ContactDto dto){
-        emailService.sendSimpleEmail(businessEmail, EMAIL_CONTENT, dto.form());
+        String email_content = "Връзка с клиент";
+        emailService.sendSimpleEmail(businessEmail, email_content, dto.form());
         return "redirect:/";
     }
 }

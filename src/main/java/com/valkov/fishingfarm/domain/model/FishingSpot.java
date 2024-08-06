@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,5 +23,5 @@ public class FishingSpot extends BaseEntity{
     private BigDecimal dayAndNightPrice;
 
     @OneToMany(targetEntity = FishingReservation.class, mappedBy = "fishingSpot")
-    private Set<FishingReservation> reservations;
+    private List<FishingReservation> reservations;
 }

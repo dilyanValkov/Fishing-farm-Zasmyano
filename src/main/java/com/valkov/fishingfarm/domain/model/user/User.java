@@ -35,10 +35,10 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.ORDINAL)
     private Attitude attitude;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<BungalowReservation> bungalowReservations;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FishingReservation> fishingReservations;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -46,17 +46,15 @@ public class BungalowReservation extends BaseEntity{
 
     public String statusMessage (String status) {
         StringBuilder sb = new StringBuilder();
-        if (status.equals("UNCONFIRMED")){
-            sb.append(user.getFirstName())
+        switch (status) {
+            case "UNCONFIRMED" -> sb.append(user.getFirstName())
                     .append(", направихте резервация за бунгало ")
                     .append(bungalow.getId()).append(" за времето от ")
                     .append(startDate).append(" до ").append(endDate).append(".").append(System.lineSeparator())
                     .append("Цена за престоя: ").append(totalPrice).append(" лв.").append(System.lineSeparator())
                     .append("Моля, изчакайте да се свържем с Вас за потвърждение на резервацията.");
-        }else if (status.equals("REJECTED")){
-            sb.append("Резервацията Ви е отказана.");
-        }else if (status.equals("CONFIRMED")){
-            sb.append("Резервацията Ви е потвърдена.Моля, заповядайте на риболов и отдих.");
+            case "REJECTED" -> sb.append("Резервацията Ви е отказана.");
+            case "CONFIRMED" -> sb.append("Резервацията Ви е потвърдена.Моля, заповядайте на риболов и отдих.");
         }
         return sb.toString();
     }

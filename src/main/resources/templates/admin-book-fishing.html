@@ -67,7 +67,7 @@
                     <td th:text="*{fishingHours.text}">Вид риболов</td>
                     <td th:text="*{fishermanCount}">Брой рибари</td>
                     <td th:unless ="*{startDate.equals(endDate)}"
-                        th:text="*{#temporals.format(startDate, 'dd.M') + ' - '+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
+                        th:text="*{#temporals.format(startDate, 'dd.MM') + ' - '+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
                     <td th:if ="*{startDate.equals(endDate)}"
                         th:text="*{#temporals.format(startDate, 'dd.MM.yyyy')}">Дата</td>
                     <td th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy HH:mm')}">Създадена на </td>

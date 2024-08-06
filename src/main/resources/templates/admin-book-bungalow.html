@@ -63,7 +63,7 @@
                     th:object="${bungalowBooking}">
                     <td th:text="*{reservationNumber}">Резервация No:</td>
                     <td th:text="*{bungalowNumber}">Бунгало</td>
-                    <td th:text="*{#temporals.format(startDate, 'dd.M') + ' - '+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
+                    <td th:text="*{#temporals.format(startDate, 'dd.MM') + ' - '+ #temporals.format(endDate, 'dd.MM.yyyy')}">Дата</td>
                     <td th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy HH:mm')}">Създадена на </td>
                     <td th:text="*{status.text}">Статус</td>
                     <td th:text="*{userInfo}">Име/телефон/поведение</td>

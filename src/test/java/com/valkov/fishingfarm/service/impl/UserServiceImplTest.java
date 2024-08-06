@@ -1,6 +1,5 @@
 package com.valkov.fishingfarm.service.impl;
 
-import com.valkov.fishingfarm.domain.dto.fishing.BookInfoFishingDto;
 import com.valkov.fishingfarm.domain.dto.user.UserChangeInfoDto;
 import com.valkov.fishingfarm.domain.dto.user.UserChangePasswordDto;
 import com.valkov.fishingfarm.domain.dto.user.UserRegisterDto;
@@ -13,11 +12,9 @@ import com.valkov.fishingfarm.repository.user.UserRoleRepository;
 import com.valkov.fishingfarm.service.ReviewService;
 import com.valkov.fishingfarm.service.book.BungalowBookService;
 import com.valkov.fishingfarm.service.book.FishingBookService;
-import com.valkov.fishingfarm.service.impl.UserServiceImpl;
 import com.valkov.fishingfarm.service.user.UserUtilService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -25,12 +22,10 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
@@ -156,25 +151,6 @@ public class UserServiceImplTest {
         Assertions.assertEquals(actualSavedEntity.getPassword(),dto.getNewPassword()+dto.getNewPassword());
     }
 
-//    @Test
-//    @Disabled
-//    void testPasswordMatches(){
-//        UserChangePasswordDto dto = userChangePasswordDto();
-//        User user = user();
-//        User currentUser = new User();
-//
-//        when(mockUserUtilService.getCurrentUser()).thenReturn(currentUser);
-//        currentUser.setId(1L);
-//        when(mockUserRepository.getReferenceById(currentUser.getId())).thenReturn(user);
-//
-//        String password = user.getPassword();
-//
-//        when(mockPasswordEncoder.matches(dto.getOldPassword(), password)).thenReturn(true);
-//
-//        Assertions.assertTrue(toTest.passwordMatches(dto.getOldPassword(), dto.getNewPassword(), dto.getConfirmPassword()));
-//
-//    }
-
 
     @Test
     void testFindAll(){
@@ -187,9 +163,7 @@ public class UserServiceImplTest {
     }
 
 
-
-
-    private UserRegisterDto userRegisterDto(){
+    private static UserRegisterDto userRegisterDto(){
         UserRegisterDto userRegisterDto = new UserRegisterDto();
         userRegisterDto.setFirstName("Ivan");
         userRegisterDto.setLastName("Valkov");
@@ -199,7 +173,7 @@ public class UserServiceImplTest {
         return userRegisterDto;
     }
 
-    private User user(){
+    private static User user(){
         User user = new User();
         UserRole userRole = new UserRole();
         userRole.setRole(Role.ADMIN);
@@ -214,7 +188,7 @@ public class UserServiceImplTest {
         return user;
     }
 
-    private UserChangeInfoDto userChangeInfoDto(){
+    private static UserChangeInfoDto userChangeInfoDto(){
         UserChangeInfoDto dto = new UserChangeInfoDto();
 
         dto.setFirstName("Petko");
@@ -223,7 +197,7 @@ public class UserServiceImplTest {
         return dto;
     }
 
-    private UserChangePasswordDto userChangePasswordDto(){
+    private static UserChangePasswordDto userChangePasswordDto(){
         UserChangePasswordDto dto = new UserChangePasswordDto();
 
         dto.setOldPassword("111");

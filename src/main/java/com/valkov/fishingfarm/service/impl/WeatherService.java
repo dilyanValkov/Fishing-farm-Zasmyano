@@ -11,10 +11,11 @@ public class WeatherService {
 
     @Value("${whether.api-key}")
     private String API_KEY;
-
     private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric";
 
-    public JsonNode getWeather(double latitude, double longitude) {
+    public JsonNode getWeather() {
+        double longitude = 27.716726;
+        double latitude = 43.402563;
         String url = String.format(WEATHER_URL, latitude, longitude, API_KEY);
         RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject(url, String.class);

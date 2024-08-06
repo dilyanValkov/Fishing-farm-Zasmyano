@@ -106,7 +106,7 @@ public class BungalowBookServiceImplTest {
     }
 
     @Test
-    void testBook_If_booking_Exist() throws MessagingException {
+    void testBook_If_booking_Exist() {
         User user = user();
         Bungalow bungalow = bungalow();
         BungalowReservation reservation = bungalowReservation();
@@ -121,7 +121,7 @@ public class BungalowBookServiceImplTest {
 
         when(mockUserUtilService.getCurrentUser()).thenReturn(user);
 
-        when(mockBungalowRepository.findById(1L)).thenReturn(Optional.of(bungalow));
+        when(mockBungalowRepository.getReferenceById(bookBungalowDto.getNumber())).thenReturn(bungalow);
 
         when(mockBungalowBookRepository
                 .findByBungalowIdAndEndDateAfterAndStartDateBeforeAndStatusIsIn(bookBungalowDto.getNumber(),
@@ -137,7 +137,7 @@ public class BungalowBookServiceImplTest {
     }
 
     @Test
-    void testBook_If_booking_Not_Exist() throws MessagingException {
+    void testBook_If_booking_Not_Exist(){
         User user = user();
         Bungalow bungalow = bungalow();
         BungalowReservation reservation = bungalowReservation();
@@ -153,7 +153,7 @@ public class BungalowBookServiceImplTest {
 
         when(mockUserUtilService.getCurrentUser()).thenReturn(user);
 
-        when(mockBungalowRepository.findById(1L)).thenReturn(Optional.of(bungalow));
+        when(mockBungalowRepository.getReferenceById(bookBungalowDto.getNumber())).thenReturn(bungalow);
 
         when(mockBungalowBookRepository
                 .findByBungalowIdAndEndDateAfterAndStartDateBeforeAndStatusIsIn(reservation.getId(),

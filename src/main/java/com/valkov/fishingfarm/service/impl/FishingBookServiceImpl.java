@@ -9,12 +9,12 @@ import com.valkov.fishingfarm.repository.fishing.FishingBookRepository;
 import com.valkov.fishingfarm.repository.fishing.FishingSpotRepository;
 import com.valkov.fishingfarm.service.book.FishingBookService;
 import com.valkov.fishingfarm.service.user.UserUtilService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,16 +25,14 @@ public class FishingBookServiceImpl implements FishingBookService {
     private final FishingSpotRepository fishingSpotRepository;
     private final ModelMapper modelMapper;
     private final EmailService emailService;
-
+    @Transactional
     @Override
     public boolean book(BookFishingDto dto) {
         User user = userUtilService.getCurrentUser();
         Long number = dto.getFishingSpot().getNumber();
-        Optional<FishingSpot> byId = fishingSpotRepository.findById(number);
 
-        if (byId.isEmpty()){
-            return false;
-        }
+        FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(number);
+
         List<Status> statuses = new ArrayList<>();
         statuses.add(Status.UNCONFIRMED);
         statuses.add(Status.CONFIRMED);
@@ -47,8 +45,6 @@ public class FishingBookServiceImpl implements FishingBookService {
         if (!existingReservations.isEmpty() || !conflicts.isEmpty()){
             return false;
         }
-
-        FishingSpot fishingSpot = byId.get();
 
         FishingReservation reservation = modelMapper.map(dto, FishingReservation.class);
 
@@ -87,8 +83,7 @@ public class FishingBookServiceImpl implements FishingBookService {
 
     @Override
     public boolean isFishingSpotHasCapacity(BookFishingDto dto) {
-       FishingSpot fishingSpot = fishingSpotRepository.findById(dto.getFishingSpot().getNumber()).get();
-       return dto.getFishermanCount() > fishingSpot.getCapacity();
+      return fishingSpotRepository.findById(dto.getFishingSpot().getNumber()).isPresent();
     }
 
     @Override

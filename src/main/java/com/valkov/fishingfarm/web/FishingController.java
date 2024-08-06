@@ -6,7 +6,6 @@ import com.valkov.fishingfarm.domain.enums.FishingSpotNumber;
 import com.valkov.fishingfarm.domain.model.FishingSpot;
 import com.valkov.fishingfarm.repository.fishing.FishingSpotRepository;
 import com.valkov.fishingfarm.service.book.FishingBookService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
-@Transactional
+
 @Controller
 @RequiredArgsConstructor
 public class FishingController {
@@ -40,6 +39,7 @@ public class FishingController {
     public FishingHours [] fishingHours(){
         return FishingHours.values();
     }
+
     @GetMapping("/book-fishing")
     public String viewFishing(Model model){
         List<FishingSpot> fishingSpots = fishingSpotRepository.findAll();
@@ -66,7 +66,7 @@ public class FishingController {
             return "redirect:/book-fishing";
         }
 
-        if (fishingBookService.isFishingSpotHasCapacity(dto)){
+        if (!fishingBookService.isFishingSpotHasCapacity(dto)){
             redirectAttributes.addFlashAttribute("countError",dto);
             return "redirect:/book-fishing";
         }

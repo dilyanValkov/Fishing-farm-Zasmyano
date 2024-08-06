@@ -9,14 +9,13 @@ import com.valkov.fishingfarm.repository.bungalow.BungalowBookRepository;
 import com.valkov.fishingfarm.repository.bungalow.BungalowRepository;
 import com.valkov.fishingfarm.service.book.BungalowBookService;
 import com.valkov.fishingfarm.service.user.UserUtilService;
-import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -69,14 +68,11 @@ public class BungalowBookServiceImpl implements BungalowBookService {
     }
 
     @Override
-    public boolean book(BookBungalowDto dto) throws MessagingException  {
+    @Transactional
+    public boolean book(BookBungalowDto dto) {
         User user = userUtilService.getCurrentUser();
 
-        Optional<Bungalow> byId = bungalowRepository.findById(dto.getNumber());
-
-        if (byId.isEmpty()){
-            return false;
-        }
+        Bungalow bungalow = bungalowRepository.getReferenceById(dto.getNumber());
 
         List<Status> statuses = new ArrayList<>();
         statuses.add(Status.UNCONFIRMED);
@@ -90,7 +86,7 @@ public class BungalowBookServiceImpl implements BungalowBookService {
         if (!existingReservations.isEmpty()||!conflicts.isEmpty()){
             return false;
         }
-        Bungalow bungalow = byId.get();
+
 
         BungalowReservation reservation = modelMapper.map(dto, BungalowReservation.class);
         reservation.setStatus(Status.UNCONFIRMED);
@@ -104,6 +100,5 @@ public class BungalowBookServiceImpl implements BungalowBookService {
 
         return true;
     }
-
 
 }

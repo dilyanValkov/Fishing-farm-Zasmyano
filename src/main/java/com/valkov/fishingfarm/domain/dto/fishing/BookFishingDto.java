@@ -28,8 +28,4 @@ public class BookFishingDto {
 
     @NotNull
     private FishingSpotNumber fishingSpot;
-
-    @Size(max = 25)
-    private String comment;
-
 }

@@ -40,7 +40,7 @@ public class FishingReservation extends BaseEntity{
     @ManyToOne
     private FishingSpot fishingSpot;
 
-    @ManyToOne
+    @ManyToOne()
     private User user;
     @PrePersist
     public void calculateTotalPrice(){
