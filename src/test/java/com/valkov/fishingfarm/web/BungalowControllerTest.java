@@ -2,8 +2,6 @@ package com.valkov.fishingfarm.web;
 
 import com.valkov.fishingfarm.domain.model.Bungalow;
 import com.valkov.fishingfarm.domain.model.BungalowReservation;
-import com.valkov.fishingfarm.domain.model.FishingReservation;
-import com.valkov.fishingfarm.domain.model.FishingSpot;
 import com.valkov.fishingfarm.domain.model.user.User;
 import com.valkov.fishingfarm.repository.bungalow.BungalowBookRepository;
 import com.valkov.fishingfarm.service.impl.EmailService;
@@ -11,7 +9,6 @@ import com.valkov.fishingfarm.testutils.DBTestData;
 import com.valkov.fishingfarm.testutils.UserTestData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,7 +23,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -47,15 +43,8 @@ public class BungalowControllerTest {
     @MockBean
     private EmailService emailService;
 
-    @BeforeEach
-    void setUp(){
-        userTestData.cleanUp();
-        dbTestData.cleanUp();
-    }
-
     @AfterEach
     void tearDown(){
-        userTestData.cleanUp();
         dbTestData.cleanUp();
     }
 
@@ -68,8 +57,8 @@ public class BungalowControllerTest {
                 .andExpect(model().attributeExists("bungalows"))
                 .andExpect(model().attributeExists("today"))
                 .andExpect(model().attributeExists("tomorrow"));
-    }
 
+    }
 
     @Test
     @WithMockUser("petko@gmail.com")
@@ -81,7 +70,7 @@ public class BungalowControllerTest {
         mockMvc.perform(post("/book-bungalow")
                         .param("startDate", "2024-08-05")
                         .param("endDate", "2024-08-06")
-                        .param("number", "1")
+                        .param("number", String.valueOf(bungalow.getId()))
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/book-info"));
@@ -89,7 +78,7 @@ public class BungalowControllerTest {
 
         Assertions.assertEquals("2024-08-05",saved.getFirst().getStartDate().toString());
         Assertions.assertEquals("2024-08-06",saved.getFirst().getEndDate().toString());
-        Assertions.assertEquals(1L,saved.getFirst().getBungalow().getId());
+        Assertions.assertEquals(bungalow.getId(),saved.getFirst().getBungalow().getId());
     }
-    
+
 }

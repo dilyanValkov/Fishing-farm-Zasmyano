@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.util.ClassUtils.isPresent;
+
 @Service
 @RequiredArgsConstructor
 public class FishingBookServiceImpl implements FishingBookService {
@@ -83,7 +85,8 @@ public class FishingBookServiceImpl implements FishingBookService {
 
     @Override
     public boolean isFishingSpotHasCapacity(BookFishingDto dto) {
-      return fishingSpotRepository.findById(dto.getFishingSpot().getNumber()).isPresent();
+        FishingSpot fishingSpot = fishingSpotRepository.findById(dto.getFishingSpot().getNumber()).get();
+        return dto.getFishermanCount() >= fishingSpot.getCapacity();
     }
 
     @Override

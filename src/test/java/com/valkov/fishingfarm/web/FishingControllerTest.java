@@ -9,7 +9,6 @@ import com.valkov.fishingfarm.testutils.DBTestData;
 import com.valkov.fishingfarm.testutils.UserTestData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -45,18 +44,11 @@ public class FishingControllerTest {
     @MockBean
     private EmailService emailService;
 
-
-    @BeforeEach
-    void setUp(){
-        userTestData.cleanUp();
-        dbTestData.cleanUp();
-    }
-
     @AfterEach
     void tearDown(){
-        userTestData.cleanUp();
         dbTestData.cleanUp();
     }
+
     @Test
     @WithMockUser("petko@gmail.com")
     public void testViewFishing() throws Exception {
@@ -87,6 +79,6 @@ public class FishingControllerTest {
         Assertions.assertEquals("2024-08-06",saved.getFirst().getEndDate().toString());
         Assertions.assertEquals("2",saved.getFirst().getFishermanCount().toString());
         Assertions.assertEquals("DAY",saved.getFirst().getFishingHours().toString());
-        Assertions.assertEquals(1L ,saved.getFirst().getFishingSpot().getId());
+        Assertions.assertEquals(fishingSpot.getId() ,saved.getFirst().getFishingSpot().getId());
     }
 }

@@ -17,12 +17,15 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+
         List<UserRole> roles = new ArrayList<>();
         UserRole userRole = new UserRole();
         userRole.setRole(Role.USER);
         roles.add(userRole);
         UserRole adminRole = new UserRole();
-        userRole.setRole(Role.ADMIN);
+        adminRole.setRole(Role.ADMIN);
+        roles.add(adminRole);
 
         if (userRoleRepository.count() == 0) {
             userRoleRepository.saveAll(roles);

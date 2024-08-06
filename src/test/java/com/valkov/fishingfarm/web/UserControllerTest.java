@@ -2,14 +2,15 @@ package com.valkov.fishingfarm.web;
 
 import com.valkov.fishingfarm.domain.model.user.User;
 import com.valkov.fishingfarm.repository.user.UserRepository;
+import com.valkov.fishingfarm.service.ReviewService;
 import com.valkov.fishingfarm.testutils.UserTestData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,11 +39,9 @@ public class UserControllerTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @MockBean
+    private ReviewService reviewService;
 
-    @BeforeEach
-    void setUp() {
-        userTestData.cleanUp();
-    }
 
     @AfterEach
     void tearDown() {
@@ -134,6 +133,5 @@ public class UserControllerTest {
         Assertions.assertTrue(passwordEncoder.matches("222",user.getPassword()));
 
     }
-
 
 }

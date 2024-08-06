@@ -104,8 +104,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Lazy
     public void deleteUser(Long id) {
-        fishingBookService.deleteReservations(id);
-        bungalowBookService.deleteReservations(id);
         reviewService.deleteAllUserReviews(id);
         userRepository.deleteById(id);
     }
@@ -149,7 +147,6 @@ public class UserServiceImpl implements UserService {
 
         for (User user : users) {
             UserInfoAdminDto dto = new UserInfoAdminDto();
-            
             dto.setId(user.getId());
             dto.setFirstName(user.getFirstName());
             dto.setLastName(user.getLastName());

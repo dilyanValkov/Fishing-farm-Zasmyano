@@ -47,6 +47,5 @@ public class UserTestData {
 
     public void cleanUp() {
         userRepository.deleteAll();
-        userRoleRepository.deleteAll();
     }
 }

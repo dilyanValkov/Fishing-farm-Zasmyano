@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -61,7 +60,7 @@ public class FishingBookServiceImplTest {
     }
 
     @Test
-    void testBook_If_Booking_Exist(){
+    void testBook_If_Booking_Exist() {
         User user = user();
         FishingSpot fishingSpot = fishingSpot();
         FishingReservation fishingReservation = fishingReservation();
@@ -80,17 +79,17 @@ public class FishingBookServiceImplTest {
         Assertions.assertNotNull(fishingReservation);
 
         when(mockFishingBookRepository.findByFishingSpot_IdAndEndDateAfterAndStartDateBeforeAndStatusIsIn(
-                bookFishingDto.getFishingSpot().getNumber(),bookFishingDto.getStartDate(),bookFishingDto.getEndDate(),statuses
+                bookFishingDto.getFishingSpot().getNumber(), bookFishingDto.getStartDate(), bookFishingDto.getEndDate(), statuses
         )).thenReturn(new ArrayList<>());
 
-        when(mockFishingBookRepository.findByFishingSpot_IdAndStartDateBetweenAndStatusIsIn( bookFishingDto.getFishingSpot().getNumber(),bookFishingDto.getStartDate(),bookFishingDto.getEndDate(),statuses
+        when(mockFishingBookRepository.findByFishingSpot_IdAndStartDateBetweenAndStatusIsIn(bookFishingDto.getFishingSpot().getNumber(), bookFishingDto.getStartDate(), bookFishingDto.getEndDate(), statuses
         )).thenReturn(reservations);
 
         Assertions.assertFalse(toTest.book(bookFishingDto));
     }
 
     @Test
-    void testBook_If_Booking_Not_Exist(){
+    void testBook_If_Booking_Not_Exist() {
         User user = user();
         FishingSpot fishingSpot = fishingSpot();
         FishingReservation fishingReservation = fishingReservation();
@@ -108,10 +107,10 @@ public class FishingBookServiceImplTest {
         Assertions.assertNotNull(fishingReservation);
 
         when(mockFishingBookRepository.findByFishingSpot_IdAndEndDateAfterAndStartDateBeforeAndStatusIsIn(
-                bookFishingDto.getFishingSpot().getNumber(),bookFishingDto.getStartDate(),bookFishingDto.getEndDate(),statuses
+                bookFishingDto.getFishingSpot().getNumber(), bookFishingDto.getStartDate(), bookFishingDto.getEndDate(), statuses
         )).thenReturn(new ArrayList<>());
 
-        when(mockFishingBookRepository.findByFishingSpot_IdAndStartDateBetweenAndStatusIsIn( bookFishingDto.getFishingSpot().getNumber(),bookFishingDto.getStartDate(),bookFishingDto.getEndDate(),statuses
+        when(mockFishingBookRepository.findByFishingSpot_IdAndStartDateBetweenAndStatusIsIn(bookFishingDto.getFishingSpot().getNumber(), bookFishingDto.getStartDate(), bookFishingDto.getEndDate(), statuses
         )).thenReturn(new ArrayList<>());
 
         Assertions.assertTrue(toTest.book(bookFishingDto));
@@ -122,26 +121,27 @@ public class FishingBookServiceImplTest {
         Assertions.assertEquals(actualReservation.getFishingSpot().getId(),
                 bookFishingDto.getFishingSpot().getNumber());
 
-        Assertions.assertEquals(actualReservation.getEndDate(),bookFishingDto.getEndDate());
+        Assertions.assertEquals(actualReservation.getEndDate(), bookFishingDto.getEndDate());
 
     }
 
     @Test
-    void testGetAllUserBookings(){
+    void testGetAllUserBookings() {
         User user = user();
         BookInfoFishingDto bookInfoFishingDto = bookInfoFishingDto();
 
-        when(mockUserUtilService.getCurrentUser()).thenReturn(user);
         List<FishingReservation> reservations = new ArrayList<>();
         FishingReservation fishingReservation = fishingReservation();
         reservations.add(fishingReservation);
         when(mockFishingBookRepository.findAllByEmail(user.getEmail())).thenReturn(reservations);
 
+        Assertions.assertEquals(reservations.getFirst().getFishermanCount(), bookInfoFishingDto.getFishermanCount());
+        Assertions.assertEquals(reservations.getFirst().getId(), bookInfoFishingDto.getId());
 
     }
 
 
-    private FishingSpot fishingSpot(){
+    private FishingSpot fishingSpot() {
         FishingSpot fishingSpot = new FishingSpot();
         fishingSpot.setId(1L);
         fishingSpot.setCapacity(2);
@@ -150,7 +150,7 @@ public class FishingBookServiceImplTest {
         return fishingSpot;
     }
 
-    private FishingReservation fishingReservation(){
+    private FishingReservation fishingReservation() {
         FishingReservation fishingReservation = new FishingReservation();
 
         LocalDate startDate = LocalDate.of(2024, 8, 3);
@@ -164,6 +164,7 @@ public class FishingBookServiceImplTest {
         fishingReservation.setEndDate(endDate);
         return fishingReservation;
     }
+
     private User user() {
         User user = new User();
         UserRole userRole = new UserRole();
@@ -179,7 +180,7 @@ public class FishingBookServiceImplTest {
         return user;
     }
 
-    private BookInfoFishingDto bookInfoFishingDto(){
+    private BookInfoFishingDto bookInfoFishingDto() {
         BookInfoFishingDto bookInfoFishingDto = new BookInfoFishingDto();
 
         bookInfoFishingDto.setFishingHours(FishingHours.DAY);
@@ -190,7 +191,7 @@ public class FishingBookServiceImplTest {
         return bookInfoFishingDto;
     }
 
-    private BookFishingDto bookFishingDto(){
+    private BookFishingDto bookFishingDto() {
         BookFishingDto bookFishingDto = new BookFishingDto();
         LocalDate startDate = LocalDate.of(2024, 8, 3);
         LocalDate endDate = LocalDate.of(2024, 8, 4);

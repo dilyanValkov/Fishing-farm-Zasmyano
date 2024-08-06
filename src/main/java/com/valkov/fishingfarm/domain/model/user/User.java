@@ -5,8 +5,7 @@ import com.valkov.fishingfarm.domain.model.BaseEntity;
 import com.valkov.fishingfarm.domain.model.BungalowReservation;
 import com.valkov.fishingfarm.domain.model.FishingReservation;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,4 +54,5 @@ public class User extends BaseEntity {
                 .append(phoneNumber).append("/").append(attitude.getText());
         return sb.toString();
     }
+
 }

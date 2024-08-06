@@ -55,15 +55,15 @@ public class DBTestData {
         bungalowReservation.setUser(user);
         bungalowReservation.setStartDate(startDate);
         bungalowReservation.setEndDate(endDate);
-        bungalowReservation.setId(1L);
+      // bungalowReservation.setId(1L);
         return bungalowBookRepository.save(bungalowReservation);
     }
 
     public void cleanUp() {
         bungalowBookRepository.deleteAll();
-        fishingSpotRepository.deleteAll();
-        bungalowRepository.deleteAll();
         fishingBookRepository.deleteAll();
+        bungalowRepository.deleteAll();
+        fishingSpotRepository.deleteAll();
     }
 
     public FishingSpot fishingSpot() {
@@ -79,8 +79,15 @@ public class DBTestData {
         Bungalow bungalow = new Bungalow();
         bungalow.setCapacity(2);
         bungalow.setPrice(BigDecimal.valueOf(80));
-        bungalow.setId(1L);
+        //bungalow.setId(1L);
         return bungalowRepository.save(bungalow);
+    }
+
+    public BungalowReservation getBungalowReservationById(Long id){
+        return bungalowBookRepository.getReferenceById(id);
+    }
+    public FishingReservation getFishingReservationById(Long id){
+        return fishingBookRepository.getReferenceById(id);
     }
 }
 
