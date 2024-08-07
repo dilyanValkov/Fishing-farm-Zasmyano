@@ -20,15 +20,17 @@ public class UserTestData {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    public User createTestUser(String email) {
-        return createUser(email, List.of(Role.USER));
+
+    public User createTestUser(String email, String phoneNumber) {
+        return createUser(email, phoneNumber, List.of(Role.USER));
     }
 
-    public User createTestAdmin(String email) {
-        return createUser(email, List.of(Role.ADMIN));
+
+    public User createTestAdmin(String email, String phoneNumber) {
+        return createUser(email, phoneNumber, List.of(Role.ADMIN));
     }
 
-    private User createUser(String email, List<Role> roles) {
+    private User createUser(String email, String phoneNumber, List<Role> roles) {
 
         List<UserRole> userRoles = userRoleRepository.findAllByRoleIn(roles);
 
@@ -39,7 +41,7 @@ public class UserTestData {
         user.setLastName("Valkov");
         user.setAttitude(Attitude.GOOD);
         user.setEmail(email);
-        user.setPhoneNumber("0899363327");
+        user.setPhoneNumber(phoneNumber);
         user.setPassword("feeffb9ad3e174f61de2dfc5179a9a959799046de5633a8136174c573c4c61d5c30fa955bf075c90c3a17dc2541f114a");
 
         return userRepository.save(user);

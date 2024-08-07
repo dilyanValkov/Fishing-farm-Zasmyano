@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/common::head}"></head>
 <body>
   <!-- Navigation Bar -->
@@ -11,7 +11,7 @@
     <div class="hero-content">
       <h1 th:text="#{hero_welcome}">Добре дошли</h1>
       <p th:text="#{hero_welcome_message}">Насладете се на приятна почивка сред природата</p>
-      <a th:href="@{/login}" th:text="#{hero_bar_login}" class="btn btn-secondary">Вход</a>
+      <a th:href="@{/login}" th:text="#{hero_bar_login}" class="btn btn-secondary" sec:authorize="!isAuthenticated()">Вход</a>
     </div>
   </div>
 </body>

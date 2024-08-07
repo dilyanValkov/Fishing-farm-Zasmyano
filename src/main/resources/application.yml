@@ -4,14 +4,14 @@ spring:
     username: root
     password: MyNewPass
   thymeleaf:
-      cache: false
-      mode: HTML
-      encoding: UTF-8
-      prefix: file:src/main/resources/templates/
-      resources:
-        static-locations: file:src/main/resources/static
-        cache:
-          period: 0
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    prefix: file:src/main/resources/templates/
+    resources:
+      static-locations: file:src/main/resources/static
+      cache:
+        period: 0
   servlet:
     multipart:
       max-file-size: 1MB
@@ -19,6 +19,7 @@ spring:
   sql:
     init:
       mode: never
+      platform: mysql
   mvc:
     hiddenmethod:
       filter:
@@ -57,4 +58,3 @@ google:
 
 whether:
   api-key: ${whetherKey}
-

@@ -1,4 +1,5 @@
 spring:
+  datasource:
   jpa:
     open-in-view: false
     defer-datasource-initialization: true
@@ -11,6 +12,7 @@ spring:
   sql:
     init:
       mode: never
+      platform: h2
   mvc:
     hiddenmethod:
       filter:

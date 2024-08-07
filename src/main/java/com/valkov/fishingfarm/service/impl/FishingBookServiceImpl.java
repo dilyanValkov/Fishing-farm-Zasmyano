@@ -1,4 +1,5 @@
 package com.valkov.fishingfarm.service.impl;
+
 import com.valkov.fishingfarm.domain.dto.fishing.BookFishingDto;
 import com.valkov.fishingfarm.domain.dto.fishing.BookInfoFishingDto;
 import com.valkov.fishingfarm.domain.enums.Status;
@@ -13,6 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class FishingBookServiceImpl implements FishingBookService {
     private final FishingSpotRepository fishingSpotRepository;
     private final ModelMapper modelMapper;
     private final EmailService emailService;
+
     @Transactional
     @Override
     public boolean book(BookFishingDto dto) {
@@ -40,11 +43,11 @@ public class FishingBookServiceImpl implements FishingBookService {
         statuses.add(Status.CONFIRMED);
 
         List<FishingReservation> existingReservations = fishingBookRepository.findByFishingSpot_IdAndEndDateAfterAndStartDateBeforeAndStatusIsIn(
-                number, dto.getStartDate(), dto.getEndDate(),statuses);
+                number, dto.getStartDate(), dto.getEndDate(), statuses);
         List<FishingReservation> conflicts = fishingBookRepository.findByFishingSpot_IdAndStartDateBetweenAndStatusIsIn(
-                number, dto.getStartDate(), dto.getEndDate(),statuses);
+                number, dto.getStartDate(), dto.getEndDate(), statuses);
 
-        if (!existingReservations.isEmpty() || !conflicts.isEmpty()){
+        if (!existingReservations.isEmpty() || !conflicts.isEmpty()) {
             return false;
         }
 
@@ -86,7 +89,7 @@ public class FishingBookServiceImpl implements FishingBookService {
     @Override
     public boolean isFishingSpotHasCapacity(BookFishingDto dto) {
         FishingSpot fishingSpot = fishingSpotRepository.findById(dto.getFishingSpot().getNumber()).get();
-        return dto.getFishermanCount() >= fishingSpot.getCapacity();
+        return fishingSpot.getCapacity() >= dto.getFishermanCount();
     }
 
     @Override

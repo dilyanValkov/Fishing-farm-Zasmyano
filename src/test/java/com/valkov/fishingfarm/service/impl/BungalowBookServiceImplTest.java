@@ -12,7 +12,6 @@ import com.valkov.fishingfarm.domain.model.user.UserRole;
 import com.valkov.fishingfarm.repository.bungalow.BungalowBookRepository;
 import com.valkov.fishingfarm.repository.bungalow.BungalowRepository;
 import com.valkov.fishingfarm.service.user.UserUtilService;
-import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +27,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BungalowBookServiceImplTest {
@@ -81,7 +80,7 @@ public class BungalowBookServiceImplTest {
         Assertions.assertEquals(toTest.getAllUserBookings().size(), 0);
         List<BungalowReservation> bungalowReservations = List.of(bungalowReservation());
         toTest.getAllUserBookings();
-        when(mockBungalowBookRepository.findAllByEmail("ivan.valkov@gmail.com")).thenReturn(bungalowReservations);
+        when(mockBungalowBookRepository.findAllByEmail("ivan.ivanov@gmail.com")).thenReturn(bungalowReservations);
 
         Assertions.assertEquals(toTest.getAllUserBookings().size(), 1);
         Assertions.assertEquals(bungalowReservations.getFirst().getBungalow().getId(), bookInfoBungalowDto.getBungalowNumber());
@@ -193,10 +192,10 @@ public class BungalowBookServiceImplTest {
         userRole.setRole(Role.ADMIN);
         user.setId(1L);
         user.setFirstName("Ivan");
-        user.setLastName("Valkov");
+        user.setLastName("Ivanov");
         user.setAttitude(Attitude.GOOD);
         user.setRoles(List.of(userRole));
-        user.setEmail("ivan.valkov@gmail.com");
+        user.setEmail("ivan.ivanov@gmail.com");
         user.setPhoneNumber("0899363327");
         user.setPassword("111");
         return user;

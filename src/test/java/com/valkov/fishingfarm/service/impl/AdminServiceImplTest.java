@@ -154,10 +154,10 @@ public class AdminServiceImplTest {
 
         user.setId(1L);
         user.setFirstName("Ivan");
-        user.setLastName("Valkov");
+        user.setLastName("Ivanov");
         user.setAttitude(Attitude.GOOD);
         user.setRoles(userRoles);
-        user.setEmail("ivan.valkov@gmail.com");
+        user.setEmail("ivan.ivanov@gmail.com");
         user.setPhoneNumber("0899363327");
         user.setPassword("111");
         return user;

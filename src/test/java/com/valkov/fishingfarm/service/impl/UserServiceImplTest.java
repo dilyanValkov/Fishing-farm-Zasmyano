@@ -54,7 +54,7 @@ public class UserServiceImplTest {
     private ArgumentCaptor<User> userCaptor;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         toTest = new UserServiceImpl(
                 new ModelMapper(),
                 mockUserRepository,
@@ -68,7 +68,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void testUserRegistration(){
+    void testUserRegistration() {
 
         UserRegisterDto userRegisterDto = userRegisterDto();
 
@@ -86,34 +86,34 @@ public class UserServiceImplTest {
         Assertions.assertEquals(userRegisterDto.getLastName(), actualSavedEntity.getLastName());
         Assertions.assertEquals(userRegisterDto.getEmail(), actualSavedEntity.getEmail());
         Assertions.assertEquals(userRegisterDto.getPassword() +
-                userRegisterDto.getPassword(), actualSavedEntity.getPassword());
+                                userRegisterDto.getPassword(), actualSavedEntity.getPassword());
         Assertions.assertEquals(userRegisterDto.getPhoneNumber(), actualSavedEntity.getPhoneNumber());
 
     }
 
     @Test
-    void testUserFullName(){
+    void testUserFullName() {
         User user = user();
         when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
-        Assertions.assertEquals("Ivan Valkov", toTest.userFullName(user.getId()));
+        Assertions.assertEquals("Ivan Ivanov", toTest.userFullName(user.getId()));
     }
 
     @Test
-    void testIsEmailUnique(){
+    void testIsEmailUnique() {
         User user = user();
         when(mockUserRepository.existsByEmail(user.getEmail())).thenReturn(true);
         Assertions.assertFalse(toTest.isEmailUnique(user.getEmail()));
     }
 
     @Test
-    void testIsPhoneNumberUnique(){
+    void testIsPhoneNumberUnique() {
         User user = user();
         when(mockUserRepository.existsByPhoneNumber(user.getPhoneNumber())).thenReturn(true);
         Assertions.assertFalse(toTest.isPhoneNumberUnique(user.getPhoneNumber()));
     }
 
     @Test()
-    void testUpdateUser(){
+    void testUpdateUser() {
         User user = user();
         UserChangeInfoDto dto = userChangeInfoDto();
         User currentUser = new User();
@@ -126,13 +126,13 @@ public class UserServiceImplTest {
         toTest.updateUser(dto);
 
         Assertions.assertEquals(user.getFirstName(), dto.getFirstName());
-        Assertions.assertEquals(user.getLastName(),dto.getLastName());
-        Assertions.assertEquals(user.getPhoneNumber(),dto.getPhoneNumber());
+        Assertions.assertEquals(user.getLastName(), dto.getLastName());
+        Assertions.assertEquals(user.getPhoneNumber(), dto.getPhoneNumber());
 
     }
 
     @Test
-    void testChangePassword(){
+    void testChangePassword() {
         User user = user();
         UserChangePasswordDto dto = userChangePasswordDto();
         User currentUser = new User();
@@ -148,56 +148,56 @@ public class UserServiceImplTest {
         verify(mockUserRepository).saveAndFlush(userCaptor.capture());
 
         User actualSavedEntity = userCaptor.getValue();
-        Assertions.assertEquals(actualSavedEntity.getPassword(),dto.getNewPassword()+dto.getNewPassword());
+        Assertions.assertEquals(actualSavedEntity.getPassword(), dto.getNewPassword() + dto.getNewPassword());
     }
 
 
     @Test
-    void testFindAll(){
+    void testFindAll() {
         List<User> users = new ArrayList<>();
-        Assertions.assertEquals(toTest.findAll().size(),0);
+        Assertions.assertEquals(toTest.findAll().size(), 0);
         users.add(user());
         users.add(user());
         when(mockUserRepository.findAll()).thenReturn(users);
-        Assertions.assertEquals(toTest.findAll().size(),2);
+        Assertions.assertEquals(toTest.findAll().size(), 2);
     }
 
 
-    private static UserRegisterDto userRegisterDto(){
+    private static UserRegisterDto userRegisterDto() {
         UserRegisterDto userRegisterDto = new UserRegisterDto();
         userRegisterDto.setFirstName("Ivan");
-        userRegisterDto.setLastName("Valkov");
+        userRegisterDto.setLastName("Ivanov");
         userRegisterDto.setEmail("dilqnvalkov@gmail.com");
         userRegisterDto.setPhoneNumber("0899363327");
         userRegisterDto.setPassword("111");
         return userRegisterDto;
     }
 
-    private static User user(){
+    private static User user() {
         User user = new User();
         UserRole userRole = new UserRole();
         userRole.setRole(Role.ADMIN);
         user.setId(1L);
         user.setFirstName("Ivan");
-        user.setLastName("Valkov");
+        user.setLastName("Ivanov");
         user.setAttitude(Attitude.GOOD);
         user.setRoles(List.of(userRole));
-        user.setEmail("ivan.valkov@gmail.com");
+        user.setEmail("ivan.ivanov@gmail.com");
         user.setPhoneNumber("0899363327");
         user.setPassword("111");
         return user;
     }
 
-    private static UserChangeInfoDto userChangeInfoDto(){
+    private static UserChangeInfoDto userChangeInfoDto() {
         UserChangeInfoDto dto = new UserChangeInfoDto();
 
         dto.setFirstName("Petko");
-        dto.setLastName("Petkov");
+        dto.setLastName("Petrov");
         dto.setPhoneNumber("0899363326");
         return dto;
     }
 
-    private static UserChangePasswordDto userChangePasswordDto(){
+    private static UserChangePasswordDto userChangePasswordDto() {
         UserChangePasswordDto dto = new UserChangePasswordDto();
 
         dto.setOldPassword("111");

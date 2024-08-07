@@ -6,7 +6,6 @@ import com.valkov.fishingfarm.domain.model.FishingReservation;
 import com.valkov.fishingfarm.domain.model.FishingSpot;
 import com.valkov.fishingfarm.domain.model.user.User;
 import com.valkov.fishingfarm.repository.user.UserRepository;
-import com.valkov.fishingfarm.service.impl.EmailService;
 import com.valkov.fishingfarm.testutils.DBTestData;
 import com.valkov.fishingfarm.testutils.UserTestData;
 import jakarta.transaction.Transactional;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -31,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AdminControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -43,24 +42,22 @@ public class AdminControllerTest {
     @Autowired
     private DBTestData dbTestData;
 
-    @MockBean
-    private EmailService emailService;
 
     @BeforeEach
     void setUp() {
-        User testAdmin = userTestData.createTestAdmin("ivan.valkov@gmail.com");
+        userTestData.createTestAdmin("ivan.valkov@gmail.com", "0899363327");
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         dbTestData.cleanUp();
+        userTestData.cleanUp();
     }
 
 
     @Test
     @WithMockUser(username = "ivan.valkov@gmail.com", roles = {"ADMIN", "USER"})
-   public void testViewAdminUserPage() throws Exception {
-
+    public void testViewAdminUserPage() throws Exception {
         mockMvc.perform(get("/admin/user"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin-user"))
@@ -91,7 +88,7 @@ public class AdminControllerTest {
     public void testUpdateBookBungalowStatus() throws Exception {
         Optional<User> byEmail = userRepository.findByEmail("ivan.valkov@gmail.com");
         Assertions.assertTrue(byEmail.isPresent());
-        Bungalow bungalow = dbTestData.bungalow();
+        Bungalow bungalow = dbTestData.getBungalowById(1L);
         User user = byEmail.get();
 
         BungalowReservation bungalowReservation = dbTestData.createBungalowReservation(user, bungalow);
@@ -111,7 +108,7 @@ public class AdminControllerTest {
     @Transactional
     @WithMockUser(username = "ivan.valkov@gmail.com", roles = {"ADMIN", "USER"})
     public void testUpdateBookFishingStatus() throws Exception {
-        FishingSpot fishingSpot = dbTestData.fishingSpot();
+        FishingSpot fishingSpot = dbTestData.getFishingSpotById(1L);
 
         Optional<User> byEmail = userRepository.findByEmail("ivan.valkov@gmail.com");
         Assertions.assertTrue(byEmail.isPresent());
@@ -120,7 +117,7 @@ public class AdminControllerTest {
         FishingReservation fishingReservation = dbTestData.createFishingReservation(user, fishingSpot);
         mockMvc.perform(post("/admin/book/fishing/updateStatus")
                         .param("status", "CONFIRMED")
-                        .param("reservationNumber", "1")
+                        .param("reservationNumber", String.valueOf(fishingReservation.getId()))
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/book/fishing"));

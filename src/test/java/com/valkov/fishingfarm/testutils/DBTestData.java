@@ -14,23 +14,26 @@ import com.valkov.fishingfarm.repository.fishing.FishingSpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Component
 public class DBTestData {
 
-    @Autowired
-    private BungalowBookRepository bungalowBookRepository;
+    public static final long TEST_FISHING_SPOT_ID = 1L;
+    public static final long TEST_BUNGALOW_ID = 1L;
 
     @Autowired
-    private FishingBookRepository fishingBookRepository;
+    private BungalowRepository bungalowRepository;
+
+    @Autowired
+    private BungalowBookRepository bungalowBookRepository;
 
     @Autowired
     private FishingSpotRepository fishingSpotRepository;
 
     @Autowired
-    private BungalowRepository bungalowRepository;
+    private FishingBookRepository fishingBookRepository;
+
 
     public FishingReservation createFishingReservation(User user, FishingSpot fishingSpot) {
         LocalDate startDate = LocalDate.of(2024, 8, 3);
@@ -42,7 +45,6 @@ public class DBTestData {
         fishingReservation.setFishingSpot(fishingSpot);
         fishingReservation.setFishermanCount(2);
         fishingReservation.setFishingHours(FishingHours.DAY);
-        fishingReservation.setId(1L);
         return fishingBookRepository.save(fishingReservation);
     }
 
@@ -55,39 +57,29 @@ public class DBTestData {
         bungalowReservation.setUser(user);
         bungalowReservation.setStartDate(startDate);
         bungalowReservation.setEndDate(endDate);
-      // bungalowReservation.setId(1L);
         return bungalowBookRepository.save(bungalowReservation);
     }
 
     public void cleanUp() {
         bungalowBookRepository.deleteAll();
         fishingBookRepository.deleteAll();
-        bungalowRepository.deleteAll();
-        fishingSpotRepository.deleteAll();
     }
 
-    public FishingSpot fishingSpot() {
-        FishingSpot fishingSpot = new FishingSpot();
-        fishingSpot.setCapacity(2);
-        fishingSpot.setDayPrice(BigDecimal.valueOf(25));
-        fishingSpot.setDayAndNightPrice(BigDecimal.valueOf(40));
-        fishingSpot.setId(1L);
-        return fishingSpotRepository.save(fishingSpot);
-    }
 
-    public Bungalow bungalow() {
-        Bungalow bungalow = new Bungalow();
-        bungalow.setCapacity(2);
-        bungalow.setPrice(BigDecimal.valueOf(80));
-        //bungalow.setId(1L);
-        return bungalowRepository.save(bungalow);
-    }
-
-    public BungalowReservation getBungalowReservationById(Long id){
+    public BungalowReservation getBungalowReservationById(Long id) {
         return bungalowBookRepository.getReferenceById(id);
     }
-    public FishingReservation getFishingReservationById(Long id){
+
+    public FishingReservation getFishingReservationById(Long id) {
         return fishingBookRepository.getReferenceById(id);
+    }
+
+    public Bungalow getBungalowById(Long id) {
+        return bungalowRepository.getReferenceById(id);
+    }
+
+    public FishingSpot getFishingSpotById(Long id) {
+        return fishingSpotRepository.getReferenceById(id);
     }
 }
 

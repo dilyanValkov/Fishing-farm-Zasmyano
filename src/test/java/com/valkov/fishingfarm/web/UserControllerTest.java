@@ -2,15 +2,14 @@ package com.valkov.fishingfarm.web;
 
 import com.valkov.fishingfarm.domain.model.user.User;
 import com.valkov.fishingfarm.repository.user.UserRepository;
-import com.valkov.fishingfarm.service.ReviewService;
 import com.valkov.fishingfarm.testutils.UserTestData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +26,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
+    private static final String TEST_USER_EMAIL = "nikolay.valkov@gmail.com";
+    private static final String TEST_REGISTRATION_EMAIL = "georgi_i@gmail.com";
+    private static final String TEST_REGISTRATION_FIRST_NAME = "Georgi";
+    private static final String TEST_REGISTRATION_LAST_NAME = "Ivanov";
+    private static final String TEST_REGISTRATION_PASSWORD = "111";
+    private static final String TEST_REGISTRATION_PHONE_NUMBER = "0899363324";
+
+    private static final String TEST_CHANGED_FIRST_NAME = "Ivan";
+    private static final String TEST_CHANGED_LAST_NAME = "Petrov";
+    private static final String TEST_CHANGED_PHONE_NUMBER = "0899363326";
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -39,9 +49,13 @@ public class UserControllerTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @MockBean
-    private ReviewService reviewService;
+    private User testUser;
 
+
+    @BeforeEach
+    void setUp() {
+        testUser = userTestData.createTestAdmin(TEST_USER_EMAIL, "0899363327");
+    }
 
     @AfterEach
     void tearDown() {
@@ -51,74 +65,71 @@ public class UserControllerTest {
     @Test
     void testRegistration() throws Exception {
         mockMvc.perform(post("/register")
-                        .param("email", "random@gmail.com")
-                        .param("firstName", "Dilan")
-                        .param("lastName", "Valkov")
-                        .param("password", "111")
-                        .param("phoneNumber", "0899363324")
+                        .param("email", TEST_REGISTRATION_EMAIL)
+                        .param("firstName", TEST_REGISTRATION_FIRST_NAME)
+                        .param("lastName", TEST_REGISTRATION_LAST_NAME)
+                        .param("password", TEST_REGISTRATION_PASSWORD)
+                        .param("phoneNumber", TEST_REGISTRATION_PHONE_NUMBER)
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
 
-        Optional<User> optionalUser = userRepository.findByEmail("random@gmail.com");
+        Optional<User> optionalUser = userRepository.findByEmail(TEST_REGISTRATION_EMAIL);
 
         Assertions.assertTrue(optionalUser.isPresent());
         User user = optionalUser.get();
-        Assertions.assertEquals("random@gmail.com", user.getEmail());
-        Assertions.assertEquals("Dilan", user.getFirstName());
-        Assertions.assertEquals("Valkov", user.getLastName());
-        Assertions.assertEquals("0899363324", user.getPhoneNumber());
+        Assertions.assertEquals(TEST_REGISTRATION_EMAIL, user.getEmail());
+        Assertions.assertEquals(TEST_REGISTRATION_FIRST_NAME, user.getFirstName());
+        Assertions.assertEquals(TEST_REGISTRATION_LAST_NAME, user.getLastName());
+        Assertions.assertEquals(TEST_REGISTRATION_PHONE_NUMBER, user.getPhoneNumber());
 
-        Assertions.assertTrue(passwordEncoder.matches("111", user.getPassword()));
+        Assertions.assertTrue(passwordEncoder.matches(TEST_REGISTRATION_PASSWORD, user.getPassword()));
     }
 
     @Test
-    @WithMockUser(username = "ivan.valkov@gmail.com")
+    @WithMockUser(username = "dilqnvalkov@gmail.com", roles = {"USER", "ADMIN"})
     void testDeleteAdminUser() throws Exception {
-        User testAdmin = userTestData.createTestAdmin("ivan.valkov@gmail.com");
-        mockMvc.perform(delete("/user/delete/{id}", 1L)
+        userTestData.createTestUser("dilqnvalkov@gmail.com", "0899465328");
+        mockMvc.perform(delete("/user/delete/{id}", testUser.getId())
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
     }
 
     @Test
-    @WithMockUser(username = "ivan.valkov@gmail.com")
+    @WithMockUser(username = TEST_USER_EMAIL)
     void testDeleteUser() throws Exception {
-        User testUser = userTestData.createTestUser("ivan.valkov@gmail.com");
-        mockMvc.perform(delete("/user/delete/{id}", 1L)
+        mockMvc.perform(delete("/user/delete/{id}", testUser.getId())
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
     }
 
     @Test
-    @WithMockUser(username = "ivan.valkov@gmail.com")
+    @WithMockUser(username = TEST_USER_EMAIL)
     void testUpdateUser() throws Exception {
-        User testUser = userTestData.createTestUser("ivan.valkov@gmail.com");
+
         mockMvc.perform(post("/user/update")
-                        .param("firstName", "Petya")
-                        .param("lastName", "Penkova")
-                        .param("phoneNumber", "0899363326")
+                        .param("firstName", TEST_CHANGED_FIRST_NAME)
+                        .param("lastName", TEST_CHANGED_LAST_NAME)
+                        .param("phoneNumber", TEST_CHANGED_PHONE_NUMBER)
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/user/profile"));
 
-        Optional<User> optionalUser = userRepository.findByEmail("ivan.valkov@gmail.com");
+        Optional<User> optionalUser = userRepository.findByEmail(TEST_USER_EMAIL);
 
         Assertions.assertTrue(optionalUser.isPresent());
         User user = optionalUser.get();
-        Assertions.assertEquals("Petya", user.getFirstName());
-        Assertions.assertEquals("Penkova", user.getLastName());
-        Assertions.assertEquals("0899363326", user.getPhoneNumber());
+        Assertions.assertEquals(TEST_CHANGED_FIRST_NAME, user.getFirstName());
+        Assertions.assertEquals(TEST_CHANGED_LAST_NAME, user.getLastName());
+        Assertions.assertEquals(TEST_CHANGED_PHONE_NUMBER, user.getPhoneNumber());
     }
 
 
     @Test
-    @WithMockUser(username = "ivan.valkov@gmail.com")
+    @WithMockUser(username = TEST_USER_EMAIL)
     void testChangeUserPassword() throws Exception {
-        User testUser = userTestData.createTestUser("ivan.valkov@gmail.com");
-
         mockMvc.perform(post("/user/change-password")
                         .param("oldPassword", "111")
                         .param("newPassword", "222")
@@ -126,12 +137,11 @@ public class UserControllerTest {
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/user/profile"));
-        Optional<User> optionalUser = userRepository.findByEmail("ivan.valkov@gmail.com");
+        Optional<User> optionalUser = userRepository.findByEmail(TEST_USER_EMAIL);
 
         Assertions.assertTrue(optionalUser.isPresent());
         User user = optionalUser.get();
-        Assertions.assertTrue(passwordEncoder.matches("222",user.getPassword()));
-
+        Assertions.assertTrue(passwordEncoder.matches("222", user.getPassword()));
     }
 
 }

@@ -2,23 +2,20 @@ package com.valkov.fishingfarm.web;
 
 import com.valkov.fishingfarm.domain.model.Bungalow;
 import com.valkov.fishingfarm.domain.model.BungalowReservation;
-import com.valkov.fishingfarm.domain.model.user.User;
 import com.valkov.fishingfarm.repository.bungalow.BungalowBookRepository;
-import com.valkov.fishingfarm.service.impl.EmailService;
 import com.valkov.fishingfarm.testutils.DBTestData;
 import com.valkov.fishingfarm.testutils.UserTestData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
-
+import static com.valkov.fishingfarm.testutils.DBTestData.TEST_BUNGALOW_ID;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,6 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BungalowControllerTest {
+
+    public static final String TEST_START_DATE = "2024-08-05";
+    public static final String TEST_END_DATE = "2024-08-06";
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,12 +40,15 @@ public class BungalowControllerTest {
     @Autowired
     private DBTestData dbTestData;
 
-    @MockBean
-    private EmailService emailService;
+    @BeforeEach
+    void setUp() {
+        userTestData.createTestUser("petko@gmail.com", "0899363327");
+    }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         dbTestData.cleanUp();
+        userTestData.cleanUp();
     }
 
     @Test
@@ -63,22 +66,18 @@ public class BungalowControllerTest {
     @Test
     @WithMockUser("petko@gmail.com")
     void testDoReservation() throws Exception {
-        Bungalow bungalow = dbTestData.bungalow();
-        User testUser = userTestData.createTestUser("petko@gmail.com");
-        BungalowReservation bungalowReservation = dbTestData.createBungalowReservation(testUser, bungalow);
-
+        Bungalow bungalow = dbTestData.getBungalowById(TEST_BUNGALOW_ID);
         mockMvc.perform(post("/book-bungalow")
-                        .param("startDate", "2024-08-05")
-                        .param("endDate", "2024-08-06")
+                        .param("startDate", TEST_START_DATE)
+                        .param("endDate", TEST_END_DATE)
                         .param("number", String.valueOf(bungalow.getId()))
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/book-info"));
-        List<BungalowReservation> saved = bungalowBookRepository.findAllByEmail("petko@gmail.com");
+        BungalowReservation saved = bungalowBookRepository.findAllByEmail("petko@gmail.com").getFirst();
 
-        Assertions.assertEquals("2024-08-05",saved.getFirst().getStartDate().toString());
-        Assertions.assertEquals("2024-08-06",saved.getFirst().getEndDate().toString());
-        Assertions.assertEquals(bungalow.getId(),saved.getFirst().getBungalow().getId());
+        Assertions.assertEquals(TEST_START_DATE, saved.getStartDate().toString());
+        Assertions.assertEquals(TEST_END_DATE, saved.getEndDate().toString());
     }
 
 }
